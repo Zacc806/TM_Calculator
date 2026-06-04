@@ -1,0 +1,22 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [{ "source": "/((?!api/).*)", "destination": "/index.html" }],
+  "headers": [
+    {
+      "source": "/bitrix-deal",
+      "headers": [{ "key": "Content-Security-Policy", "value": "frame-ancestors https://*.bitrix24.kz https://*.bitrix24.ru https://*.bitrix24.com" }]
+    },
+    {
+      "source": "/bitrix",
+      "headers": [{ "key": "Content-Security-Policy", "value": "frame-ancestors https://*.bitrix24.kz https://*.bitrix24.ru https://*.bitrix24.com" }]
+    },
+    {
+      "source": "/embed",
+      "headers": [{ "key": "Content-Security-Policy", "value": "frame-ancestors *" }]
+    },
+    {
+      "source": "/client",
+      "headers": [{ "key": "Content-Security-Policy", "value": "frame-ancestors *" }]
+    }
+  ]
+}

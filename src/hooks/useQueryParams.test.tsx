@@ -19,6 +19,15 @@ describe("useCalcQuery", () => {
     expect(result.current.program).toBe("rassrochka");
   });
 
+  it("parses client-link params dp, rate and term", () => {
+    const { result } = renderHook(() => useCalcQuery(), {
+      wrapper: wrap(["/client?price=25000000&dp=5000000&rate=7&term=300&program=7-20-25"]),
+    });
+    expect(result.current.dp).toBe(5_000_000);
+    expect(result.current.rate).toBe(7);
+    expect(result.current.term).toBe(300);
+  });
+
   it("returns undefined for missing or zero params", () => {
     const { result } = renderHook(() => useCalcQuery(), { wrapper: wrap(["/embed?price=0"]) });
     expect(result.current.price).toBeUndefined();

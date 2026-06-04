@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Установка калькулятора Atamura</title>
+    <script src="https://api.bitrix24.com/api/v1/"></script>
+  </head>
+  <body>
+    <p>Установка калькулятора Atamura…</p>
+    <script>
+      // Local-application install handler: register the deal-card placement, then finish install.
+      BX24.init(function () {
+        BX24.callMethod(
+          "placement.bind",
+          {
+            PLACEMENT: "CRM_DEAL_DETAIL_TAB",
+            HANDLER: window.location.origin + "/bitrix-deal",
+            TITLE: "Калькулятор Atamura",
+          },
+          function (res) {
+            if (res.error()) {
+              document.body.innerHTML = "<p>Ошибка регистрации: " + res.error() + "</p>";
+            }
+            BX24.installFinish();
+          },
+        );
+      });
+    </script>
+  </body>
+</html>

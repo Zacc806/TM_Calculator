@@ -1,6 +1,7 @@
 import { useState, type RefObject } from "react";
 import type { CalcInput, CalcResult } from "../../core/calc.types";
 import { buildSummary, copyToClipboard } from "../../lib/clipboard";
+import { buildClientLink } from "../../lib/clientLink";
 import { exportElementToPdf } from "../../lib/pdf";
 import styles from "../Calculator/Calculator.module.css";
 
@@ -9,11 +10,24 @@ interface Props {
   input: CalcInput;
   result: CalcResult;
   programName: string;
+  /** Manager contexts: show a "client link" button (no personal data in the URL). */
+  shareLink?: boolean;
+  programId?: string;
 }
 
-export function ActionsBar({ cardRef, input, result, programName }: Props) {
+export function ActionsBar({ cardRef, input, result, programName, shareLink, programId }: Props) {
   const [copied, setCopied] = useState(false);
+  const [linked, setLinked] = useState(false);
   const [pdfBusy, setPdfBusy] = useState(false);
+
+  async function onCopyLink() {
+    const url = buildClientLink(window.location.origin, input, programId ?? "");
+    const ok = await copyToClipboard(url);
+    if (ok) {
+      setLinked(true);
+      window.setTimeout(() => setLinked(false), 1800);
+    }
+  }
 
   async function onCopy() {
     const ok = await copyToClipboard(buildSummary(input, result, programName));
@@ -46,7 +60,21 @@ export function ActionsBar({ cardRef, input, result, programName }: Props) {
       <button type="button" className={styles.actionBtn} onClick={onPdf} disabled={pdfBusy}>
         <DownloadIcon /> {pdfBusy ? "Готовим…" : "Скачать PDF"}
       </button>
+      {shareLink && (
+        <button type="button" className={`${styles.actionBtn} ${styles.actionBtnPrimary}`} onClick={onCopyLink}>
+          <LinkIcon /> {linked ? "Ссылка скопирована ✓" : "Ссылка клиенту"}
+        </button>
+      )}
     </div>
+  );
+}
+
+function LinkIcon() {
+  return (
+    <svg className={styles.icon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+      <path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+    </svg>
   );
 }
 

@@ -3,19 +3,36 @@ import { useSearchParams } from "react-router-dom";
 import { parseTenge } from "../core/money";
 
 export interface CalcQuery {
+  /** Apartment cost, ₸. */
   price: number | undefined;
+  /** Down payment amount, ₸ (used by the client share link). */
+  dp: number | undefined;
+  /** Annual rate, %. */
+  rate: number | undefined;
+  /** Term, months. */
+  term: number | undefined;
   zhk: string | undefined;
   program: string | undefined;
 }
 
-/** Reads autofill parameters from the URL: ?price=, ?zhk=, ?program=. */
+function num(raw: string | null): number | undefined {
+  if (!raw) return undefined;
+  const n = Number(raw);
+  return Number.isFinite(n) ? n : undefined;
+}
+
+/** Reads autofill / client-link parameters from the URL. */
 export function useCalcQuery(): CalcQuery {
   const [params] = useSearchParams();
   return useMemo(() => {
     const priceRaw = params.get("price");
     const price = priceRaw ? parseTenge(priceRaw) : 0;
+    const dpRaw = params.get("dp");
     return {
       price: price > 0 ? price : undefined,
+      dp: dpRaw ? parseTenge(dpRaw) : undefined,
+      rate: num(params.get("rate")),
+      term: num(params.get("term")),
       zhk: params.get("zhk") ?? undefined,
       program: params.get("program") ?? undefined,
     };

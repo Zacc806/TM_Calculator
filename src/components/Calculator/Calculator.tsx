@@ -19,19 +19,26 @@ interface Props {
   initial?: UseCalculatorInit;
   context?: CalculatorContext;
   showActions?: boolean;
+  /** Manager contexts: show a "client link" action (no personal data). */
+  showShareLink?: boolean;
   /** Show the lead-capture form below the result (Этап 2). */
   showLead?: boolean;
   /** Lead source label (ЖК slug or "calculator"/"embed"). */
   leadSource?: string;
   /** Bitrix "save to deal" control (Этап 3). */
   saveSlot?: ReactNode;
-  onResultChange?: (result: CalcResult, input: CalcInput) => void;
+  onResultChange?: (
+    result: CalcResult,
+    input: CalcInput,
+    meta: { programId: string; programName: string },
+  ) => void;
 }
 
 export function Calculator({
   initial,
   context = "standalone",
   showActions = true,
+  showShareLink = false,
   showLead = false,
   leadSource = "calculator",
   saveSlot,
@@ -61,8 +68,8 @@ export function Calculator({
     "Свой вариант";
 
   useEffect(() => {
-    onResultChange?.(calc.result, calc.input);
-  }, [calc.result, calc.input, onResultChange]);
+    onResultChange?.(calc.result, calc.input, { programId: calc.state.programId, programName });
+  }, [calc.result, calc.input, calc.state.programId, programName, onResultChange]);
 
   return (
     <div className={styles.root} data-context={context}>
@@ -103,6 +110,8 @@ export function Calculator({
               input={calc.input}
               result={calc.result}
               programName={programName}
+              shareLink={showShareLink}
+              programId={calc.state.programId}
             />
           )}
           {saveSlot}
