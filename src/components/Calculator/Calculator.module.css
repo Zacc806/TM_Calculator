@@ -187,8 +187,6 @@
   border-radius: var(--radius);
   background: var(--surface);
   padding: var(--space-6);
-  position: sticky;
-  top: var(--space-5);
 }
 .resultLabel {
   font-size: var(--fs-label);

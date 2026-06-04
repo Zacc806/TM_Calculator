@@ -20,9 +20,7 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
-    "noImplicitOverride": true,
-
-    "types": ["vitest/globals", "@testing-library/jest-dom"]
+    "noImplicitOverride": true
   },
   "include": ["src", "api", "scripts"]
 }

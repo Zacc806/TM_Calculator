@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "updatedAt": "2026-06-04T00:00:00.000Z",
   "programs": [
     {
@@ -8,16 +8,7 @@
       "ratePercent": 0,
       "termMonths": 24,
       "recommendedDownPaymentPercent": 30,
-      "description": "Беспроцентная рассрочка от Atamura Group. Равные ежемесячные доли без переплаты.",
-      "editable": false
-    },
-    {
-      "id": "otbasy",
-      "name": "Отбасы банк",
-      "ratePercent": 5,
-      "termMonths": 240,
-      "recommendedDownPaymentPercent": 20,
-      "description": "Жилищный заём по системе жилстройсбережений. Ставка ориентировочная — уточняется в банке.",
+      "description": "Беспроцентная рассрочка от Atamura Group: равные ежемесячные доли без переплаты. Срок и взнос уточняются по проекту.",
       "editable": false
     },
     {
@@ -26,25 +17,34 @@
       "ratePercent": 7,
       "termMonths": 300,
       "recommendedDownPaymentPercent": 20,
-      "description": "Ипотека 7% годовых, первоначальный взнос 20%, срок до 25 лет. Условия ориентировочные.",
+      "description": "Госпрограмма: ставка 7% (ГЭСВ от 7,24%), первоначальный взнос 20%, срок до 25 лет. Только первичное жильё, операторы Halyk/БЦК.",
       "editable": false
     },
     {
       "id": "nauryz",
       "name": "Наурыз",
-      "ratePercent": 7,
-      "termMonths": 240,
+      "ratePercent": 9,
+      "termMonths": 228,
       "recommendedDownPaymentPercent": 20,
-      "description": "Государственная ипотечная программа. Ставка и условия ориентировочные.",
+      "description": "Отбасы банк: 9% годовых для граждан РК (7% для СУСН), взнос от 20% (от 10% на чистовую отделку), срок до 19 лет. Нужен депозит от 1 млн ₸.",
+      "editable": false
+    },
+    {
+      "id": "otau",
+      "name": "Отау",
+      "ratePercent": 9,
+      "termMonths": 228,
+      "recommendedDownPaymentPercent": 20,
+      "description": "Отбасы банк: 9% годовых (7% для СУСН), первоначальный взнос 20%, срок до 19 лет. Требуется вклад в Отбасы банке от 1 млн ₸.",
       "editable": false
     },
     {
       "id": "ipoteka-bvu",
       "name": "Стандартная ипотека БВУ",
-      "ratePercent": 18,
-      "termMonths": 180,
-      "recommendedDownPaymentPercent": 30,
-      "description": "Рыночная ипотека банков второго уровня. Ставка ориентировочная — уточняется в банке.",
+      "ratePercent": 21,
+      "termMonths": 240,
+      "recommendedDownPaymentPercent": 20,
+      "description": "Рыночная ипотека банков второго уровня (Halyk, БЦК, Altyn): 20,5–22,5% годовых, взнос от 20%, срок до 20 лет. Ставка ориентировочная.",
       "editable": false
     },
     {

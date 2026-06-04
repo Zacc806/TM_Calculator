@@ -10,6 +10,7 @@ import { ProgramSelect } from "./ProgramSelect";
 import { RateTermInputs } from "./RateTermInputs";
 import { ResultCard } from "./ResultCard";
 import { ActionsBar } from "../actions/ActionsBar";
+import { LeadForm } from "../lead/LeadForm";
 import styles from "./Calculator.module.css";
 
 export type CalculatorContext = "standalone" | "embed" | "bitrix";
@@ -18,8 +19,10 @@ interface Props {
   initial?: UseCalculatorInit;
   context?: CalculatorContext;
   showActions?: boolean;
-  /** Lead form (Этап 2), injected by the route below the result. */
-  leadSlot?: ReactNode;
+  /** Show the lead-capture form below the result (Этап 2). */
+  showLead?: boolean;
+  /** Lead source label (ЖК slug or "calculator"/"embed"). */
+  leadSource?: string;
   /** Bitrix "save to deal" control (Этап 3). */
   saveSlot?: ReactNode;
   onResultChange?: (result: CalcResult, input: CalcInput) => void;
@@ -29,7 +32,8 @@ export function Calculator({
   initial,
   context = "standalone",
   showActions = true,
-  leadSlot,
+  showLead = false,
+  leadSource = "calculator",
   saveSlot,
   onResultChange,
 }: Props) {
@@ -102,7 +106,15 @@ export function Calculator({
             />
           )}
           {saveSlot}
-          {leadSlot}
+          {showLead && (
+            <LeadForm
+              input={calc.input}
+              result={calc.result}
+              programId={calc.state.programId}
+              programName={programName}
+              source={leadSource}
+            />
+          )}
         </div>
       </div>
     </div>

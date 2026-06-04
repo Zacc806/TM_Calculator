@@ -14,7 +14,7 @@ export function EmbedRoute() {
 
   return (
     <Layout variant="bare">
-      <Calculator context="embed" initial={initial} />
+      <Calculator context="embed" initial={initial} showLead leadSource={query.zhk ?? "embed"} />
     </Layout>
   );
 }
