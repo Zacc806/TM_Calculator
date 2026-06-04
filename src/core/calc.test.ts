@@ -56,16 +56,19 @@ describe("computePayment — zero-rate installment", () => {
     expect(r.isZeroRate).toBe(true);
   });
 
-  it("rounds the per-month figure but keeps overpayment near zero", () => {
+  it("rounds the per-month figure but reports no overpayment for an interest-free plan", () => {
     const r = computePayment({
       cost: 10_000_000,
       downPayment: 1_000_000,
       annualRatePercent: 0,
       termMonths: 7,
     });
-    // 9 000 000 / 7 = 1 285 714.28 → 1 285 714
+    // 9 000 000 / 7 = 1 285 714.28 → 1 285 714 (last instalment absorbs the remainder)
     expect(r.monthlyPayment).toBe(1_285_714);
     expect(r.isZeroRate).toBe(true);
+    // Interest-free => exactly the loan amount, zero overpayment regardless of rounding.
+    expect(r.overpayment).toBe(0);
+    expect(r.totalToPay).toBe(9_000_000);
   });
 });
 

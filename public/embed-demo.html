@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Демо встраивания калькулятора Atamura</title>
+    <style>
+      body { font-family: system-ui, sans-serif; max-width: 760px; margin: 40px auto; padding: 0 16px; color: #15171a; }
+      h1 { font-size: 20px; }
+      iframe { width: 100%; border: 1px solid #e2e3e5; display: block; }
+      code { background: #f6f6f4; padding: 2px 4px; }
+    </style>
+  </head>
+  <body>
+    <h1>Пример встраивания калькулятора на страницу ЖК</h1>
+    <p>
+      Цена квартиры подставляется через параметр <code>?price=</code>, проект — через
+      <code>?zhk=</code>, программа — через <code>?program=</code>. Высота подстраивается автоматически.
+    </p>
+
+    <iframe id="atamura-calc" src="/embed?price=25000000&zhk=atmosfera&program=rassrochka" title="Калькулятор платежа Atamura" scrolling="no"></iframe>
+
+    <script>
+      // Parent-side snippet to copy onto ЖК pages. Replace the origin with https://calc.atamura.kz.
+      (function () {
+        var iframe = document.getElementById("atamura-calc");
+        var allowedOrigin = window.location.origin; // → "https://calc.atamura.kz" in production
+        window.addEventListener("message", function (e) {
+          if (e.origin !== allowedOrigin) return;
+          if (e.data && e.data.type === "atamura-calc:height" && typeof e.data.height === "number") {
+            iframe.style.height = e.data.height + "px";
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

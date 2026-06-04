@@ -1,6 +1,7 @@
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, type ReactNode } from "react";
 import { useCalculator, type UseCalculatorInit } from "../../hooks/useCalculator";
 import { usePrograms } from "../../hooks/usePrograms";
+import { SEED_PROGRAMS } from "../../data/programs.client";
 import { CUSTOM_PROGRAM_ID } from "../../data/defaults";
 import type { CalcInput, CalcResult } from "../../core/calc.types";
 import { CostInput } from "./CostInput";
@@ -32,7 +33,21 @@ export function Calculator({
   saveSlot,
   onResultChange,
 }: Props) {
-  const calc = useCalculator(initial);
+  // Expand ?program= into rate/term/down-payment synchronously from the bundled
+  // seed, so an embedded calculator opens pre-filled without an async flash.
+  const resolvedInitial = useMemo<UseCalculatorInit>(() => {
+    if (!initial?.programId) return initial ?? {};
+    const preset = SEED_PROGRAMS.programs.find((p) => p.id === initial.programId);
+    if (!preset || preset.id === CUSTOM_PROGRAM_ID) return initial;
+    return {
+      ...initial,
+      annualRatePercent: preset.ratePercent,
+      termMonths: preset.termMonths,
+      downPaymentPercent: initial.downPaymentPercent ?? preset.recommendedDownPaymentPercent,
+    };
+  }, [initial]);
+
+  const calc = useCalculator(resolvedInitial);
   const { config } = usePrograms();
   const cardRef = useRef<HTMLDivElement>(null);
 

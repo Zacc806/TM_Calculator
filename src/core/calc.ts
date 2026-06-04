@@ -34,7 +34,10 @@ export function computePayment(input: CalcInput): CalcResult {
     monthlyPayment = Math.round(payment.toNumber());
   }
 
-  const totalToPay = monthlyPayment * n;
+  // Interest-free plans never overpay: the rounding remainder is absorbed by the
+  // last instalment, so the client pays exactly the loan amount. Annuity plans
+  // derive total/overpayment from the rounded monthly so the figures reconcile.
+  const totalToPay = isZeroRate ? loanAmount : monthlyPayment * n;
   const overpayment = totalToPay - loanAmount;
   return { loanAmount, monthlyPayment, totalToPay, overpayment, isZeroRate };
 }
