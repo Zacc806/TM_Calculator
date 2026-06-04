@@ -12,10 +12,15 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:cov": "vitest run --coverage",
-    "seed:edge": "tsx scripts/seed-edge-config.ts"
+    "seed:edge": "tsx scripts/seed-edge-config.ts",
+    "build:server": "esbuild server/index.ts --bundle --platform=node --format=esm --target=node20 --outfile=dist-server/server.mjs --banner:js=\"import{createRequire}from'module';const require=createRequire(import.meta.url);\"",
+    "build:all": "npm run build && npm run build:server",
+    "dev:server": "tsx watch server/index.ts"
   },
   "dependencies": {
+    "@hono/node-server": "^1.13.7",
     "decimal.js-light": "^2.5.1",
+    "hono": "^4.6.15",
     "html2pdf.js": "^0.14.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
@@ -31,6 +36,7 @@
     "@vercel/node": "^5.0.0",
     "@vitejs/plugin-react": "^4.3.4",
     "@vitest/coverage-v8": "^3.0.5",
+    "esbuild": "^0.24.2",
     "jsdom": "^25.0.1",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3",

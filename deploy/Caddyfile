@@ -1,0 +1,13 @@
+# Atamura calculator — reverse proxy to the Hono server on :3000.
+#
+# Phase A (no DNS yet): serve over HTTP on port 80 for any host (works by IP).
+:80 {
+	reverse_proxy localhost:3000
+}
+
+# Phase B (after calc.atamura.kz A-record -> 93.115.14.193): replace the block
+# above with the one below and `caddy reload` for automatic Let's Encrypt HTTPS.
+#
+# calc.atamura.kz {
+# 	reverse_proxy localhost:3000
+# }

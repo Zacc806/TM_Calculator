@@ -1,0 +1,16 @@
+[Unit]
+Description=Atamura TM Calculator (Hono server)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/tm-calculator
+EnvironmentFile=/root/tm-calculator/.env
+ExecStart=/usr/bin/node /root/tm-calculator/server.mjs
+Restart=always
+RestartSec=3
+StandardOutput=append:/var/log/tm-calculator.log
+StandardError=append:/var/log/tm-calculator.log
+
+[Install]
+WantedBy=multi-user.target
