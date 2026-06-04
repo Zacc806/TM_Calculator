@@ -95,6 +95,28 @@ describe("computePayment — edge cases", () => {
     expect(r.monthlyPayment).toBe(0);
     expect(r.overpayment).toBe(0);
   });
+
+  it("never crashes and returns safe zeros for non-finite inputs", () => {
+    for (const bad of [NaN, Infinity, -Infinity]) {
+      const r = computePayment({ cost: 10_000_000, downPayment: 0, annualRatePercent: bad, termMonths: 120 });
+      expect(Number.isFinite(r.monthlyPayment)).toBe(true);
+      const r2 = computePayment({ cost: 10_000_000, downPayment: 0, annualRatePercent: 12, termMonths: bad });
+      expect(Number.isFinite(r2.monthlyPayment)).toBe(true);
+      expect(r2.overpayment).toBeGreaterThanOrEqual(0);
+    }
+  });
+
+  it("never reports a negative overpayment, even with a zero/negative term", () => {
+    const r = computePayment({ cost: 10_000_000, downPayment: 0, annualRatePercent: 12, termMonths: 0 });
+    expect(r.overpayment).toBeGreaterThanOrEqual(0);
+    expect(r.monthlyPayment).toBe(0);
+  });
+
+  it("treats a negative rate as zero-rate (no negative interest)", () => {
+    const r = computePayment({ cost: 10_000_000, downPayment: 0, annualRatePercent: -5, termMonths: 10 });
+    expect(r.isZeroRate).toBe(true);
+    expect(r.overpayment).toBe(0);
+  });
 });
 
 describe("validateInput", () => {

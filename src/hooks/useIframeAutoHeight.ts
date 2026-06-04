@@ -21,10 +21,19 @@ export function useIframeAutoHeight(enabled: boolean): void {
       raf = requestAnimationFrame(post);
     };
 
-    const observer = new ResizeObserver(schedule);
-    observer.observe(document.body);
     window.addEventListener("load", post);
     post();
+
+    // ResizeObserver is ~universal since 2019; degrade gracefully if absent.
+    if (typeof ResizeObserver === "undefined") {
+      return () => {
+        cancelAnimationFrame(raf);
+        window.removeEventListener("load", post);
+      };
+    }
+
+    const observer = new ResizeObserver(schedule);
+    observer.observe(document.body);
 
     return () => {
       cancelAnimationFrame(raf);

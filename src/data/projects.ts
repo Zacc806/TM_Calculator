@@ -26,7 +26,7 @@ const BY_SLUG: ReadonlyMap<string, Project> = new Map(
   PROJECTS.map((p) => [p.slug, p]),
 );
 
-export function findProject(slug: string | null | undefined): Project | undefined {
-  if (!slug) return undefined;
+export function findProject(slug: unknown): Project | undefined {
+  if (typeof slug !== "string" || !slug) return undefined;
   return BY_SLUG.get(slug.toLowerCase());
 }

@@ -15,6 +15,12 @@ export function rateLimit(
   windowMs = 60_000,
   now: number = Date.now(),
 ): boolean {
+  // Opportunistic eviction so the map can't grow unbounded from one-off keys.
+  if (buckets.size > 1000) {
+    for (const [k, win] of buckets) {
+      if (now > win.reset) buckets.delete(k);
+    }
+  }
   const w = buckets.get(key);
   if (!w || now > w.reset) {
     buckets.set(key, { count: 1, reset: now + windowMs });

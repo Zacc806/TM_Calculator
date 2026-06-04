@@ -35,4 +35,24 @@ describe("validateLead", () => {
   it("requires a positive cost", () => {
     expect(validateLead({ ...base, cost: 0 }).errors).toContain("cost");
   });
+
+  it("does not throw on a non-string name (attacker JSON) and flags it", () => {
+    // @ts-expect-error — runtime body is untrusted JSON
+    expect(() => validateLead({ ...base, name: 123 })).not.toThrow();
+    // @ts-expect-error
+    expect(validateLead({ ...base, name: 123 }).errors).toContain("name");
+  });
+
+  it("does not throw on a non-string phone and flags it", () => {
+    // @ts-expect-error
+    expect(validateLead({ ...base, phone: { x: 1 } }).errors).toContain("phone");
+  });
+
+  it("rejects a non-finite cost", () => {
+    expect(validateLead({ ...base, cost: Number.NaN }).errors).toContain("cost");
+  });
+
+  it("rejects an oversized name", () => {
+    expect(validateLead({ ...base, name: "x".repeat(300) }).errors).toContain("name");
+  });
 });

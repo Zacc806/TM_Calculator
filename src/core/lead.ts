@@ -24,11 +24,21 @@ export interface LeadValidation {
   errors: ReadonlyArray<LeadErrorField>;
 }
 
+/** Length caps for free-text fields (DoS / CRM-poisoning guard). */
+export const LEAD_LIMITS = { name: 120, phone: 32 } as const;
+
 export function validateLead(p: Partial<LeadPayload>): LeadValidation {
   const errors: LeadErrorField[] = [];
-  if (!p.name || !p.name.trim()) errors.push("name");
-  if (!p.phone || !isValidKzPhone(p.phone)) errors.push("phone");
+  // Body is untrusted JSON — type-check before any string/number operation.
+  if (typeof p.name !== "string" || !p.name.trim() || p.name.length > LEAD_LIMITS.name) {
+    errors.push("name");
+  }
+  if (typeof p.phone !== "string" || p.phone.length > LEAD_LIMITS.phone || !isValidKzPhone(p.phone)) {
+    errors.push("phone");
+  }
   if (p.consent !== true) errors.push("consent");
-  if (typeof p.cost !== "number" || !(p.cost > 0)) errors.push("cost");
+  if (typeof p.cost !== "number" || !Number.isFinite(p.cost) || p.cost <= 0) {
+    errors.push("cost");
+  }
   return { ok: errors.length === 0, errors };
 }

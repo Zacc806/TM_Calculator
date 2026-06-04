@@ -20,6 +20,13 @@ export function verifyToken(token: string, secret: string, now: number = Date.no
   return timingSafeEqual(Buffer.from(expected), Buffer.from(sig));
 }
 
+/** Constant-time string comparison (avoids password/secret timing oracles). */
+export function constantTimeEqual(a: string, b: string): boolean {
+  const ab = Buffer.from(a);
+  const bb = Buffer.from(b);
+  return ab.length === bb.length && timingSafeEqual(ab, bb);
+}
+
 /** Extracts a bearer token from the Authorization header. */
 export function bearer(header: string | string[] | undefined): string | null {
   const value = Array.isArray(header) ? header[0] : header;

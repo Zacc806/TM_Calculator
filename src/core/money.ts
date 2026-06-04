@@ -2,8 +2,10 @@ const NBSP = " ";
 
 /** Formats integer tenge with non-breaking-space thousands and a ₸ suffix: 12 500 000 ₸. */
 export function formatTenge(value: number): string {
-  const sign = value < 0 ? "-" : "";
-  const abs = Math.abs(Math.round(value));
+  if (!Number.isFinite(value)) return `0${NBSP}₸`;
+  const rounded = Math.round(value);
+  const sign = rounded < 0 ? "-" : "";
+  const abs = Math.abs(rounded);
   const grouped = abs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, NBSP);
   return `${sign}${grouped}${NBSP}₸`;
 }
@@ -12,6 +14,26 @@ export function formatTenge(value: number): string {
 export function parseTenge(raw: string): number {
   const digits = raw.replace(/[^\d]/g, "");
   return digits ? parseInt(digits, 10) : 0;
+}
+
+/**
+ * Parses a percent/rate-style input that may use a comma decimal separator
+ * (ru-KZ locale). Keeps digits and the first separator, drops the rest and any
+ * sign. Returns a finite number or 0.
+ */
+export function parseDecimalInput(raw: string): number {
+  let seenDot = false;
+  let out = "";
+  for (const ch of raw) {
+    if (ch >= "0" && ch <= "9") {
+      out += ch;
+    } else if ((ch === "." || ch === ",") && !seenDot) {
+      out += ".";
+      seenDot = true;
+    }
+  }
+  const n = Number(out);
+  return Number.isFinite(n) ? n : 0;
 }
 
 /** Integer tenge amount for a given percent of cost. */

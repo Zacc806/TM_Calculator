@@ -33,6 +33,13 @@ describe("useCalculator", () => {
     expect(result.current.state.downPaymentPercent).toBe(90);
   });
 
+  it("clamps the down-payment amount to the 90% ceiling so %↔₸ stay consistent", () => {
+    const { result } = renderHook(() => useCalculator({ cost: 10_000_000 }));
+    act(() => result.current.setDownPaymentAmount(10_000_000)); // 100% typed
+    expect(result.current.state.downPaymentAmount).toBe(9_000_000); // capped at 90%
+    expect(Math.round(result.current.state.downPaymentPercent)).toBe(90);
+  });
+
   it("keeps the percent anchored when cost changes", () => {
     const { result } = renderHook(() => useCalculator({ cost: 10_000_000 }));
     act(() => result.current.setDownPaymentPercent(20));
@@ -40,13 +47,16 @@ describe("useCalculator", () => {
     expect(result.current.state.downPaymentAmount).toBe(4_000_000);
   });
 
-  it("applies a program preset (rate, term, recommended down payment)", () => {
+  it("applies a program preset's rate and term but preserves the entered down payment", () => {
     const { result } = renderHook(() => useCalculator({ cost: 10_000_000 }));
+    act(() => result.current.setDownPaymentPercent(50));
     act(() => result.current.applyProgram(program));
     expect(result.current.state.annualRatePercent).toBe(18);
     expect(result.current.state.termMonths).toBe(240);
     expect(result.current.state.programId).toBe("ipoteka-bvu");
-    expect(result.current.input.downPayment).toBe(3_000_000);
+    // ТЗ: only rate+term auto-fill on program select; the user's 50% stays.
+    expect(result.current.state.downPaymentPercent).toBe(50);
+    expect(result.current.input.downPayment).toBe(5_000_000);
   });
 
   it("switches to the custom program when the rate is hand-edited", () => {

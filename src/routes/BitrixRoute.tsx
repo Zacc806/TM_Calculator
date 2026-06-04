@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Layout } from "../components/branding/Layout";
 import { Calculator } from "../components/Calculator/Calculator";
 import type { UseCalculatorInit } from "../hooks/useCalculator";
@@ -70,6 +70,14 @@ export function BitrixRoute() {
     }
   }
 
+  // Stable identity so Calculator's onResultChange effect only fires on real changes.
+  const handleResult = useCallback(
+    (result: CalcResult, input: CalcInput, meta: { programId: string; programName: string }) => {
+      snapRef.current = { result, input, programName: meta.programName };
+    },
+    [],
+  );
+
   if (!ready) {
     return (
       <Layout variant="bare">
@@ -94,9 +102,7 @@ export function BitrixRoute() {
         initial={initial}
         showShareLink
         saveSlot={saveSlot}
-        onResultChange={(result, input, meta) => {
-          snapRef.current = { result, input, programName: meta.programName };
-        }}
+        onResultChange={handleResult}
       />
     </Layout>
   );

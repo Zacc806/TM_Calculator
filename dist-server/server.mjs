@@ -3034,12 +3034,19 @@ function isValidKzPhone(raw2) {
 }
 
 // src/core/lead.ts
+var LEAD_LIMITS = { name: 120, phone: 32 };
 function validateLead(p) {
   const errors = [];
-  if (!p.name || !p.name.trim()) errors.push("name");
-  if (!p.phone || !isValidKzPhone(p.phone)) errors.push("phone");
+  if (typeof p.name !== "string" || !p.name.trim() || p.name.length > LEAD_LIMITS.name) {
+    errors.push("name");
+  }
+  if (typeof p.phone !== "string" || p.phone.length > LEAD_LIMITS.phone || !isValidKzPhone(p.phone)) {
+    errors.push("phone");
+  }
   if (p.consent !== true) errors.push("consent");
-  if (typeof p.cost !== "number" || !(p.cost > 0)) errors.push("cost");
+  if (typeof p.cost !== "number" || !Number.isFinite(p.cost) || p.cost <= 0) {
+    errors.push("cost");
+  }
   return { ok: errors.length === 0, errors };
 }
 
@@ -3058,8 +3065,10 @@ function isProgramsConfig(v) {
 // src/core/money.ts
 var NBSP = "\xA0";
 function formatTenge(value) {
-  const sign = value < 0 ? "-" : "";
-  const abs = Math.abs(Math.round(value));
+  if (!Number.isFinite(value)) return `0${NBSP}\u20B8`;
+  const rounded = Math.round(value);
+  const sign = rounded < 0 ? "-" : "";
+  const abs = Math.abs(rounded);
   const grouped = abs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, NBSP);
   return `${sign}${grouped}${NBSP}\u20B8`;
 }
@@ -3098,7 +3107,7 @@ var BY_SLUG = new Map(
   PROJECTS.map((p) => [p.slug, p])
 );
 function findProject(slug) {
-  if (!slug) return void 0;
+  if (typeof slug !== "string" || !slug) return void 0;
   return BY_SLUG.get(slug.toLowerCase());
 }
 
@@ -3193,6 +3202,11 @@ function buildLeadFields(p, sourceId) {
 // api/_shared/ratelimit.ts
 var buckets = /* @__PURE__ */ new Map();
 function rateLimit(key, limit = 5, windowMs = 6e4, now = Date.now()) {
+  if (buckets.size > 1e3) {
+    for (const [k, win] of buckets) {
+      if (now > win.reset) buckets.delete(k);
+    }
+  }
   const w = buckets.get(key);
   if (!w || now > w.reset) {
     buckets.set(key, { count: 1, reset: now + windowMs });
@@ -3220,6 +3234,11 @@ function verifyToken(token, secret, now = Date.now()) {
   const expected = createHmac("sha256", secret).update(expStr).digest("hex");
   if (expected.length !== sig.length) return false;
   return timingSafeEqual(Buffer.from(expected), Buffer.from(sig));
+}
+function constantTimeEqual(a, b) {
+  const ab = Buffer.from(a);
+  const bb = Buffer.from(b);
+  return ab.length === bb.length && timingSafeEqual(ab, bb);
 }
 function bearer(header) {
   const value = Array.isArray(header) ? header[0] : header;
@@ -3316,7 +3335,11 @@ var STATIC_ROOT = process.env.STATIC_ROOT ?? "./web";
 var PORT = Number(process.env.PORT ?? 3e3);
 function clientIp(c) {
   const xff = c.req.header("x-forwarded-for");
-  return xff?.split(",")[0]?.trim() ?? "unknown";
+  if (xff) {
+    const parts = xff.split(",");
+    return parts[parts.length - 1]?.trim() || "unknown";
+  }
+  return "unknown";
 }
 var api = new Hono2();
 api.use(
@@ -3366,7 +3389,7 @@ api.post("/programs", async (c) => {
   const body = await c.req.json().catch(() => null);
   if (!isProgramsConfig(body)) return c.json({ ok: false, error: "invalid_config" }, 400);
   const config = {
-    version: (body.version ?? 0) + 1,
+    version: (Number(body.version) || 0) + 1,
     updatedAt: (/* @__PURE__ */ new Date()).toISOString(),
     programs: body.programs
   };
@@ -3382,7 +3405,9 @@ api.post("/admin-auth", async (c) => {
     return c.json({ ok: false, error: "not_configured" }, 500);
   }
   const body = await c.req.json().catch(() => null);
-  if (!body || body.password !== expected) return c.json({ ok: false, error: "unauthorized" }, 401);
+  if (!body || typeof body.password !== "string" || !constantTimeEqual(body.password, expected)) {
+    return c.json({ ok: false, error: "unauthorized" }, 401);
+  }
   return c.json({ ok: true, token: issueToken(secret) });
 });
 var app = new Hono2();
@@ -3393,6 +3418,8 @@ app.use("*", async (c, next) => {
     c.header("Content-Security-Policy", "frame-ancestors https://*.bitrix24.kz https://*.bitrix24.ru https://*.bitrix24.com");
   } else if (p.startsWith("/embed") || p.startsWith("/client")) {
     c.header("Content-Security-Policy", "frame-ancestors *");
+  } else {
+    c.header("Content-Security-Policy", "frame-ancestors 'self'");
   }
 });
 app.route("/api", api);

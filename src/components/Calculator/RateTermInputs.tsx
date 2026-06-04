@@ -1,4 +1,5 @@
-import { useId } from "react";
+import { useEffect, useId, useState } from "react";
+import { parseDecimalInput } from "../../core/money";
 import { RATE_MAX_PERCENT, TERM_MAX_MONTHS } from "../../data/defaults";
 import styles from "./Calculator.module.css";
 
@@ -10,42 +11,79 @@ interface Props {
 }
 
 function toNumber(raw: string, max: number): number {
-  const n = Number(raw.replace(/[^\d.]/g, ""));
-  if (!Number.isFinite(n)) return 0;
-  return Math.min(n, max);
+  // parseDecimalInput handles comma decimals (ru-KZ "18,5"), stray separators
+  // and signs, always returning a finite, non-negative number.
+  return Math.min(parseDecimalInput(raw), max);
+}
+
+/**
+ * Editable number field that keeps the raw typed string while focused, so a
+ * comma decimal ("18,5") or a transient empty value survives re-renders; it
+ * re-syncs to the canonical numeric value on blur and on external changes.
+ */
+function NumberField({
+  label,
+  value,
+  max,
+  ariaLabel,
+  onValue,
+}: {
+  label: string;
+  value: number;
+  max: number;
+  ariaLabel: string;
+  onValue: (v: number) => void;
+}) {
+  const id = useId();
+  const [draft, setDraft] = useState(String(value));
+  const [focused, setFocused] = useState(false);
+
+  useEffect(() => {
+    if (!focused) setDraft(String(value));
+  }, [value, focused]);
+
+  return (
+    <div className={styles.field}>
+      <label className="label" htmlFor={id}>
+        {label}
+      </label>
+      <input
+        id={id}
+        className={styles.smallInput}
+        inputMode="decimal"
+        aria-label={ariaLabel}
+        value={draft}
+        onFocus={() => setFocused(true)}
+        onBlur={() => {
+          setFocused(false);
+          setDraft(String(value));
+        }}
+        onChange={(e) => {
+          setDraft(e.target.value);
+          onValue(toNumber(e.target.value, max));
+        }}
+      />
+    </div>
+  );
 }
 
 export function RateTermInputs({ ratePercent, termMonths, onRate, onTerm }: Props) {
-  const rateId = useId();
-  const termId = useId();
   return (
     <div className={styles.twoCol}>
-      <div className={styles.field}>
-        <label className="label" htmlFor={rateId}>
-          Ставка, % годовых
-        </label>
-        <input
-          id={rateId}
-          className={styles.smallInput}
-          inputMode="decimal"
-          value={ratePercent}
-          aria-label="Ставка в процентах годовых"
-          onChange={(e) => onRate(toNumber(e.target.value, RATE_MAX_PERCENT))}
-        />
-      </div>
-      <div className={styles.field}>
-        <label className="label" htmlFor={termId}>
-          Срок, месяцев
-        </label>
-        <input
-          id={termId}
-          className={styles.smallInput}
-          inputMode="numeric"
-          value={termMonths}
-          aria-label="Срок в месяцах"
-          onChange={(e) => onTerm(toNumber(e.target.value, TERM_MAX_MONTHS))}
-        />
-      </div>
+      <NumberField
+        label="Ставка, % годовых"
+        ariaLabel="Ставка в процентах годовых"
+        value={ratePercent}
+        max={RATE_MAX_PERCENT}
+        onValue={onRate}
+      />
+      <NumberField
+        label="Срок, месяцев"
+        ariaLabel="Срок в месяцах"
+        value={termMonths}
+        max={TERM_MAX_MONTHS}
+        onValue={onTerm}
+      />
     </div>
   );
 }

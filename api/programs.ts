@@ -40,7 +40,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
     }
 
     const config: ProgramsConfig = {
-      version: (body.version ?? 0) + 1,
+      version: (Number(body.version) || 0) + 1,
       updatedAt: new Date().toISOString(),
       programs: body.programs,
     };

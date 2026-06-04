@@ -8,15 +8,21 @@ import { validateLead, type LeadPayload } from "../src/core/lead";
 import { isProgramsConfig } from "../src/core/programs";
 import { bitrixCall, buildLeadFields, BitrixError } from "../api/_shared/bitrix";
 import { rateLimit } from "../api/_shared/ratelimit";
-import { issueToken, verifyToken, bearer } from "../api/_shared/adminAuth";
+import { issueToken, verifyToken, bearer, constantTimeEqual } from "../api/_shared/adminAuth";
 import { readPrograms, writePrograms } from "./programsStore";
 
 const STATIC_ROOT = process.env.STATIC_ROOT ?? "./web";
 const PORT = Number(process.env.PORT ?? 3000);
 
 function clientIp(c: Context): string {
+  // Behind Caddy the rightmost X-Forwarded-For entry is the proxy-appended real
+  // client IP; a client-supplied (spoofed) value sits to its left.
   const xff = c.req.header("x-forwarded-for");
-  return xff?.split(",")[0]?.trim() ?? "unknown";
+  if (xff) {
+    const parts = xff.split(",");
+    return parts[parts.length - 1]?.trim() || "unknown";
+  }
+  return "unknown";
 }
 
 const api = new Hono();
@@ -72,7 +78,7 @@ api.post("/programs", async (c) => {
   const body = (await c.req.json().catch(() => null)) as unknown;
   if (!isProgramsConfig(body)) return c.json({ ok: false, error: "invalid_config" }, 400);
   const config = {
-    version: (body.version ?? 0) + 1,
+    version: (Number(body.version) || 0) + 1,
     updatedAt: new Date().toISOString(),
     programs: body.programs,
   };
@@ -89,7 +95,9 @@ api.post("/admin-auth", async (c) => {
     return c.json({ ok: false, error: "not_configured" }, 500);
   }
   const body = (await c.req.json().catch(() => null)) as { password?: unknown } | null;
-  if (!body || body.password !== expected) return c.json({ ok: false, error: "unauthorized" }, 401);
+  if (!body || typeof body.password !== "string" || !constantTimeEqual(body.password, expected)) {
+    return c.json({ ok: false, error: "unauthorized" }, 401);
+  }
   return c.json({ ok: true, token: issueToken(secret) });
 });
 
@@ -103,6 +111,9 @@ app.use("*", async (c, next) => {
     c.header("Content-Security-Policy", "frame-ancestors https://*.bitrix24.kz https://*.bitrix24.ru https://*.bitrix24.com");
   } else if (p.startsWith("/embed") || p.startsWith("/client")) {
     c.header("Content-Security-Policy", "frame-ancestors *");
+  } else {
+    // Default anti-clickjacking for the landing/admin/manager UI.
+    c.header("Content-Security-Policy", "frame-ancestors 'self'");
   }
 });
 

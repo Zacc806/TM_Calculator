@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { formatTenge, parseTenge, pctToAmount, amountToPct, clamp } from "./money";
+import { formatTenge, parseTenge, parseDecimalInput, pctToAmount, amountToPct, clamp } from "./money";
 
 const NBSP = " ";
 
@@ -14,6 +14,40 @@ describe("formatTenge", () => {
 
   it("formats zero", () => {
     expect(formatTenge(0)).toBe(`0${NBSP}₸`);
+  });
+
+  it("renders 0 for non-finite values instead of 'NaN ₸'/'Infinity ₸'", () => {
+    expect(formatTenge(NaN)).toBe(`0${NBSP}₸`);
+    expect(formatTenge(Infinity)).toBe(`0${NBSP}₸`);
+  });
+
+  it("does not produce a negative-zero string", () => {
+    expect(formatTenge(-0)).toBe(`0${NBSP}₸`);
+  });
+});
+
+describe("parseDecimalInput", () => {
+  it("treats a comma as a decimal separator (ru-KZ locale)", () => {
+    expect(parseDecimalInput("18,5")).toBe(18.5);
+  });
+
+  it("parses a dot decimal", () => {
+    expect(parseDecimalInput("7.25")).toBe(7.25);
+  });
+
+  it("collapses extra separators instead of returning NaN", () => {
+    expect(parseDecimalInput("1.2.3")).toBe(1.23);
+  });
+
+  it("drops a leading sign and non-digits", () => {
+    expect(parseDecimalInput("-5")).toBe(5);
+    expect(parseDecimalInput("60%")).toBe(60);
+  });
+
+  it("returns 0 for empty or non-numeric input", () => {
+    expect(parseDecimalInput("")).toBe(0);
+    expect(parseDecimalInput(".")).toBe(0);
+    expect(parseDecimalInput("abc")).toBe(0);
   });
 });
 

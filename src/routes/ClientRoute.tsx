@@ -5,6 +5,8 @@ import { ActionsBar } from "../components/actions/ActionsBar";
 import { useCalcQuery } from "../hooks/useQueryParams";
 import { usePrograms } from "../hooks/usePrograms";
 import { computePayment } from "../core/calc";
+import { clamp } from "../core/money";
+import { RATE_MAX_PERCENT, TERM_MAX_MONTHS } from "../data/defaults";
 import type { CalcInput } from "../core/calc.types";
 
 export function ClientRoute() {
@@ -22,11 +24,13 @@ export function ClientRoute() {
     );
   }
 
+  // Clamp tampered-link params to sane bounds (computePayment also sanitizes,
+  // but this keeps the displayed card meaningful).
   const input: CalcInput = {
     cost: q.price,
-    downPayment: q.dp ?? 0,
-    annualRatePercent: q.rate ?? 0,
-    termMonths: q.term && q.term >= 1 ? q.term : 1,
+    downPayment: clamp(q.dp ?? 0, 0, q.price),
+    annualRatePercent: clamp(q.rate ?? 0, 0, RATE_MAX_PERCENT),
+    termMonths: clamp(Math.round(q.term ?? 1), 1, TERM_MAX_MONTHS),
   };
   const result = computePayment(input);
   const programName =

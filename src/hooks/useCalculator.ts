@@ -60,7 +60,9 @@ function reducer(state: CalcState, action: Action): CalcState {
     case "setDpPercent":
       return withPercent(state, action.value);
     case "setDpAmount": {
-      const downPaymentAmount = clamp(Math.round(action.value), 0, state.cost);
+      // Cap at the same 90% ceiling as the percent path so the %↔₸ views never disagree.
+      const maxAmount = pctToAmount(state.cost, DP_MAX_PCT);
+      const downPaymentAmount = clamp(Math.round(action.value), 0, maxAmount);
       return {
         ...state,
         downPaymentAmount,
@@ -74,9 +76,10 @@ function reducer(state: CalcState, action: Action): CalcState {
     case "setTerm":
       return { ...state, termMonths: Math.max(1, Math.round(action.value)), programId: CUSTOM_PROGRAM_ID };
     case "applyProgram": {
+      // ТЗ: selecting a program auto-fills only the rate and term; the user's
+      // entered down payment is preserved (not overwritten by the recommended %).
       const p = action.program;
-      const next = withPercent({ ...state, programId: p.id }, p.recommendedDownPaymentPercent);
-      return { ...next, annualRatePercent: p.ratePercent, termMonths: p.termMonths };
+      return { ...state, programId: p.id, annualRatePercent: p.ratePercent, termMonths: p.termMonths };
     }
     default:
       return state;
