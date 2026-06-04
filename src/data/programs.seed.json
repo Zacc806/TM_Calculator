@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-04T00:00:00.000Z",
+  "programs": [
+    {
+      "id": "rassrochka",
+      "name": "Рассрочка застройщика",
+      "ratePercent": 0,
+      "termMonths": 24,
+      "recommendedDownPaymentPercent": 30,
+      "description": "Беспроцентная рассрочка от Atamura Group. Равные ежемесячные доли без переплаты.",
+      "editable": false
+    },
+    {
+      "id": "otbasy",
+      "name": "Отбасы банк",
+      "ratePercent": 5,
+      "termMonths": 240,
+      "recommendedDownPaymentPercent": 20,
+      "description": "Жилищный заём по системе жилстройсбережений. Ставка ориентировочная — уточняется в банке.",
+      "editable": false
+    },
+    {
+      "id": "7-20-25",
+      "name": "7-20-25",
+      "ratePercent": 7,
+      "termMonths": 300,
+      "recommendedDownPaymentPercent": 20,
+      "description": "Ипотека 7% годовых, первоначальный взнос 20%, срок до 25 лет. Условия ориентировочные.",
+      "editable": false
+    },
+    {
+      "id": "nauryz",
+      "name": "Наурыз",
+      "ratePercent": 7,
+      "termMonths": 240,
+      "recommendedDownPaymentPercent": 20,
+      "description": "Государственная ипотечная программа. Ставка и условия ориентировочные.",
+      "editable": false
+    },
+    {
+      "id": "ipoteka-bvu",
+      "name": "Стандартная ипотека БВУ",
+      "ratePercent": 18,
+      "termMonths": 180,
+      "recommendedDownPaymentPercent": 30,
+      "description": "Рыночная ипотека банков второго уровня. Ставка ориентировочная — уточняется в банке.",
+      "editable": false
+    },
+    {
+      "id": "custom",
+      "name": "Свой вариант",
+      "ratePercent": 12,
+      "termMonths": 120,
+      "recommendedDownPaymentPercent": 20,
+      "description": "Введите ставку и срок вручную.",
+      "editable": true
+    }
+  ]
+}

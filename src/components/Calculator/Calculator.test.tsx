@@ -1,0 +1,25 @@
+import { describe, it, expect } from "vitest";
+import { render, screen } from "@testing-library/react";
+import { Calculator } from "./Calculator";
+
+describe("Calculator", () => {
+  it("renders the dominant monthly payment for the initial input", async () => {
+    // 100 000 ₸, 0% down, 12% annual, 12 mo → 8 885 ₸/mo
+    render(
+      <Calculator
+        context="standalone"
+        initial={{ cost: 100_000, downPaymentPercent: 0, annualRatePercent: 12, termMonths: 12 }}
+        showActions={false}
+      />,
+    );
+    expect(screen.getByText("Ежемесячный платёж")).toBeInTheDocument();
+    // findBy absorbs the async usePrograms settle inside act()
+    expect(await screen.findByText(/8\s*885\s*₸/u)).toBeInTheDocument();
+  });
+
+  it("shows the program presets", async () => {
+    render(<Calculator context="standalone" showActions={false} />);
+    expect(await screen.findByRole("radio", { name: "Рассрочка застройщика" })).toBeInTheDocument();
+    expect(screen.getByRole("radio", { name: "7-20-25" })).toBeInTheDocument();
+  });
+});

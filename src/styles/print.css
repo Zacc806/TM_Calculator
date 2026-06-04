@@ -1,0 +1,29 @@
+/* Print mode: show only the client-facing result card (ТЗ — чистая карточка без полей ввода). */
+.printOnly {
+  display: none;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .print-card,
+  .print-card * {
+    visibility: visible;
+  }
+  .print-card {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+  }
+  .printOnly {
+    display: block !important;
+    visibility: visible;
+    margin-bottom: 12px;
+  }
+}
