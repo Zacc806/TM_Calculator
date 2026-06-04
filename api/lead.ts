@@ -2,22 +2,8 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { validateLead, type LeadPayload } from "../src/core/lead";
 import { applyCors } from "./_shared/cors";
 import { rateLimit } from "./_shared/ratelimit";
+import { clientIp, readJsonBody } from "./_shared/http";
 import { bitrixCall, buildLeadFields, BitrixError } from "./_shared/bitrix";
-
-function clientIp(req: VercelRequest): string {
-  const xff = req.headers["x-forwarded-for"];
-  if (Array.isArray(xff)) return xff[0] ?? "unknown";
-  if (typeof xff === "string") return xff.split(",")[0]?.trim() ?? "unknown";
-  return req.socket?.remoteAddress ?? "unknown";
-}
-
-function safeParse(raw: string): unknown {
-  try {
-    return JSON.parse(raw);
-  } catch {
-    return null;
-  }
-}
 
 export default async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
   applyCors(res, process.env.ALLOWED_ORIGIN ?? "*");
@@ -36,9 +22,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
     return;
   }
 
-  const body = (typeof req.body === "string" ? safeParse(req.body) : req.body) as
-    | Partial<LeadPayload>
-    | null;
+  const body = readJsonBody(req) as Partial<LeadPayload> | null;
   if (!body || typeof body !== "object") {
     res.status(400).json({ ok: false, error: "invalid_body" });
     return;

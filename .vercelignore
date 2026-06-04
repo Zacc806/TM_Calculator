@@ -1,0 +1,5 @@
+# Keep test files out of the Vercel function build (every api/*.ts becomes a function).
+**/*.test.ts
+**/*.test.tsx
+src/test
+docs

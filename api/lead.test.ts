@@ -1,53 +1,9 @@
 // @vitest-environment node
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import type { VercelRequest, VercelResponse } from "@vercel/node";
 import handler from "./lead";
 import { _resetRateLimit } from "./_shared/ratelimit";
+import { createRes, makeReq } from "./_shared/testHttp";
 import type { LeadPayload } from "../src/core/lead";
-
-interface CapturedRes {
-  res: VercelResponse;
-  statusCode: () => number;
-  body: () => unknown;
-  headers: Record<string, string>;
-}
-
-function createRes(): CapturedRes {
-  let statusCode = 0;
-  let body: unknown;
-  const headers: Record<string, string> = {};
-  const res = {
-    setHeader: (k: string, v: string | number) => {
-      headers[k] = String(v);
-    },
-    status(code: number) {
-      statusCode = code;
-      return this;
-    },
-    json(payload: unknown) {
-      body = payload;
-      return this;
-    },
-    end() {
-      return this;
-    },
-  };
-  return {
-    res: res as unknown as VercelResponse,
-    statusCode: () => statusCode,
-    body: () => body,
-    headers,
-  };
-}
-
-function makeReq(over: Partial<VercelRequest> & { ip?: string }): VercelRequest {
-  const { ip, ...rest } = over;
-  return {
-    headers: {},
-    socket: { remoteAddress: ip ?? "127.0.0.1" },
-    ...rest,
-  } as unknown as VercelRequest;
-}
 
 const validBody: LeadPayload = {
   name: "Айбек",

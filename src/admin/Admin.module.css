@@ -1,0 +1,131 @@
+.wrap {
+  max-width: var(--maxw);
+  margin: 0 auto;
+}
+
+.gate {
+  max-width: 360px;
+  margin: var(--space-7) auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--space-6);
+}
+.gateTitle {
+  font-size: var(--fs-h2);
+  font-weight: 800;
+  margin: 0 0 var(--space-4);
+}
+.input {
+  width: 100%;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  padding: var(--space-3) var(--space-4);
+  font-size: 1rem;
+}
+.input:focus {
+  border-color: var(--brand);
+  outline: none;
+}
+.error {
+  color: var(--danger);
+  font-size: var(--fs-small);
+  margin-top: var(--space-2);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+  flex-wrap: wrap;
+}
+.meta {
+  font-size: var(--fs-small);
+  color: var(--ink-faint);
+}
+
+.btn {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--ink);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+.btn:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+.btnPrimary {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--on-brand);
+}
+.btnPrimary:hover {
+  background: var(--brand-dark);
+  border-color: var(--brand-dark);
+  color: var(--on-brand);
+}
+.btnPrimary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  margin-bottom: var(--space-3);
+  display: grid;
+  gap: var(--space-3);
+}
+.cardHead {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+}
+.grow {
+  flex: 1;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.fieldRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+.cell {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--fs-small);
+  width: 100%;
+}
+.cell:focus {
+  border-color: var(--brand);
+  outline: none;
+}
+.remove {
+  border: 1px solid var(--line-strong);
+  background: var(--bg);
+  color: var(--danger);
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+.status {
+  margin-left: var(--space-3);
+  font-size: var(--fs-small);
+}
+.statusOk {
+  color: var(--positive);
+}
+.statusErr {
+  color: var(--danger);
+}
