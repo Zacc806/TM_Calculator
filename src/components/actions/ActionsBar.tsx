@@ -3,6 +3,7 @@ import type { CalcInput, CalcResult } from "../../core/calc.types";
 import { buildSummary, copyToClipboard } from "../../lib/clipboard";
 import { buildClientLink } from "../../lib/clientLink";
 import { exportElementToPdf } from "../../lib/pdf";
+import { trackEvent } from "../../lib/analytics";
 import styles from "../Calculator/Calculator.module.css";
 
 interface Props {
@@ -24,6 +25,7 @@ export function ActionsBar({ cardRef, input, result, programName, shareLink, pro
     const url = buildClientLink(window.location.origin, input, programId ?? "");
     const ok = await copyToClipboard(url);
     if (ok) {
+      trackEvent("calc_done", { action: "client_link" });
       setLinked(true);
       window.setTimeout(() => setLinked(false), 1800);
     }
@@ -32,6 +34,7 @@ export function ActionsBar({ cardRef, input, result, programName, shareLink, pro
   async function onCopy() {
     const ok = await copyToClipboard(buildSummary(input, result, programName));
     if (ok) {
+      trackEvent("calc_done", { action: "copy" });
       setCopied(true);
       window.setTimeout(() => setCopied(false), 1800);
     }
@@ -42,6 +45,7 @@ export function ActionsBar({ cardRef, input, result, programName, shareLink, pro
     setPdfBusy(true);
     try {
       await exportElementToPdf(cardRef.current, "raschet-atamura.pdf");
+      trackEvent("calc_done", { action: "pdf" });
     } catch (err) {
       console.error("[pdf] export failed", err);
     } finally {

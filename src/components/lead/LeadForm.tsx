@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { CalcInput, CalcResult } from "../../core/calc.types";
 import { validateLead, type LeadPayload } from "../../core/lead";
+import { trackEvent } from "../../lib/analytics";
 import { ConsentText } from "./ConsentText";
 import styles from "./LeadForm.module.css";
 
@@ -48,6 +49,7 @@ export function LeadForm({ input, result, programId, programName, source }: Prop
         body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error(`lead responded ${res.status}`);
+      trackEvent("lead_submitted", { source, programId });
       setStatus("success");
     } catch (err) {
       console.error("[lead] submit failed", err);
