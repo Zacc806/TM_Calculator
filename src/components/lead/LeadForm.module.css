@@ -25,6 +25,7 @@
 
 .input {
   width: 100%;
+  min-height: 44px;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius);
   padding: var(--space-3) var(--space-4);

@@ -63,7 +63,23 @@
   max-width: var(--maxw);
   margin: 0 auto;
   padding: var(--space-5);
+  padding-bottom: calc(var(--space-5) + env(safe-area-inset-bottom));
   font-size: var(--fs-small);
   color: var(--ink-faint);
   line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+  .headerInner {
+    padding: var(--space-3) var(--space-4);
+  }
+  .hero {
+    padding: var(--space-5) var(--space-4) 0;
+  }
+  .main {
+    padding: var(--space-5) var(--space-4) var(--space-6);
+  }
+  .heroTitle {
+    font-size: 1.35rem;
+  }
 }

@@ -19,16 +19,28 @@ body {
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden; /* guard against any incidental horizontal scroll on mobile */
 }
 
 button {
   font-family: inherit;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation; /* remove 300ms tap delay on touch devices */
 }
 
 input,
 select {
   font-family: inherit;
+  /* keep >=16px so iOS Safari does not auto-zoom on focus (handled per-field too) */
+}
+
+/* Honour iOS/Android safe areas (notch, home indicator). */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
 }
 
 /* Tracked caps for labels — used across inputs and sections. */
