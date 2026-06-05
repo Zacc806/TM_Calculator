@@ -59,8 +59,10 @@ systemctl restart tm-calculator
 
 Артефакты: `deploy/tm-calculator.service` (systemd), `deploy/Caddyfile`.
 
-HTTPS: добавить DNS A-запись `calc.atamura.kz → 93.115.14.193`, затем заменить блок в
-`/etc/caddy/Caddyfile` на `calc.atamura.kz { reverse_proxy localhost:3000 }` и `caddy reload`.
+HTTPS: уже работает на интерим-домене **https://93-115-14-193.sslip.io** (валидный
+Let's Encrypt, без настройки DNS — sslip.io авто-резолвится в IP). Для постоянного домена
+добавить A-запись `calc.atamura.kz → 93.115.14.193` и добавить блок
+`calc.atamura.kz { reverse_proxy localhost:3000 }` в `/etc/caddy/Caddyfile` + `caddy reload`.
 
 > Альтернатива: каталог `api/*.ts` — serverless-функции для деплоя на Vercel (Edge Config
 > вместо файлового стора). Для текущего VDS не используется.

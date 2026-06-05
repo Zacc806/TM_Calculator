@@ -1,13 +1,20 @@
-# Atamura calculator — reverse proxy to the Hono server on :3000.
+# Active config on the VDS (/etc/caddy/Caddyfile).
 #
-# Phase A (no DNS yet): serve over HTTP on port 80 for any host (works by IP).
-:80 {
+# Interim public HTTPS via sslip.io — the hostname auto-resolves to 93.115.14.193,
+# so Caddy obtains a real Let's Encrypt certificate with no DNS setup needed.
+93-115-14-193.sslip.io {
 	reverse_proxy localhost:3000
 }
 
-# Phase B (after calc.atamura.kz A-record -> 93.115.14.193): replace the block
-# above with the one below and `caddy reload` for automatic Let's Encrypt HTTPS.
+# Plain HTTP access by IP.
+http://93.115.14.193 {
+	reverse_proxy localhost:3000
+}
+
+# When calc.atamura.kz A-record -> 93.115.14.193 is set, add (or replace with):
 #
 # calc.atamura.kz {
 # 	reverse_proxy localhost:3000
 # }
+#
+# then: caddy reload --config /etc/caddy/Caddyfile
