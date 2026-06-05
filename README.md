@@ -1,73 +1,82 @@
 # Atamura Group — Калькулятор ежемесячного платежа
 
 Калькулятор платежа по квартире для отдела продаж Atamura Group. Менеджер считает платёж
-в Битрикс24 и отправляет расчёт клиенту (ссылкой, PDF или текстом в WhatsApp). Опционально
-размещается на сайте как лид-магнит.
+в Битрикс24 / на странице и отправляет клиенту (ссылкой, PDF или текстом в WhatsApp).
 
-React 19 + Vite + TypeScript (strict). Деплой — Vercel, домен `calc.atamura.kz`.
-Битрикс24-портал — `amanat.bitrix24.kz`.
+React 19 + Vite + TypeScript (strict) + Hono. Светлая/тёмная тема, RU/KZ, 16 ипотечных
+программ с полными условиями. Живой деплой — **self-host VDS** `93.115.14.193` (Hoster.KZ),
+домен в планах `calc.atamura.kz`. Битрикс24-портал — `amanat.bitrix24.kz`.
+
+## Возможности
+
+- Расчёт: аннуитет / беспроцентная рассрочка, целые тенге, согласованные итоги.
+- 16 программ (рассрочка + 14 из таблицы + «свой вариант»), номинальные ставки.
+- Кнопка «Условия программы» → модалка с условиями / требованиями / банком / проектами.
+- Тема (☀️/🌙, follows prefers-color-scheme), язык RU / ҚАЗ — в шапке, запоминаются.
+- Печать / PDF / копирование для WhatsApp / «Ссылка клиенту» (без ПДн в URL).
+- Адаптив + тач-эргономика (мобайл/десктоп), скруглённый современный UI.
 
 ## Маршруты
 
 | URL | Назначение |
 |-----|------------|
-| `/` | Лендинг-калькулятор с лид-формой (сайт, опционально) |
+| `/` | Лендинг-калькулятор |
 | `/embed` | Версия для `<iframe>` на страницах ЖК; автоподстановка `?price=&zhk=&program=`, адаптивная высота |
 | `/client` | Read-only расчёт для клиента по ссылке (`?price=&dp=&rate=&term=&program=`), **без персональных данных** |
 | `/bitrix`, `/bitrix-deal` | Калькулятор для менеджера: пункт меню Битрикс24 и вкладка в карточке сделки |
-| `/admin` | Редактор программ и ставок (без правки кода) |
+| `/admin` | Редактор программ, ставок и условий (без правки кода) |
 
 ## Разработка
 
 ```bash
 npm install
-npm run dev         # http://localhost:5173
-npm test            # Vitest (87 тестов)
-npm run typecheck   # tsc --strict
-npm run build       # dist/
+npm run dev          # Vite, http://localhost:5173
+npm run dev:server   # Hono API на :3000 (tsx watch)
+npm test             # Vitest (102 теста)
+npm run typecheck
+npm run build:all    # SPA (dist/) + сервер (dist-server/server.mjs)
 ```
 
-## Деплой на Vercel
+## Деплой (self-host, VDS)
 
-1. Импортировать репозиторий в Vercel (framework preset — **Vite**, output — `dist`).
-2. Привязать домен `calc.atamura.kz`.
-3. Задать переменные окружения (см. `.env.example`):
-
-| Переменная | Где | Назначение |
-|------------|-----|------------|
-| `BITRIX_WEBHOOK_URL` | server | Входящий вебхук Битрикс24 (scope `crm`) для `crm.lead.add` |
-| `BITRIX_SOURCE_ID` | server | Источник лида в CRM (по умолчанию `WEB`) |
-| `ALLOWED_ORIGIN` | server | `https://calc.atamura.kz` (CORS) |
-| `EDGE_CONFIG` | server (авто) | Read-строка Edge Config (создаётся при привязке стора) |
-| `EDGE_CONFIG_ID`, `EDGE_CONFIG_WRITE_TOKEN` | server | Запись программ из `/admin` через Vercel API |
-| `ADMIN_PASSWORD`, `ADMIN_TOKEN_SECRET` | server | Доступ к `/admin` |
-
-4. Привязать Edge Config к проекту и засеять программы:
+Сервер: Hono отдаёт SPA + `/api/*`, конфиг программ — JSON-файл на диске, под systemd,
+за Caddy (reverse-proxy + авто-HTTPS).
 
 ```bash
-EDGE_CONFIG_ID=ecfg_... EDGE_CONFIG_WRITE_TOKEN=... npm run seed:edge
+npm run build:all
+# залить dist/ -> /root/tm-calculator/web, dist-server/server.mjs -> /root/tm-calculator/server.mjs
+systemctl restart tm-calculator
 ```
 
-Без Edge Config калькулятор работает на встроенном `src/data/programs.seed.json`.
+`/root/tm-calculator/.env` (см. `deploy/.env.server.example`):
+
+| Переменная | Назначение |
+|------------|------------|
+| `PORT`, `STATIC_ROOT`, `PROGRAMS_FILE` | порт, статика, файл конфигурации программ |
+| `ADMIN_PASSWORD`, `ADMIN_TOKEN_SECRET` | доступ к `/admin` |
+| `BITRIX_WEBHOOK_URL`, `BITRIX_SOURCE_ID` | лид-форма сайта (опционально; менеджерам не нужно) |
+| `ALLOWED_ORIGIN` | CORS |
+
+Артефакты: `deploy/tm-calculator.service` (systemd), `deploy/Caddyfile`.
+
+HTTPS: добавить DNS A-запись `calc.atamura.kz → 93.115.14.193`, затем заменить блок в
+`/etc/caddy/Caddyfile` на `calc.atamura.kz { reverse_proxy localhost:3000 }` и `caddy reload`.
+
+> Альтернатива: каталог `api/*.ts` — serverless-функции для деплоя на Vercel (Edge Config
+> вместо файлового стора). Для текущего VDS не используется.
 
 ## Размещение в Битрикс24
 
-**Пункт в левом меню** — добавить пользовательский пункт меню со ссылкой `https://calc.atamura.kz/bitrix`.
+- **Левое меню** — пункт со ссылкой на `/bitrix` (вне фрейма открывается как обычный калькулятор).
+- **Вкладка в сделке** — локальное приложение (server, HTTPS, scope `crm`):
+  App URL `/bitrix-deal`, install path `/bitrix-install.html` (регистрирует `CRM_DEAL_DETAIL_TAB`).
+  Внутри сделки: цена подтягивается из `crm.deal.get`, «Сохранить в сделку» → `crm.timeline.comment.add`.
+  Требует публичный HTTPS.
 
-**Вкладка в карточке сделки** — создать в `amanat.bitrix24.kz` локальное приложение (тип «серверное»,
-HTTPS, scope `crm`):
-
-- Путь обработчика (App URL): `https://calc.atamura.kz/bitrix-deal`
-- Путь установки: `https://calc.atamura.kz/bitrix-install.html` (регистрирует placement `CRM_DEAL_DETAIL_TAB` и вызывает `installFinish`)
-
-В сделке вкладка «Калькулятор Atamura» подтянет стоимость из поля сделки (`crm.deal.get`),
-а кнопка «Сохранить в сделку» запишет расчёт в таймлайн (`crm.timeline.comment.add`).
-
-## Встраивание на страницу ЖК (сайт)
+## Встраивание на страницу ЖК
 
 ```html
-<iframe id="atamura-calc"
-        src="https://calc.atamura.kz/embed?price=25000000&zhk=atmosfera&program=rassrochka"
+<iframe id="atamura-calc" src="https://calc.atamura.kz/embed?price=25000000&zhk=atmosfera"
         style="width:100%;border:0" scrolling="no" title="Калькулятор платежа"></iframe>
 <script>
   window.addEventListener("message", function (e) {
@@ -84,16 +93,11 @@ HTTPS, scope `crm`):
 ## Управление программами
 
 `/admin` → вход по `ADMIN_PASSWORD` → правка названий, ставок (номинальных, не ГЭСВ), сроков,
-рекомендованного ПВ и описаний. Сохранение пишет в Edge Config — изменения видны сразу, без
-переустановки. Источник актуальных ставок — `docs/ipoteka-programs-2026-06.xlsx`.
+рекомендованного ПВ, описаний и полных условий / требований / банка / проектов. Сохранение
+пишет в `PROGRAMS_FILE` — изменения видны сразу, без передеплоя. Источник актуальных данных —
+`docs/ipoteka-programs-2026-06.xlsx`.
 
 ## Аналитика
 
-События `lead_submitted` и `calc_done` отправляются в GTM/GA4 (`dataLayer`/`gtag`) и
-Яндекс.Метрику (если задан `window.ATAMURA_YM_ID`). Без подключённого счётчика — no-op.
-
-## Проверка перед запуском (требует живого окружения)
-
-- `/api/lead` — нужен реальный `BITRIX_WEBHOOK_URL`; проверить создание лида через `vercel dev` + `curl`.
-- Вкладка в сделке — Битрикс24 требует публичный HTTPS, тестировать на preview/prod, не на localhost.
-- Логика расчёта, нормализация телефона, валидация, прокси и Edge Config покрыты unit-тестами.
+События `lead_submitted` и `calc_done` → GTM/GA4 (`dataLayer`/`gtag`) и Яндекс.Метрика
+(если задан `window.ATAMURA_YM_ID`). Без счётчика — no-op.

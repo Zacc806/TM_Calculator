@@ -157,10 +157,45 @@ export function ProgramsEditor() {
           <textarea
             className={styles.cell}
             rows={2}
-            placeholder="Пояснение для клиента"
+            placeholder="Краткое пояснение (под выбором программы)"
             value={p.description}
             onChange={(e) => patch(i, "description", e.target.value)}
           />
+          <label className={styles.field}>
+            <span className={styles.meta}>Банк / оператор</span>
+            <input
+              className={styles.cell}
+              value={p.bank ?? ""}
+              onChange={(e) => patch(i, "bank", e.target.value)}
+            />
+          </label>
+          <label className={styles.field}>
+            <span className={styles.meta}>Условия программы (модалка)</span>
+            <textarea
+              className={styles.cell}
+              rows={3}
+              value={p.conditions ?? ""}
+              onChange={(e) => patch(i, "conditions", e.target.value)}
+            />
+          </label>
+          <label className={styles.field}>
+            <span className={styles.meta}>Требования к клиенту</span>
+            <textarea
+              className={styles.cell}
+              rows={3}
+              value={p.requirements ?? ""}
+              onChange={(e) => patch(i, "requirements", e.target.value)}
+            />
+          </label>
+          <label className={styles.field}>
+            <span className={styles.meta}>Доступно по проектам</span>
+            <textarea
+              className={styles.cell}
+              rows={2}
+              value={p.projects ?? ""}
+              onChange={(e) => patch(i, "projects", e.target.value)}
+            />
+          </label>
           <label className={styles.meta} style={{ display: "flex", gap: 8, alignItems: "center" }}>
             <input
               type="checkbox"

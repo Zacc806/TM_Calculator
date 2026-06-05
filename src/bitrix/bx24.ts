@@ -27,6 +27,9 @@ const SDK_URL = "https://api.bitrix24.com/api/v1/";
 export function loadBx24(timeoutMs = 4000): Promise<Bx24Sdk | null> {
   return new Promise((resolve) => {
     if (typeof window === "undefined") return resolve(null);
+    // BX24 only works inside a Bitrix24 iframe. When opened standalone (left-menu
+    // external link, direct URL) skip the SDK and render the calculator at once.
+    if (window.top === window.self) return resolve(null);
     const finish = (sdk: Bx24Sdk | null) => resolve(sdk);
 
     if (window.BX24) {
