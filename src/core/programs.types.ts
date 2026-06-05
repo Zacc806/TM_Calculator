@@ -9,10 +9,18 @@ export interface Program {
   termMonths: number;
   /** Recommended down payment, percent of cost. */
   recommendedDownPaymentPercent: number;
-  /** Explanatory text shown to the client. */
+  /** Short explanatory text shown under the selector. */
   description: string;
   /** When true ("свой вариант"), rate/term are fully manual and not preset-locked. */
   editable: boolean;
+  /** Full program conditions (shown in the «Условия» modal). */
+  conditions?: string;
+  /** Client eligibility requirements (modal). */
+  requirements?: string;
+  /** Issuing bank / operator (modal). */
+  bank?: string;
+  /** Which Atamura projects the program currently applies to (modal). */
+  projects?: string;
 }
 
 export interface ProgramsConfig {

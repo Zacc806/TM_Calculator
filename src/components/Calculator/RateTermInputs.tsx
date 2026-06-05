@@ -1,6 +1,7 @@
 import { useEffect, useId, useState } from "react";
 import { parseDecimalInput } from "../../core/money";
 import { RATE_MAX_PERCENT, TERM_MAX_MONTHS } from "../../data/defaults";
+import { useT } from "../../i18n";
 import styles from "./Calculator.module.css";
 
 interface Props {
@@ -68,18 +69,19 @@ function NumberField({
 }
 
 export function RateTermInputs({ ratePercent, termMonths, onRate, onTerm }: Props) {
+  const t = useT();
   return (
     <div className={styles.twoCol}>
       <NumberField
-        label="Ставка, % годовых"
-        ariaLabel="Ставка в процентах годовых"
+        label={t("field.rate")}
+        ariaLabel={t("field.rate.aria")}
         value={ratePercent}
         max={RATE_MAX_PERCENT}
         onValue={onRate}
       />
       <NumberField
-        label="Срок, месяцев"
-        ariaLabel="Срок в месяцах"
+        label={t("field.term")}
+        ariaLabel={t("field.term.aria")}
         value={termMonths}
         max={TERM_MAX_MONTHS}
         onValue={onTerm}

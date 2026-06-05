@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { CalcInput, CalcResult } from "../../core/calc.types";
 import { validateLead, type LeadPayload } from "../../core/lead";
 import { trackEvent } from "../../lib/analytics";
+import { useT } from "../../i18n";
 import { ConsentText } from "./ConsentText";
 import styles from "./LeadForm.module.css";
 
@@ -16,6 +17,7 @@ interface Props {
 type Status = "idle" | "sending" | "success" | "error";
 
 export function LeadForm({ input, result, programId, programName, source }: Props) {
+  const t = useT();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [consent, setConsent] = useState(false);
@@ -64,8 +66,8 @@ export function LeadForm({ input, result, programId, programName, source }: Prop
           <svg className={styles.successIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M20 6 9 17l-5-5" />
           </svg>
-          <p className={styles.successTitle}>Заявка принята</p>
-          <p className={styles.successText}>Менеджер Atamura Group перезвонит вам с готовым расчётом.</p>
+          <p className={styles.successTitle}>{t("lead.successTitle")}</p>
+          <p className={styles.successText}>{t("lead.successText")}</p>
         </div>
       </div>
     );
@@ -76,13 +78,13 @@ export function LeadForm({ input, result, programId, programName, source }: Prop
 
   return (
     <form className={styles.card} onSubmit={onSubmit} noValidate>
-      <h2 className={styles.title}>Получить консультацию</h2>
-      <p className={styles.lead}>Оставьте телефон — менеджер перезвонит и поможет с расчётом и подбором.</p>
+      <h2 className={styles.title}>{t("lead.title")}</h2>
+      <p className={styles.lead}>{t("lead.subtitle")}</p>
 
       <div className={styles.row}>
         <input
           className={`${styles.input} ${nameError ? styles.inputError : ""}`}
-          placeholder="Ваше имя"
+          placeholder={t("lead.name")}
           value={name}
           autoComplete="name"
           onChange={(e) => setName(e.target.value)}
@@ -103,19 +105,13 @@ export function LeadForm({ input, result, programId, programName, source }: Prop
       </label>
 
       <button className={styles.submit} type="submit" disabled={status === "sending"}>
-        {status === "sending" ? "Отправляем…" : "Получить консультацию"}
+        {status === "sending" ? t("lead.submitting") : t("lead.submit")}
       </button>
 
       {touched && !validation.ok && (
-        <p className={`${styles.note} ${styles.noteError}`}>
-          Укажите имя, корректный телефон и подтвердите согласие.
-        </p>
+        <p className={`${styles.note} ${styles.noteError}`}>{t("lead.errorRequired")}</p>
       )}
-      {status === "error" && (
-        <p className={`${styles.note} ${styles.noteError}`}>
-          Не удалось отправить. Попробуйте ещё раз или позвоните нам.
-        </p>
-      )}
+      {status === "error" && <p className={`${styles.note} ${styles.noteError}`}>{t("lead.errorSend")}</p>}
     </form>
   );
 }

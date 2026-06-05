@@ -4,6 +4,7 @@ import { buildSummary, copyToClipboard } from "../../lib/clipboard";
 import { buildClientLink } from "../../lib/clientLink";
 import { exportElementToPdf } from "../../lib/pdf";
 import { trackEvent } from "../../lib/analytics";
+import { useT } from "../../i18n";
 import styles from "../Calculator/Calculator.module.css";
 
 interface Props {
@@ -17,6 +18,7 @@ interface Props {
 }
 
 export function ActionsBar({ cardRef, input, result, programName, shareLink, programId }: Props) {
+  const t = useT();
   const [copied, setCopied] = useState(false);
   const [linked, setLinked] = useState(false);
   const [pdfBusy, setPdfBusy] = useState(false);
@@ -40,33 +42,48 @@ export function ActionsBar({ cardRef, input, result, programName, shareLink, pro
     }
   }
 
+  // Force a light card for print/PDF so a dark-theme page still produces a clean
+  // light document for the client (html2canvas captures live computed styles).
+  function onPrint() {
+    const el = cardRef.current;
+    if (el) el.setAttribute("data-theme", "light");
+    const restore = () => {
+      if (el) el.removeAttribute("data-theme");
+      window.removeEventListener("afterprint", restore);
+    };
+    window.addEventListener("afterprint", restore);
+    window.print();
+  }
+
   async function onPdf() {
     if (!cardRef.current || pdfBusy) return;
     setPdfBusy(true);
+    cardRef.current.setAttribute("data-theme", "light");
     try {
       await exportElementToPdf(cardRef.current, "raschet-atamura.pdf");
       trackEvent("calc_done", { action: "pdf" });
     } catch (err) {
       console.error("[pdf] export failed", err);
     } finally {
+      cardRef.current?.removeAttribute("data-theme");
       setPdfBusy(false);
     }
   }
 
   return (
     <div className={styles.actions}>
-      <button type="button" className={styles.actionBtn} onClick={() => window.print()}>
-        <PrinterIcon /> Распечатать
+      <button type="button" className={styles.actionBtn} onClick={onPrint}>
+        <PrinterIcon /> {t("action.print")}
       </button>
       <button type="button" className={styles.actionBtn} onClick={onCopy}>
-        <CopyIcon /> {copied ? "Скопировано ✓" : "Скопировать"}
+        <CopyIcon /> {copied ? t("action.copied") : t("action.copy")}
       </button>
       <button type="button" className={styles.actionBtn} onClick={onPdf} disabled={pdfBusy}>
-        <DownloadIcon /> {pdfBusy ? "Готовим…" : "Скачать PDF"}
+        <DownloadIcon /> {pdfBusy ? t("action.pdfBusy") : t("action.pdf")}
       </button>
       {shareLink && (
         <button type="button" className={`${styles.actionBtn} ${styles.actionBtnPrimary}`} onClick={onCopyLink}>
-          <LinkIcon /> {linked ? "Ссылка скопирована ✓" : "Ссылка клиенту"}
+          <LinkIcon /> {linked ? t("action.linkCopied") : t("action.clientLink")}
         </button>
       )}
     </div>

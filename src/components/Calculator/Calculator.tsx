@@ -7,10 +7,12 @@ import type { CalcInput, CalcResult } from "../../core/calc.types";
 import { CostInput } from "./CostInput";
 import { DownPayment } from "./DownPayment";
 import { ProgramSelect } from "./ProgramSelect";
+import { ProgramConditions } from "./ProgramConditions";
 import { RateTermInputs } from "./RateTermInputs";
 import { ResultCard } from "./ResultCard";
 import { ActionsBar } from "../actions/ActionsBar";
 import { LeadForm } from "../lead/LeadForm";
+import { useT } from "../../i18n";
 import styles from "./Calculator.module.css";
 
 export type CalculatorContext = "standalone" | "embed" | "bitrix";
@@ -61,11 +63,12 @@ export function Calculator({
   const calc = useCalculator(resolvedInitial);
   const { config } = usePrograms();
   const cardRef = useRef<HTMLDivElement>(null);
+  const t = useT();
 
-  const programName =
-    config.programs.find((p) => p.id === calc.state.programId)?.name ??
-    config.programs.find((p) => p.id === CUSTOM_PROGRAM_ID)?.name ??
-    "Свой вариант";
+  const selectedProgram =
+    config.programs.find((p) => p.id === calc.state.programId) ??
+    config.programs.find((p) => p.id === CUSTOM_PROGRAM_ID);
+  const programName = selectedProgram?.name ?? "—";
 
   useEffect(() => {
     onResultChange?.(calc.result, calc.input, { programId: calc.state.programId, programName });
@@ -89,6 +92,7 @@ export function Calculator({
             selectedId={calc.state.programId}
             onSelect={calc.applyProgram}
           />
+          <ProgramConditions program={selectedProgram} />
           <RateTermInputs
             ratePercent={calc.state.annualRatePercent}
             termMonths={calc.state.termMonths}
@@ -99,11 +103,7 @@ export function Calculator({
 
         <div>
           <ResultCard ref={cardRef} input={calc.input} result={calc.result} programName={programName} />
-          {!calc.validation.ok && (
-            <div className={styles.errors}>
-              Проверьте поля: стоимость и срок должны быть больше нуля, взнос — не больше стоимости.
-            </div>
-          )}
+          {!calc.validation.ok && <div className={styles.errors}>{t("calc.error")}</div>}
           {showActions && (
             <ActionsBar
               cardRef={cardRef}

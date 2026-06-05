@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import { useT } from "../../i18n";
+import { Controls } from "./Controls";
 import styles from "./Layout.module.css";
 
 interface Props {
@@ -9,6 +11,8 @@ interface Props {
 }
 
 export function Layout({ children, variant = "full", title, subtitle }: Props) {
+  const t = useT();
+
   if (variant === "bare") {
     return (
       <div className={styles.page}>
@@ -16,12 +20,13 @@ export function Layout({ children, variant = "full", title, subtitle }: Props) {
       </div>
     );
   }
+
   return (
     <div className={styles.page}>
       <header className={styles.header}>
         <div className={styles.headerInner}>
           <img className={styles.logo} src="/brand/logo.svg" alt="Atamura Group" />
-          <span className={styles.headerTag}>Калькулятор платежа</span>
+          <Controls />
         </div>
       </header>
       {(title || subtitle) && (
@@ -32,10 +37,7 @@ export function Layout({ children, variant = "full", title, subtitle }: Props) {
       )}
       <main className={styles.main}>{children}</main>
       <footer className={styles.footer}>
-        <div className={styles.footerInner}>
-          Расчёт носит информационный характер и не является публичной офертой. Точные ставки,
-          сроки и условия программ уточняйте у менеджеров Atamura Group и банков-партнёров.
-        </div>
+        <div className={styles.footerInner}>{t("footer.disclaimer")}</div>
       </footer>
     </div>
   );

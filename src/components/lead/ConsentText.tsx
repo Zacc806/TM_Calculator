@@ -1,8 +1,6 @@
+import { useT } from "../../i18n";
+
 export function ConsentText() {
-  return (
-    <span>
-      Я согласен(а) на сбор и обработку моих персональных данных в соответствии с законодательством
-      Республики Казахстан и даю согласие на обратный звонок.
-    </span>
-  );
+  const t = useT();
+  return <span>{t("lead.consent")}</span>;
 }

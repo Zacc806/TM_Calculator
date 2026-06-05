@@ -1,5 +1,6 @@
 import { useId } from "react";
 import { parseTenge } from "../../core/money";
+import { useT } from "../../i18n";
 import styles from "./Calculator.module.css";
 
 interface Props {
@@ -11,11 +12,12 @@ const grouper = new Intl.NumberFormat("ru-RU");
 
 export function CostInput({ value, onChange }: Props) {
   const id = useId();
+  const t = useT();
   const display = value > 0 ? grouper.format(value) : "";
   return (
     <div className={styles.field}>
       <label className="label" htmlFor={id}>
-        Стоимость квартиры
+        {t("field.cost")}
       </label>
       <div style={{ position: "relative" }}>
         <input
@@ -26,7 +28,7 @@ export function CostInput({ value, onChange }: Props) {
           autoComplete="off"
           value={display}
           placeholder="0"
-          aria-label="Стоимость квартиры в тенге"
+          aria-label={t("field.cost.aria")}
           onChange={(e) => onChange(parseTenge(e.target.value))}
         />
         <span

@@ -1,10 +1,20 @@
-/** Human term: "240 мес. · 20 лет" / "18 мес. · 1.5 года". */
-export function formatTerm(months: number): string {
+type Translator = (key: string) => string;
+
+const RU: Record<string, string> = {
+  "term.months": "мес.",
+  "term.year": "год",
+  "term.years2": "года",
+  "term.years5": "лет",
+};
+
+/** Human term: "240 мес. · 20 лет" (RU) / "240 ай · 20 жыл" (KK). */
+export function formatTerm(months: number, t: Translator = (k) => RU[k] ?? k): string {
+  const base = `${months} ${t("term.months")}`;
   const years = months / 12;
   if (months % 12 === 0 && years >= 1) {
-    return `${months} мес. · ${years} ${plural(years, "год", "года", "лет")}`;
+    return `${base} · ${years} ${plural(years, t("term.year"), t("term.years2"), t("term.years5"))}`;
   }
-  return `${months} мес.`;
+  return base;
 }
 
 function plural(n: number, one: string, few: string, many: string): string {

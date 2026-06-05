@@ -164,6 +164,22 @@
   color: var(--ink-soft);
   line-height: 1.4;
 }
+.conditionsBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: var(--space-3);
+  padding: 6px 0;
+  border: 0;
+  background: transparent;
+  color: var(--brand);
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+.conditionsBtn:hover {
+  color: var(--brand-dark);
+  text-decoration: underline;
+}
 
 .twoCol {
   display: grid;
@@ -229,8 +245,8 @@
 .errors {
   margin-top: var(--space-4);
   padding: var(--space-3);
-  border-radius: var(--radius);
-  background: #fdecea;
+  border-radius: var(--radius-sm);
+  background: var(--danger-bg);
   color: var(--danger);
   font-size: var(--fs-small);
 }

@@ -7,19 +7,19 @@ import { usePrograms } from "../hooks/usePrograms";
 import { computePayment } from "../core/calc";
 import { clamp } from "../core/money";
 import { RATE_MAX_PERCENT, TERM_MAX_MONTHS } from "../data/defaults";
+import { useT } from "../i18n";
 import type { CalcInput } from "../core/calc.types";
 
 export function ClientRoute() {
   const q = useCalcQuery();
   const { config } = usePrograms();
   const cardRef = useRef<HTMLDivElement>(null);
+  const t = useT();
 
   if (q.price === undefined) {
     return (
-      <Layout variant="full" title="Расчёт недоступен">
-        <p style={{ color: "var(--ink-soft)" }}>
-          Ссылка устарела или неполна. Запросите новый расчёт у менеджера Atamura Group.
-        </p>
+      <Layout variant="full" title={t("client.unavailableTitle")}>
+        <p style={{ color: "var(--ink-soft)" }}>{t("client.unavailableText")}</p>
       </Layout>
     );
   }
@@ -34,10 +34,10 @@ export function ClientRoute() {
   };
   const result = computePayment(input);
   const programName =
-    config.programs.find((p) => p.id === q.program)?.name ?? "Индивидуальные условия";
+    config.programs.find((p) => p.id === q.program)?.name ?? t("client.customProgram");
 
   return (
-    <Layout variant="full" title="Ваш расчёт платежа" subtitle="Предварительный расчёт от Atamura Group.">
+    <Layout variant="full" title={t("client.title")} subtitle={t("client.subtitle")}>
       <div style={{ maxWidth: 480, margin: "0 auto" }}>
         <ResultCard ref={cardRef} input={input} result={result} programName={programName} />
         <ActionsBar cardRef={cardRef} input={input} result={result} programName={programName} />

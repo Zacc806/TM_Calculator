@@ -20,6 +20,7 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden; /* guard against any incidental horizontal scroll on mobile */
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 button {

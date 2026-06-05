@@ -23,10 +23,47 @@
   width: auto;
   display: block;
 }
-.headerTag {
-  font-size: var(--fs-small);
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.langToggle {
+  display: inline-flex;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  background: var(--surface);
+}
+.langBtn {
+  border: 0;
+  background: transparent;
   color: var(--ink-soft);
-  text-align: right;
+  padding: 7px 12px;
+  min-height: 36px;
+  font-size: var(--fs-small);
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+.langBtnActive {
+  background: var(--brand);
+  color: var(--on-brand);
+}
+.themeBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--ink);
+}
+.themeBtn:hover,
+.langBtn:hover {
+  color: var(--brand);
 }
 
 .hero {

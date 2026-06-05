@@ -1,13 +1,11 @@
 import { Layout } from "../components/branding/Layout";
 import { Calculator } from "../components/Calculator/Calculator";
+import { useT } from "../i18n";
 
 export function StandaloneRoute() {
+  const t = useT();
   return (
-    <Layout
-      variant="full"
-      title="Калькулятор ежемесячного платежа"
-      subtitle="Узнайте платёж по квартире за несколько секунд: выберите программу, укажите стоимость и первоначальный взнос."
-    >
+    <Layout variant="full" title={t("landing.title")} subtitle={t("landing.subtitle")}>
       <Calculator context="standalone" initial={{ programId: "rassrochka" }} />
     </Layout>
   );
