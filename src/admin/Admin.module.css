@@ -119,6 +119,58 @@
   font-size: var(--fs-small);
   font-weight: 700;
 }
+.tabs {
+  display: inline-flex;
+  gap: var(--space-1);
+  margin-bottom: var(--space-5);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  padding: 3px;
+  background: var(--surface);
+}
+.tab {
+  border: 0;
+  background: transparent;
+  color: var(--ink-soft);
+  padding: 7px 16px;
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+.tabActive {
+  background: var(--brand);
+  color: var(--on-brand);
+}
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-small);
+}
+.table th {
+  text-align: left;
+  padding: var(--space-3);
+  background: var(--surface);
+  color: var(--ink-soft);
+  font-size: var(--fs-label);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--line);
+}
+.table td {
+  padding: var(--space-3);
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  white-space: nowrap;
+}
+.table tr:last-child td {
+  border-bottom: none;
+}
 .status {
   margin-left: var(--space-3);
   font-size: var(--fs-small);

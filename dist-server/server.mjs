@@ -3494,7 +3494,7 @@ async function writePrograms(config) {
 // server/leadsStore.ts
 import { promises as fs2 } from "node:fs";
 import { dirname as dirname2 } from "node:path";
-var FILE2 = process.env.LEADS_FILE ?? "./data/leads.jsonl";
+var leadsFile = () => process.env.LEADS_FILE ?? "./data/leads.jsonl";
 async function appendLead(lead, at) {
   const record = {
     at,
@@ -3509,8 +3509,26 @@ async function appendLead(lead, at) {
     monthlyPayment: lead.monthlyPayment,
     source: lead.source
   };
-  await fs2.mkdir(dirname2(FILE2), { recursive: true });
-  await fs2.appendFile(FILE2, JSON.stringify(record) + "\n", "utf8");
+  const file = leadsFile();
+  await fs2.mkdir(dirname2(file), { recursive: true });
+  await fs2.appendFile(file, JSON.stringify(record) + "\n", "utf8");
+}
+async function readLeads(limit = 200) {
+  let raw2;
+  try {
+    raw2 = await fs2.readFile(leadsFile(), "utf8");
+  } catch {
+    return [];
+  }
+  const lines = raw2.split("\n").filter((l) => l.trim());
+  const out = [];
+  for (const line of lines) {
+    try {
+      out.push(JSON.parse(line));
+    } catch {
+    }
+  }
+  return out.reverse().slice(0, limit);
 }
 
 // server/notify.ts
@@ -3611,6 +3629,14 @@ api.post("/programs", async (c) => {
   };
   await writePrograms(config);
   return c.json({ ok: true, config });
+});
+api.get("/leads", async (c) => {
+  const secret = process.env.ADMIN_TOKEN_SECRET;
+  const token = bearer(c.req.header("authorization"));
+  if (!secret || !token || !verifyToken(token, secret)) {
+    return c.json({ ok: false, error: "unauthorized" }, 401);
+  }
+  return c.json({ ok: true, leads: await readLeads(200) });
 });
 api.post("/admin-auth", async (c) => {
   if (!rateLimit(`auth:${clientIp(c)}`, 10, 6e4)) return c.json({ ok: false, error: "rate_limited" }, 429);

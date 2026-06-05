@@ -3,11 +3,25 @@ import { dirname } from "node:path";
 import type { LeadPayload } from "../src/core/lead";
 import { normalizeKzPhone } from "../src/core/phone";
 
-const FILE = process.env.LEADS_FILE ?? "./data/leads.jsonl";
+export interface LeadRecord {
+  at: string;
+  name: string;
+  phone: string;
+  cost: number;
+  downPayment: number;
+  programId: string;
+  programName: string;
+  annualRatePercent: number;
+  termMonths: number;
+  monthlyPayment: number;
+  source: string;
+}
+
+const leadsFile = (): string => process.env.LEADS_FILE ?? "./data/leads.jsonl";
 
 /** Appends a captured lead to a JSONL file so nothing is lost without a CRM. */
 export async function appendLead(lead: LeadPayload, at: string): Promise<void> {
-  const record = {
+  const record: LeadRecord = {
     at,
     name: lead.name.trim(),
     phone: normalizeKzPhone(lead.phone) ?? lead.phone,
@@ -20,6 +34,27 @@ export async function appendLead(lead: LeadPayload, at: string): Promise<void> {
     monthlyPayment: lead.monthlyPayment,
     source: lead.source,
   };
-  await fs.mkdir(dirname(FILE), { recursive: true });
-  await fs.appendFile(FILE, JSON.stringify(record) + "\n", "utf8");
+  const file = leadsFile();
+  await fs.mkdir(dirname(file), { recursive: true });
+  await fs.appendFile(file, JSON.stringify(record) + "\n", "utf8");
+}
+
+/** Reads up to `limit` most-recent leads (newest first). Missing file → []. */
+export async function readLeads(limit = 200): Promise<LeadRecord[]> {
+  let raw: string;
+  try {
+    raw = await fs.readFile(leadsFile(), "utf8");
+  } catch {
+    return [];
+  }
+  const lines = raw.split("\n").filter((l) => l.trim());
+  const out: LeadRecord[] = [];
+  for (const line of lines) {
+    try {
+      out.push(JSON.parse(line) as LeadRecord);
+    } catch {
+      /* skip a corrupt line */
+    }
+  }
+  return out.reverse().slice(0, limit);
 }

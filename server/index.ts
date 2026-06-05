@@ -10,7 +10,7 @@ import { bitrixCall, buildLeadFields } from "../api/_shared/bitrix";
 import { rateLimit } from "../api/_shared/ratelimit";
 import { issueToken, verifyToken, bearer, constantTimeEqual } from "../api/_shared/adminAuth";
 import { readPrograms, writePrograms } from "./programsStore";
-import { appendLead } from "./leadsStore";
+import { appendLead, readLeads } from "./leadsStore";
 import { notifyTelegram } from "./notify";
 
 const STATIC_ROOT = process.env.STATIC_ROOT ?? "./web";
@@ -102,6 +102,15 @@ api.post("/programs", async (c) => {
   };
   await writePrograms(config);
   return c.json({ ok: true, config });
+});
+
+api.get("/leads", async (c) => {
+  const secret = process.env.ADMIN_TOKEN_SECRET;
+  const token = bearer(c.req.header("authorization"));
+  if (!secret || !token || !verifyToken(token, secret)) {
+    return c.json({ ok: false, error: "unauthorized" }, 401);
+  }
+  return c.json({ ok: true, leads: await readLeads(200) });
 });
 
 api.post("/admin-auth", async (c) => {
