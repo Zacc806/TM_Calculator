@@ -6,10 +6,11 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { validateLead, type LeadPayload } from "../src/core/lead";
 import { isProgramsConfig } from "../src/core/programs";
-import { bitrixCall, buildLeadFields, BitrixError } from "../api/_shared/bitrix";
+import { bitrixCall, buildLeadFields } from "../api/_shared/bitrix";
 import { rateLimit } from "../api/_shared/ratelimit";
 import { issueToken, verifyToken, bearer, constantTimeEqual } from "../api/_shared/adminAuth";
 import { readPrograms, writePrograms } from "./programsStore";
+import { appendLead } from "./leadsStore";
 
 const STATIC_ROOT = process.env.STATIC_ROOT ?? "./web";
 const PORT = Number(process.env.PORT ?? 3000);
@@ -43,25 +44,34 @@ api.post("/lead", async (c) => {
   const validation = validateLead(body);
   if (!validation.ok) return c.json({ ok: false, error: "validation", fields: validation.errors }, 400);
 
-  const webhook = process.env.BITRIX_WEBHOOK_URL;
-  if (!webhook || webhook.includes("<")) {
-    console.error("[lead] BITRIX_WEBHOOK_URL is not configured");
-    return c.json({ ok: false, error: "not_configured" }, 500);
-  }
+  const lead = body as LeadPayload;
+
+  // 1) Always persist the lead — the site captures it regardless of any CRM.
   try {
-    const leadId = await bitrixCall<number>(
-      "crm.lead.add",
-      {
-        fields: buildLeadFields(body as LeadPayload, process.env.BITRIX_SOURCE_ID ?? "WEB"),
-        params: { REGISTER_SONET_EVENT: "Y" },
-      },
-      { webhookUrl: webhook },
-    );
-    return c.json({ ok: true, leadId });
+    await appendLead(lead, new Date().toISOString());
   } catch (err) {
-    console.error("[lead] Bitrix lead creation failed", err);
-    return c.json({ ok: false, error: "bitrix_failed", code: err instanceof BitrixError ? err.code : "unknown" }, 502);
+    console.error("[lead] file append failed", err);
+    return c.json({ ok: false, error: "store_failed" }, 500);
   }
+
+  // 2) Best-effort mirror to Bitrix24 if a webhook is configured (optional).
+  const webhook = process.env.BITRIX_WEBHOOK_URL;
+  if (webhook && !webhook.includes("<")) {
+    try {
+      await bitrixCall<number>(
+        "crm.lead.add",
+        {
+          fields: buildLeadFields(lead, process.env.BITRIX_SOURCE_ID ?? "WEB"),
+          params: { REGISTER_SONET_EVENT: "Y" },
+        },
+        { webhookUrl: webhook },
+      );
+    } catch (err) {
+      console.error("[lead] Bitrix mirror failed (lead is still saved)", err);
+    }
+  }
+
+  return c.json({ ok: true });
 });
 
 api.get("/programs", async (c) => {

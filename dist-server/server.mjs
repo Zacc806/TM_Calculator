@@ -3491,6 +3491,28 @@ async function writePrograms(config) {
   await fs.writeFile(FILE, JSON.stringify(config, null, 2), "utf8");
 }
 
+// server/leadsStore.ts
+import { promises as fs2 } from "node:fs";
+import { dirname as dirname2 } from "node:path";
+var FILE2 = process.env.LEADS_FILE ?? "./data/leads.jsonl";
+async function appendLead(lead, at) {
+  const record = {
+    at,
+    name: lead.name.trim(),
+    phone: normalizeKzPhone(lead.phone) ?? lead.phone,
+    cost: lead.cost,
+    downPayment: lead.downPayment,
+    programId: lead.programId,
+    programName: lead.programName,
+    annualRatePercent: lead.annualRatePercent,
+    termMonths: lead.termMonths,
+    monthlyPayment: lead.monthlyPayment,
+    source: lead.source
+  };
+  await fs2.mkdir(dirname2(FILE2), { recursive: true });
+  await fs2.appendFile(FILE2, JSON.stringify(record) + "\n", "utf8");
+}
+
 // server/index.ts
 var STATIC_ROOT = process.env.STATIC_ROOT ?? "./web";
 var PORT = Number(process.env.PORT ?? 3e3);
@@ -3517,25 +3539,29 @@ api.post("/lead", async (c) => {
   if (!body || typeof body !== "object") return c.json({ ok: false, error: "invalid_body" }, 400);
   const validation = validateLead(body);
   if (!validation.ok) return c.json({ ok: false, error: "validation", fields: validation.errors }, 400);
-  const webhook = process.env.BITRIX_WEBHOOK_URL;
-  if (!webhook || webhook.includes("<")) {
-    console.error("[lead] BITRIX_WEBHOOK_URL is not configured");
-    return c.json({ ok: false, error: "not_configured" }, 500);
-  }
+  const lead = body;
   try {
-    const leadId = await bitrixCall(
-      "crm.lead.add",
-      {
-        fields: buildLeadFields(body, process.env.BITRIX_SOURCE_ID ?? "WEB"),
-        params: { REGISTER_SONET_EVENT: "Y" }
-      },
-      { webhookUrl: webhook }
-    );
-    return c.json({ ok: true, leadId });
+    await appendLead(lead, (/* @__PURE__ */ new Date()).toISOString());
   } catch (err) {
-    console.error("[lead] Bitrix lead creation failed", err);
-    return c.json({ ok: false, error: "bitrix_failed", code: err instanceof BitrixError ? err.code : "unknown" }, 502);
+    console.error("[lead] file append failed", err);
+    return c.json({ ok: false, error: "store_failed" }, 500);
   }
+  const webhook = process.env.BITRIX_WEBHOOK_URL;
+  if (webhook && !webhook.includes("<")) {
+    try {
+      await bitrixCall(
+        "crm.lead.add",
+        {
+          fields: buildLeadFields(lead, process.env.BITRIX_SOURCE_ID ?? "WEB"),
+          params: { REGISTER_SONET_EVENT: "Y" }
+        },
+        { webhookUrl: webhook }
+      );
+    } catch (err) {
+      console.error("[lead] Bitrix mirror failed (lead is still saved)", err);
+    }
+  }
+  return c.json({ ok: true });
 });
 api.get("/programs", async (c) => {
   c.header("Cache-Control", "public, max-age=30");
