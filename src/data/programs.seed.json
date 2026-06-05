@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "updatedAt": "2026-06-05T00:00:00.000Z",
   "programs": [
     {
@@ -17,7 +17,7 @@
       "ratePercent": 7,
       "termMonths": 300,
       "recommendedDownPaymentPercent": 20,
-      "description": "Госпрограмма: ставка 7% (ГЭСВ от 7,24%), ПВ 20%, до 25 лет. Только первичка, до 30 млн ₸ (Алматы/Астана). Операторы Halyk, БЦК.",
+      "description": "Госпрограмма: 7% (ГЭСВ от 7,24%), ПВ 20%, до 25 лет. Только первичка, до 30 млн ₸ (Алматы/Астана). Операторы Halyk, БЦК.",
       "editable": false
     },
     {
@@ -57,6 +57,15 @@
       "editable": false
     },
     {
+      "id": "voennaya",
+      "name": "Военная ипотека (Аскери баспана)",
+      "ratePercent": 6,
+      "termMonths": 300,
+      "recommendedDownPaymentPercent": 50,
+      "description": "Отбасы, военнослужащие: 6% (с переходом на жилзаём 3,5-5%), ПВ 50%, до 25 лет, до 100 млн ₸.",
+      "editable": false
+    },
+    {
       "id": "almaty-jastary",
       "name": "Алматы жастары",
       "ratePercent": 5,
@@ -75,12 +84,102 @@
       "editable": false
     },
     {
+      "id": "molodezh",
+      "name": "Жилищная программа для молодёжи",
+      "ratePercent": 5,
+      "termMonths": 300,
+      "recommendedDownPaymentPercent": 10,
+      "description": "Отбасы, работники госучреждений до 35 лет: 5%, ПВ 10%, до 25 лет, до 18 млн ₸. Доход на члена семьи до 6 ПМ.",
+      "editable": false
+    },
+    {
+      "id": "molodye-uchenye",
+      "name": "Ипотека для молодых учёных",
+      "ratePercent": 5,
+      "termMonths": 300,
+      "recommendedDownPaymentPercent": 10,
+      "description": "Отбасы: 5%, ПВ от 10% до 50%, до 25 лет, до 20 млн ₸. Первичка/вторичка (кроме «зелёного» стандарта).",
+      "editable": false
+    },
+    {
+      "id": "bakytty-otbasy",
+      "name": "Бакытты отбасы",
+      "ratePercent": 2,
+      "termMonths": 240,
+      "recommendedDownPaymentPercent": 10,
+      "description": "Отбасы, многодетные/очередники акимата: 2%, ПВ 10%, до 20 лет, до 18 млн ₸. Жильё в регионе постановки на очередь.",
+      "editable": false
+    },
+    {
+      "id": "svoy-dom",
+      "name": "Свой дом",
+      "ratePercent": 5,
+      "termMonths": 300,
+      "recommendedDownPaymentPercent": 20,
+      "description": "Отбасы: 3,5-8,5% (ГЭСВ от 3,6%), снижение до 3,5-5% после накопления 50%, ПВ от 20%, до 25 лет, до 100 млн ₸.",
+      "editable": false
+    },
+    {
+      "id": "zhilzaem",
+      "name": "Жилищный заём (Отбасы)",
+      "ratePercent": 4,
+      "termMonths": 300,
+      "recommendedDownPaymentPercent": 50,
+      "description": "Отбасы, после накопления 50% и достижения ОП-16: 3,5-5% годовых, до 25 лет, до 100 млн ₸.",
+      "editable": false
+    },
+    {
+      "id": "korporativny",
+      "name": "Корпоративный продукт (Отбасы)",
+      "ratePercent": 6,
+      "termMonths": 300,
+      "recommendedDownPaymentPercent": 50,
+      "description": "Отбасы, корпоративный: 6% (с переходом на жилзаём 3,5-5%), ПВ 50%, до 25 лет, до 100 млн ₸.",
+      "editable": false
+    },
+    {
+      "id": "zelenaya",
+      "name": "Зелёная ипотека",
+      "ratePercent": 12.5,
+      "termMonths": 300,
+      "recommendedDownPaymentPercent": 20,
+      "description": "Отбасы, жильё «зелёного» стандарта (ӨМІР/ГОСТ Р/BREEAM/LEED): 12,5%, ПВ 20-50%, до 25 лет, до 35 млн ₸. Снижение до 3,5-5% после накопления 50%.",
+      "editable": false
+    },
+    {
       "id": "umai",
       "name": "Умай (женская)",
       "ratePercent": 15,
       "termMonths": 180,
       "recommendedDownPaymentPercent": 15,
-      "description": "Отбасы, для работающих женщин: от 15%, ПВ 10-20%, до 15 лет, любое жильё. Условия предварительные (нет финансирования).",
+      "description": "Отбасы, для работающих женщин: от 14,4-15%, ПВ от 15%, до 10-15 лет. После оплаты 50% — 3,5%. Условия предварительные.",
+      "editable": false
+    },
+    {
+      "id": "orda",
+      "name": "Ипотека «Орда» (КЖК)",
+      "ratePercent": 12,
+      "termMonths": 240,
+      "recommendedDownPaymentPercent": 30,
+      "description": "Казахстанская Жилищная Компания: 12% (полное подтв. дохода, ПВ 30%) / 14% (частичное, ПВ 50%), от 1 до 65 млн ₸.",
+      "editable": false
+    },
+    {
+      "id": "novostroyki",
+      "name": "Ипотека «Новостройки» (Freedom)",
+      "ratePercent": 14,
+      "termMonths": 240,
+      "recommendedDownPaymentPercent": 20,
+      "description": "Freedom Bank: ГЭСВ 9-19% (каскадное повышение), ПВ от 20%, 36-240 мес, от 3 до 70 млн ₸. До 3 созаёмщиков.",
+      "editable": false
+    },
+    {
+      "id": "tsifrovaya",
+      "name": "Цифровая ипотека (Freedom)",
+      "ratePercent": 16,
+      "termMonths": 240,
+      "recommendedDownPaymentPercent": 20,
+      "description": "Freedom Bank: от 16%, ПВ от 20%, от 3 до 70 млн ₸. Жильё не старше 1965 г., от 29 м². Подтверждение дохода системой банка.",
       "editable": false
     },
     {
@@ -145,6 +244,15 @@
       "recommendedDownPaymentPercent": 20,
       "description": "Altyn Bank: субсидированная от 0,1% (первые 1-2 года) или фикс. 14,5-16,5% на весь срок, ПВ от 20%, до 175 млн ₸.",
       "editable": false
+    },
+    {
+      "id": "enpf",
+      "name": "Ипотека через ЕНПФ",
+      "ratePercent": 16,
+      "termMonths": 240,
+      "recommendedDownPaymentPercent": 50,
+      "description": "Пенсионные накопления ЕНПФ как первоначальный взнос; кредит — через выбранный банк (часто 50/50). Ставка зависит от банка — уточните и впишите вручную.",
+      "editable": true
     },
     {
       "id": "custom",
