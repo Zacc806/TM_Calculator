@@ -19,7 +19,7 @@ describe("Calculator", () => {
 
   it("shows the program presets", async () => {
     render(<Calculator context="standalone" showActions={false} />);
-    expect(await screen.findByRole("radio", { name: "Рассрочка застройщика" })).toBeInTheDocument();
-    expect(screen.getByRole("radio", { name: "7-20-25" })).toBeInTheDocument();
+    expect(await screen.findByRole("option", { name: "Рассрочка застройщика" })).toBeInTheDocument();
+    expect(screen.getByRole("option", { name: "7-20-25" })).toBeInTheDocument();
   });
 });

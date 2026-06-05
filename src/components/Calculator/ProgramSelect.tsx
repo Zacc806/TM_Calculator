@@ -1,3 +1,4 @@
+import { useId } from "react";
 import type { Program } from "../../core/programs.types";
 import styles from "./Calculator.module.css";
 
@@ -8,24 +9,29 @@ interface Props {
 }
 
 export function ProgramSelect({ programs, selectedId, onSelect }: Props) {
+  const id = useId();
   const selected = programs.find((p) => p.id === selectedId);
   return (
     <div className={styles.field}>
-      <span className="label">Программа покупки</span>
-      <div className={styles.programGrid} role="radiogroup" aria-label="Программа покупки">
+      <label className="label" htmlFor={id}>
+        Программа покупки
+      </label>
+      <select
+        id={id}
+        className={styles.select}
+        value={selectedId}
+        aria-label="Программа покупки"
+        onChange={(e) => {
+          const program = programs.find((p) => p.id === e.target.value);
+          if (program) onSelect(program);
+        }}
+      >
         {programs.map((p) => (
-          <button
-            type="button"
-            key={p.id}
-            role="radio"
-            aria-checked={p.id === selectedId}
-            className={`${styles.programChip} ${p.id === selectedId ? styles.programChipActive : ""}`}
-            onClick={() => onSelect(p)}
-          >
+          <option key={p.id} value={p.id}>
             {p.name}
-          </button>
+          </option>
         ))}
-      </div>
+      </select>
       {selected?.description ? <p className={styles.programNote}>{selected.description}</p> : null}
     </div>
   );

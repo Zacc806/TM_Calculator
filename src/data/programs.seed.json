@@ -1,6 +1,6 @@
 {
-  "version": 2,
-  "updatedAt": "2026-06-04T00:00:00.000Z",
+  "version": 3,
+  "updatedAt": "2026-06-05T00:00:00.000Z",
   "programs": [
     {
       "id": "rassrochka",
@@ -17,34 +17,133 @@
       "ratePercent": 7,
       "termMonths": 300,
       "recommendedDownPaymentPercent": 20,
-      "description": "Госпрограмма: ставка 7% (ГЭСВ от 7,24%), первоначальный взнос 20%, срок до 25 лет. Только первичное жильё, операторы Halyk/БЦК.",
+      "description": "Госпрограмма: ставка 7% (ГЭСВ от 7,24%), ПВ 20%, до 25 лет. Только первичка, до 30 млн ₸ (Алматы/Астана). Операторы Halyk, БЦК.",
       "editable": false
     },
     {
       "id": "nauryz",
-      "name": "Наурыз",
+      "name": "Наурыз (Отбасы)",
       "ratePercent": 9,
       "termMonths": 228,
       "recommendedDownPaymentPercent": 20,
-      "description": "Отбасы банк: 9% годовых для граждан РК (7% для СУСН), взнос от 20% (от 10% на чистовую отделку), срок до 19 лет. Нужен депозит от 1 млн ₸.",
+      "description": "Отбасы банк: 9% для граждан РК / 7% для СУСН, ПВ от 20% (от 10% на чистовую отделку), до 19 лет, до 36 млн ₸ (Алматы). Депозит от 1 млн ₸.",
       "editable": false
     },
     {
       "id": "otau",
-      "name": "Отау",
+      "name": "Отау (Отбасы)",
       "ratePercent": 9,
       "termMonths": 228,
       "recommendedDownPaymentPercent": 20,
-      "description": "Отбасы банк: 9% годовых (7% для СУСН), первоначальный взнос 20%, срок до 19 лет. Требуется вклад в Отбасы банке от 1 млн ₸.",
+      "description": "Отбасы банк: 9% / 7% для СУСН, ПВ 20%, до 19 лет, до 36 млн ₸ (Алматы). Требуется вклад в Отбасы банке от 1 млн ₸.",
       "editable": false
     },
     {
-      "id": "ipoteka-bvu",
-      "name": "Стандартная ипотека БВУ",
+      "id": "nauryz-jumysker",
+      "name": "Наурыз жұмыскер",
+      "ratePercent": 9,
+      "termMonths": 228,
+      "recommendedDownPaymentPercent": 20,
+      "description": "Отбасы, для работников производственных/технических отраслей: 9% / 7% для СУСН, ПВ от 10% (чистовая), до 19 лет, до 36 млн ₸. Депозит от 2 млн ₸.",
+      "editable": false
+    },
+    {
+      "id": "nauryz-askeri",
+      "name": "Наурыз әскери",
+      "ratePercent": 9,
+      "termMonths": 228,
+      "recommendedDownPaymentPercent": 20,
+      "description": "Отбасы, для военных/силовых структур (получатели жилвыплат): 9%, ПВ от 20%, до 19 лет, до 80 млн ₸ при ПВ 20-50%.",
+      "editable": false
+    },
+    {
+      "id": "almaty-jastary",
+      "name": "Алматы жастары",
+      "ratePercent": 5,
+      "termMonths": 228,
+      "recommendedDownPaymentPercent": 10,
+      "description": "Отбасы, молодёжь Алматы до 35 лет (прописка от 1 года): 5%, ПВ от 10%, до 19 лет, до 20 млн ₸ (разницу доплачивает участник).",
+      "editable": false
+    },
+    {
+      "id": "alatau",
+      "name": "Алатау",
+      "ratePercent": 5,
+      "termMonths": 228,
+      "recommendedDownPaymentPercent": 10,
+      "description": "Отбасы, проект «Алатау Сити» (отбор через акимат): 5%, ПВ от 10%, до 19 лет. Сданные дома с чистовой отделкой.",
+      "editable": false
+    },
+    {
+      "id": "umai",
+      "name": "Умай (женская)",
+      "ratePercent": 15,
+      "termMonths": 180,
+      "recommendedDownPaymentPercent": 15,
+      "description": "Отбасы, для работающих женщин: от 15%, ПВ 10-20%, до 15 лет, любое жильё. Условия предварительные (нет финансирования).",
+      "editable": false
+    },
+    {
+      "id": "halyk-standard",
+      "name": "Стандартная ипотека Halyk",
       "ratePercent": 21,
       "termMonths": 240,
       "recommendedDownPaymentPercent": 20,
-      "description": "Рыночная ипотека банков второго уровня (Halyk, БЦК, Altyn): 20,5–22,5% годовых, взнос от 20%, срок до 20 лет. Ставка ориентировочная.",
+      "description": "Halyk Bank: 20,5-22,5% (ГЭСВ от 22,78%), ПВ от 20%, 6-240 мес. Первичка/вторичка. Без подтверждения дохода при ПВ от 50%.",
+      "editable": false
+    },
+    {
+      "id": "bck-standard",
+      "name": "Стандартная ипотека БЦК",
+      "ratePercent": 21,
+      "termMonths": 180,
+      "recommendedDownPaymentPercent": 20,
+      "description": "Банк ЦентрКредит (#Ипотека): 20,55-21,85%, ПВ от 20%, до 180 мес. До 50 млн ₸ (Алматы/Астана); без лимита при ПВ от 30%.",
+      "editable": false
+    },
+    {
+      "id": "altyn-standard",
+      "name": "Стандартная ипотека Altyn",
+      "ratePercent": 22,
+      "termMonths": 240,
+      "recommendedDownPaymentPercent": 20,
+      "description": "Altyn Bank: 21-22,4% (ГЭСВ от 23,15%), ПВ от 20%, до 20 лет, до 175 млн ₸ (премиум-жильё Алматы).",
+      "editable": false
+    },
+    {
+      "id": "freedom-standard",
+      "name": "Стандартная ипотека Freedom",
+      "ratePercent": 24,
+      "termMonths": 240,
+      "recommendedDownPaymentPercent": 20,
+      "description": "Freedom Bank: ГЭСВ 24,5-24,9%, ПВ от 20%, до 70 млн ₸. Оформление онлайн за 1-2 дня. Ставка ориентировочная.",
+      "editable": false
+    },
+    {
+      "id": "freedom-cascade",
+      "name": "Каскадная ипотека Freedom",
+      "ratePercent": 14.5,
+      "termMonths": 240,
+      "recommendedDownPaymentPercent": 20,
+      "description": "Freedom Bank, ЖК-партнёры: ставка растёт со сроком (от 12,5% на короткий срок, ГЭСВ 18,8-20,9%), ПВ от 20%, 5-20 лет, до 35 млн ₸.",
+      "editable": false
+    },
+    {
+      "id": "bck-partner",
+      "name": "Партнёрская #Ипотека Плюс БЦК",
+      "ratePercent": 18,
+      "termMonths": 180,
+      "recommendedDownPaymentPercent": 20,
+      "description": "Банк ЦентрКредит: 18,1-21,95% (зависит от ПВ и субсидии застройщика), ПВ от 20%, до 15 лет. Первичка/вторичка.",
+      "editable": false
+    },
+    {
+      "id": "altyn-partner",
+      "name": "Партнёрская ипотека Altyn",
+      "ratePercent": 15,
+      "termMonths": 240,
+      "recommendedDownPaymentPercent": 20,
+      "description": "Altyn Bank: субсидированная от 0,1% (первые 1-2 года) или фикс. 14,5-16,5% на весь срок, ПВ от 20%, до 175 млн ₸.",
       "editable": false
     },
     {

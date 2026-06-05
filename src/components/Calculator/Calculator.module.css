@@ -137,35 +137,20 @@
 }
 
 /* ── Program select ── */
-.programGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-2);
-}
-@media (min-width: 480px) {
-  .programGrid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-.programChip {
+.select {
+  width: 100%;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius);
-  background: var(--bg);
-  color: var(--ink);
-  padding: var(--space-3);
-  font-size: var(--fs-small);
+  padding: var(--space-3) var(--space-4);
+  font-size: 1.05rem;
   font-weight: 600;
-  text-align: left;
-  line-height: 1.25;
-  transition: border-color 0.12s, background 0.12s;
+  color: var(--ink);
+  background: var(--bg);
+  cursor: pointer;
 }
-.programChip:hover {
+.select:focus {
   border-color: var(--brand);
-}
-.programChipActive {
-  border-color: var(--brand);
-  background: var(--brand-tint);
-  color: var(--brand-ink);
+  outline: none;
 }
 .programNote {
   margin: var(--space-3) 0 0;
