@@ -3513,6 +3513,30 @@ async function appendLead(lead, at) {
   await fs2.appendFile(FILE2, JSON.stringify(record) + "\n", "utf8");
 }
 
+// server/notify.ts
+async function notifyTelegram(lead) {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  if (!token || !chatId) return;
+  const phone = normalizeKzPhone(lead.phone) ?? lead.phone;
+  const text = [
+    "\u{1F3E0} \u041D\u043E\u0432\u0430\u044F \u0437\u0430\u044F\u0432\u043A\u0430 \u0441 \u043A\u0430\u043B\u044C\u043A\u0443\u043B\u044F\u0442\u043E\u0440\u0430 Atamura",
+    `\u0418\u043C\u044F: ${lead.name.trim()}`,
+    `\u0422\u0435\u043B\u0435\u0444\u043E\u043D: +${phone}`,
+    `\u0421\u0442\u043E\u0438\u043C\u043E\u0441\u0442\u044C: ${formatTenge(lead.cost)}`,
+    `\u041F\u0435\u0440\u0432\u043E\u043D\u0430\u0447\u0430\u043B\u044C\u043D\u044B\u0439 \u0432\u0437\u043D\u043E\u0441: ${formatTenge(lead.downPayment)}`,
+    `\u041F\u0440\u043E\u0433\u0440\u0430\u043C\u043C\u0430: ${lead.programName}`,
+    `\u0415\u0436\u0435\u043C\u0435\u0441\u044F\u0447\u043D\u044B\u0439 \u043F\u043B\u0430\u0442\u0451\u0436: ${formatTenge(lead.monthlyPayment)}`,
+    `\u0418\u0441\u0442\u043E\u0447\u043D\u0438\u043A: ${lead.source}`
+  ].join("\n");
+  const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ chat_id: chatId, text })
+  });
+  if (!res.ok) throw new Error(`Telegram sendMessage failed: ${res.status}`);
+}
+
 // server/index.ts
 var STATIC_ROOT = process.env.STATIC_ROOT ?? "./web";
 var PORT = Number(process.env.PORT ?? 3e3);
@@ -3545,6 +3569,11 @@ api.post("/lead", async (c) => {
   } catch (err) {
     console.error("[lead] file append failed", err);
     return c.json({ ok: false, error: "store_failed" }, 500);
+  }
+  try {
+    await notifyTelegram(lead);
+  } catch (err) {
+    console.error("[lead] Telegram notify failed (lead is still saved)", err);
   }
   const webhook = process.env.BITRIX_WEBHOOK_URL;
   if (webhook && !webhook.includes("<")) {

@@ -11,6 +11,7 @@ import { rateLimit } from "../api/_shared/ratelimit";
 import { issueToken, verifyToken, bearer, constantTimeEqual } from "../api/_shared/adminAuth";
 import { readPrograms, writePrograms } from "./programsStore";
 import { appendLead } from "./leadsStore";
+import { notifyTelegram } from "./notify";
 
 const STATIC_ROOT = process.env.STATIC_ROOT ?? "./web";
 const PORT = Number(process.env.PORT ?? 3000);
@@ -54,7 +55,14 @@ api.post("/lead", async (c) => {
     return c.json({ ok: false, error: "store_failed" }, 500);
   }
 
-  // 2) Best-effort mirror to Bitrix24 if a webhook is configured (optional).
+  // 2) Best-effort Telegram notification (no-op unless TELEGRAM_* env is set).
+  try {
+    await notifyTelegram(lead);
+  } catch (err) {
+    console.error("[lead] Telegram notify failed (lead is still saved)", err);
+  }
+
+  // 3) Best-effort mirror to Bitrix24 if a webhook is configured (optional).
   const webhook = process.env.BITRIX_WEBHOOK_URL;
   if (webhook && !webhook.includes("<")) {
     try {
