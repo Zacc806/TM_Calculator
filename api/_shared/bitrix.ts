@@ -29,6 +29,8 @@ export interface BitrixCallOptions {
   fetchImpl?: typeof fetch;
   maxRetries?: number;
   backoffMs?: (attempt: number) => number;
+  /** Per-attempt timeout; a hung portal aborts (and retries) instead of blocking forever. */
+  attemptTimeoutMs?: number;
 }
 
 const delay = (ms: number): Promise<void> => new Promise((r) => setTimeout(r, ms));
@@ -44,6 +46,7 @@ export async function bitrixCall<T = unknown>(
   const url = `${base}/${method}.json`;
   const maxRetries = opts.maxRetries ?? 3;
   const backoff = opts.backoffMs ?? ((a) => Math.min(2000, 250 * 2 ** a));
+  const attemptTimeoutMs = opts.attemptTimeoutMs ?? 8000;
 
   let attempt = 0;
   for (;;) {
@@ -53,6 +56,7 @@ export async function bitrixCall<T = unknown>(
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(params),
+        signal: AbortSignal.timeout(attemptTimeoutMs),
       });
     } catch (err) {
       if (attempt < maxRetries) {

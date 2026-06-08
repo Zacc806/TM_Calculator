@@ -36,7 +36,15 @@ export async function appendLead(lead: LeadPayload, at: string): Promise<void> {
   };
   const file = leadsFile();
   await fs.mkdir(dirname(file), { recursive: true });
-  await fs.appendFile(file, JSON.stringify(record) + "\n", "utf8");
+  // Open + append + fsync so an acknowledged lead survives a power loss / crash,
+  // not just a clean process exit.
+  const fh = await fs.open(file, "a");
+  try {
+    await fh.appendFile(JSON.stringify(record) + "\n", "utf8");
+    await fh.sync();
+  } finally {
+    await fh.close();
+  }
 }
 
 /** Reads up to `limit` most-recent leads (newest first). Missing file → []. */

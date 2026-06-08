@@ -17,7 +17,17 @@ export interface LeadPayload {
   consent: boolean;
 }
 
-export type LeadErrorField = "name" | "phone" | "consent" | "cost";
+export type LeadErrorField =
+  | "name"
+  | "phone"
+  | "consent"
+  | "cost"
+  | "downPayment"
+  | "termMonths"
+  | "annualRatePercent"
+  | "programName"
+  | "programId"
+  | "source";
 
 export interface LeadValidation {
   ok: boolean;
@@ -25,7 +35,12 @@ export interface LeadValidation {
 }
 
 /** Length caps for free-text fields (DoS / CRM-poisoning guard). */
-export const LEAD_LIMITS = { name: 120, phone: 32 } as const;
+export const LEAD_LIMITS = { name: 120, phone: 32, programName: 160, programId: 64, source: 64 } as const;
+/** Numeric bounds for the persisted/forwarded calculation fields. */
+export const LEAD_BOUNDS = { termMin: 1, termMax: 600, rateMin: 0, rateMax: 100 } as const;
+
+const cappedString = (v: unknown, max: number): boolean =>
+  typeof v === "string" && v.trim().length > 0 && v.length <= max;
 
 export function validateLead(p: Partial<LeadPayload>): LeadValidation {
   const errors: LeadErrorField[] = [];
@@ -40,5 +55,34 @@ export function validateLead(p: Partial<LeadPayload>): LeadValidation {
   if (typeof p.cost !== "number" || !Number.isFinite(p.cost) || p.cost <= 0) {
     errors.push("cost");
   }
+  // Every persisted/CRM-forwarded field is untrusted too — bound them so a direct
+  // POST can't poison the lead store, Telegram, or Bitrix with garbage/oversized data.
+  if (
+    typeof p.downPayment !== "number" ||
+    !Number.isFinite(p.downPayment) ||
+    p.downPayment < 0 ||
+    (typeof p.cost === "number" && p.downPayment > p.cost)
+  ) {
+    errors.push("downPayment");
+  }
+  if (
+    typeof p.termMonths !== "number" ||
+    !Number.isInteger(p.termMonths) ||
+    p.termMonths < LEAD_BOUNDS.termMin ||
+    p.termMonths > LEAD_BOUNDS.termMax
+  ) {
+    errors.push("termMonths");
+  }
+  if (
+    typeof p.annualRatePercent !== "number" ||
+    !Number.isFinite(p.annualRatePercent) ||
+    p.annualRatePercent < LEAD_BOUNDS.rateMin ||
+    p.annualRatePercent > LEAD_BOUNDS.rateMax
+  ) {
+    errors.push("annualRatePercent");
+  }
+  if (!cappedString(p.programName, LEAD_LIMITS.programName)) errors.push("programName");
+  if (!cappedString(p.programId, LEAD_LIMITS.programId)) errors.push("programId");
+  if (!cappedString(p.source, LEAD_LIMITS.source)) errors.push("source");
   return { ok: errors.length === 0, errors };
 }

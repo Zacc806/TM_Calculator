@@ -27,6 +27,7 @@ export async function notifyTelegram(lead: LeadPayload): Promise<void> {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ chat_id: chatId, text }),
+    signal: AbortSignal.timeout(5000),
   });
   if (!res.ok) throw new Error(`Telegram sendMessage failed: ${res.status}`);
 }

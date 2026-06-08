@@ -55,4 +55,26 @@ describe("validateLead", () => {
   it("rejects an oversized name", () => {
     expect(validateLead({ ...base, name: "x".repeat(300) }).errors).toContain("name");
   });
+
+  it("rejects a down payment greater than the cost", () => {
+    expect(validateLead({ ...base, downPayment: base.cost + 1 }).errors).toContain("downPayment");
+  });
+
+  it("rejects a non-integer or out-of-range term", () => {
+    expect(validateLead({ ...base, termMonths: 0 }).errors).toContain("termMonths");
+    expect(validateLead({ ...base, termMonths: 12.5 }).errors).toContain("termMonths");
+    expect(validateLead({ ...base, termMonths: 9999 }).errors).toContain("termMonths");
+  });
+
+  it("rejects an out-of-range rate", () => {
+    expect(validateLead({ ...base, annualRatePercent: -1 }).errors).toContain("annualRatePercent");
+    expect(validateLead({ ...base, annualRatePercent: 200 }).errors).toContain("annualRatePercent");
+  });
+
+  it("rejects oversized / empty program and source fields (CRM poisoning guard)", () => {
+    expect(validateLead({ ...base, programName: "x".repeat(300) }).errors).toContain("programName");
+    expect(validateLead({ ...base, source: "" }).errors).toContain("source");
+    // @ts-expect-error — untrusted JSON may send a non-string
+    expect(validateLead({ ...base, programId: { evil: 1 } }).errors).toContain("programId");
+  });
 });
