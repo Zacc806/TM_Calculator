@@ -11,7 +11,8 @@ import { ProgramConditions } from "./ProgramConditions";
 import { RateTermInputs } from "./RateTermInputs";
 import { ResultCard } from "./ResultCard";
 import { ActionsBar } from "../actions/ActionsBar";
-import { useT } from "../../i18n";
+import { localizeProgram } from "../../core/programs";
+import { useI18n } from "../../i18n";
 import styles from "./Calculator.module.css";
 
 export type CalculatorContext = "standalone" | "embed" | "bitrix";
@@ -56,11 +57,12 @@ export function Calculator({
   const calc = useCalculator(resolvedInitial);
   const { config } = usePrograms();
   const cardRef = useRef<HTMLDivElement>(null);
-  const t = useT();
+  const { t, lang } = useI18n();
 
-  const selectedProgram =
+  const baseProgram =
     config.programs.find((p) => p.id === calc.state.programId) ??
     config.programs.find((p) => p.id === CUSTOM_PROGRAM_ID);
+  const selectedProgram = baseProgram ? localizeProgram(baseProgram, lang) : undefined;
   const programName = selectedProgram?.name ?? "—";
 
   useEffect(() => {

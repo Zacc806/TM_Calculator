@@ -1,6 +1,7 @@
 import { useId } from "react";
 import type { Program } from "../../core/programs.types";
-import { useT } from "../../i18n";
+import { localizeProgram } from "../../core/programs";
+import { useI18n } from "../../i18n";
 import styles from "./Calculator.module.css";
 
 interface Props {
@@ -11,8 +12,9 @@ interface Props {
 
 export function ProgramSelect({ programs, selectedId, onSelect }: Props) {
   const id = useId();
-  const t = useT();
+  const { t, lang } = useI18n();
   const selected = programs.find((p) => p.id === selectedId);
+  const selectedNote = selected ? localizeProgram(selected, lang).description : undefined;
   return (
     <div className={styles.field}>
       <label className="label" htmlFor={id}>
@@ -30,11 +32,11 @@ export function ProgramSelect({ programs, selectedId, onSelect }: Props) {
       >
         {programs.map((p) => (
           <option key={p.id} value={p.id}>
-            {p.name}
+            {localizeProgram(p, lang).name}
           </option>
         ))}
       </select>
-      {selected?.description ? <p className={styles.programNote}>{selected.description}</p> : null}
+      {selectedNote ? <p className={styles.programNote}>{selectedNote}</p> : null}
     </div>
   );
 }

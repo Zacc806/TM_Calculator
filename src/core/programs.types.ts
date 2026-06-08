@@ -21,7 +21,20 @@ export interface Program {
   bank?: string;
   /** Which Atamura projects the program currently applies to (modal). */
   projects?: string;
+  /**
+   * Optional per-locale overrides (kk/en). Any field present here replaces the
+   * RU base for that locale; missing fields fall back to the RU value above.
+   */
+  i18n?: Partial<Record<Exclude<ProgramLocale, "ru">, ProgramText>>;
 }
+
+/** Locales that can carry program-content overrides. */
+export type ProgramLocale = "ru" | "kk" | "en";
+
+/** Translatable text fields of a Program. */
+export type ProgramText = Partial<
+  Pick<Program, "name" | "description" | "conditions" | "requirements" | "bank" | "projects">
+>;
 
 export interface ProgramsConfig {
   /** Bumped on every admin save (optimistic concurrency). */

@@ -1,4 +1,4 @@
-import type { Program, ProgramsConfig } from "./programs.types";
+import type { Program, ProgramsConfig, ProgramText } from "./programs.types";
 
 /** Field caps — generous enough for the real program texts, tight enough to bound payload size. */
 const CAP = {
@@ -14,6 +14,30 @@ const str = (v: unknown, max: number): boolean => typeof v === "string" && v.len
 const optStr = (v: unknown, max: number): boolean => v === undefined || str(v, max);
 const num = (v: unknown, min: number, max: number): boolean =>
   typeof v === "number" && Number.isFinite(v) && v >= min && v <= max;
+
+function isProgramText(v: unknown): boolean {
+  if (typeof v !== "object" || v === null) return false;
+  const o = v as Record<string, unknown>;
+  return (
+    optStr(o.name, CAP.name) &&
+    optStr(o.description, CAP.description) &&
+    optStr(o.conditions, CAP.longText) &&
+    optStr(o.requirements, CAP.longText) &&
+    optStr(o.projects, CAP.shortText) &&
+    optStr(o.bank, CAP.shortText)
+  );
+}
+
+function isI18n(v: unknown): boolean {
+  if (v === undefined) return true;
+  if (typeof v !== "object" || v === null) return false;
+  const o = v as Record<string, unknown>;
+  for (const key of Object.keys(o)) {
+    if (key !== "kk" && key !== "en") return false;
+    if (!isProgramText(o[key])) return false;
+  }
+  return true;
+}
 
 export function isProgram(v: unknown): v is Program {
   if (typeof v !== "object" || v === null) return false;
@@ -32,8 +56,19 @@ export function isProgram(v: unknown): v is Program {
     optStr(p.conditions, CAP.longText) &&
     optStr(p.requirements, CAP.longText) &&
     optStr(p.projects, CAP.shortText) &&
-    optStr(p.bank, CAP.shortText)
+    optStr(p.bank, CAP.shortText) &&
+    isI18n(p.i18n)
   );
+}
+
+/**
+ * Returns the program with its text fields resolved for `lang`: any field present
+ * in p.i18n[lang] replaces the RU base; everything else falls back to the base.
+ */
+export function localizeProgram(p: Program, lang: string): Program {
+  if (lang === "ru" || !p.i18n) return p;
+  const override = p.i18n[lang as "kk" | "en"] as ProgramText | undefined;
+  return override ? { ...p, ...override } : p;
 }
 
 export function isProgramsConfig(v: unknown): v is ProgramsConfig {
