@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from "react";
+import { apiUrl } from "../lib/api";
 import styles from "./Admin.module.css";
 
 const TOKEN_KEY = "atamura_admin_token";
@@ -22,7 +23,7 @@ export function AdminGate({ children }: { children: ReactNode }) {
     setBusy(true);
     setError(false);
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE}api/admin-auth`, {
+      const res = await fetch(apiUrl("api/admin-auth"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password }),

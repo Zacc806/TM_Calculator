@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAdminToken, clearAdminToken } from "./AdminGate";
+import { apiUrl } from "../lib/api";
 import { formatTenge } from "../core/money";
 import styles from "./Admin.module.css";
 
@@ -20,7 +21,7 @@ export function LeadsViewer() {
   useEffect(() => {
     let active = true;
     const token = getAdminToken();
-    fetch(`${import.meta.env.VITE_API_BASE}api/leads`, {
+    fetch(apiUrl("api/leads"), {
       headers: { Authorization: `Bearer ${token ?? ""}` },
     })
       .then((r) => {

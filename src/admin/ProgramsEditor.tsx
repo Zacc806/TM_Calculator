@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Program, ProgramsConfig } from "../core/programs.types";
 import { isProgramsConfig } from "../core/programs";
 import { getAdminToken, clearAdminToken } from "./AdminGate";
+import { apiUrl } from "../lib/api";
 import styles from "./Admin.module.css";
 
 type SaveState = "idle" | "saving" | "saved" | "error";
@@ -24,7 +25,7 @@ export function ProgramsEditor() {
 
   useEffect(() => {
     let active = true;
-    fetch(`${import.meta.env.VITE_API_BASE}api/programs`)
+    fetch(apiUrl("api/programs"))
       .then((r) => r.json())
       .then((c: ProgramsConfig) => {
         if (!active) return;
@@ -70,7 +71,7 @@ export function ProgramsEditor() {
     }
     setSave("saving");
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE}api/programs`, {
+      const res = await fetch(apiUrl("api/programs"), {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify(next),
