@@ -18,10 +18,21 @@
   justify-content: space-between;
   gap: var(--space-4);
 }
-.logo {
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.brandMark {
   height: 34px;
-  width: auto;
+  width: 34px;
   display: block;
+}
+.brandName {
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 0.18em;
+  color: var(--brand);
 }
 
 .controls {
