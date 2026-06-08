@@ -166,3 +166,43 @@ describe("validateInput", () => {
     expect(v.errors).toContainEqual({ field: "annualRatePercent", code: "rate_negative" });
   });
 });
+
+// Independent reference: the standard annuity (Excel =PMT) the banks use.
+// monthly = K·i·(1+i)^n / ((1+i)^n − 1), i = annualPct/12/100.
+function referencePmt(loan: number, annualPct: number, n: number): number {
+  if (loan <= 0 || n <= 0) return 0;
+  if (annualPct <= 0) return loan / n;
+  const i = annualPct / 12 / 100;
+  const pow = Math.pow(1 + i, n);
+  return (loan * i * pow) / (pow - 1);
+}
+
+describe("bank parity — annuity matches the reference PMT within tolerance", () => {
+  // Real program rates × terms, with and without a down payment, incl. the ТЗ example
+  // (Аура: 25 млн, ПВ 20% → loan 20 млн, 15 лет). cost/dp give the loan; rate is nominal.
+  const cases: Array<{ label: string; cost: number; dp: number; rate: number; n: number }> = [
+    { label: "ТЗ example: 25M, 20% dp, 9%/180mo (Наурыз/Отау)", cost: 25_000_000, dp: 5_000_000, rate: 9, n: 180 },
+    { label: "7-20-25: 30M, 20% dp, 7%/300mo", cost: 30_000_000, dp: 6_000_000, rate: 7, n: 300 },
+    { label: "Наурыз/Отау: 36M, 20% dp, 9%/228mo", cost: 36_000_000, dp: 7_200_000, rate: 9, n: 228 },
+    { label: "Алматы жастары: 20M, 10% dp, 5%/228mo", cost: 20_000_000, dp: 2_000_000, rate: 5, n: 228 },
+    { label: "Freedom cascade: 35M, 20% dp, 14.5%/240mo", cost: 35_000_000, dp: 7_000_000, rate: 14.5, n: 240 },
+    { label: "БЦК partner: 30M, 20% dp, 18%/180mo", cost: 30_000_000, dp: 6_000_000, rate: 18, n: 180 },
+    { label: "Halyk standard: 25M, 20% dp, 20.5%/240mo", cost: 25_000_000, dp: 5_000_000, rate: 20.5, n: 240 },
+    { label: "Freedom standard: 70M, 20% dp, 24%/240mo", cost: 70_000_000, dp: 14_000_000, rate: 24, n: 240 },
+  ];
+
+  for (const c of cases) {
+    it(c.label, () => {
+      const r = computePayment({ cost: c.cost, downPayment: c.dp, annualRatePercent: c.rate, termMonths: c.n });
+      const ref = referencePmt(c.cost - c.dp, c.rate, c.n);
+      // Whole-tenge rounding: our payment is round(ref) ±1 ₸.
+      expect(Math.abs(r.monthlyPayment - Math.round(ref))).toBeLessThanOrEqual(1);
+      // ТЗ acceptance: divergence from the reference < 1%.
+      expect(Math.abs(r.monthlyPayment - ref) / ref).toBeLessThan(0.01);
+      // Whole-tenge outputs, internally consistent.
+      expect(Number.isInteger(r.monthlyPayment)).toBe(true);
+      expect(r.totalToPay).toBe(r.monthlyPayment * c.n);
+      expect(r.overpayment).toBe(r.monthlyPayment * c.n - (c.cost - c.dp));
+    });
+  }
+});
