@@ -22,7 +22,7 @@ const validBody: LeadPayload = {
 describe("POST /api/lead", () => {
   beforeEach(() => {
     _resetRateLimit();
-    process.env.ALLOWED_ORIGIN = "https://calc.atamura.kz";
+    process.env.ALLOWED_ORIGIN = "https://calculator.atamuragroup.kz";
     process.env.BITRIX_WEBHOOK_URL = "https://amanat.bitrix24.kz/rest/10/tok/";
     process.env.BITRIX_SOURCE_ID = "WEB";
   });
@@ -32,7 +32,7 @@ describe("POST /api/lead", () => {
     const cap = createRes();
     await handler(makeReq({ method: "OPTIONS" }), cap.res);
     expect(cap.statusCode()).toBe(204);
-    expect(cap.headers["Access-Control-Allow-Origin"]).toBe("https://calc.atamura.kz");
+    expect(cap.headers["Access-Control-Allow-Origin"]).toBe("https://calculator.atamuragroup.kz");
   });
 
   it("creates a lead and returns its id on a valid POST", async () => {

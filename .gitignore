@@ -8,6 +8,7 @@ coverage
 .env
 .env.*
 !.env.example
+!deploy/.env.server.example
 .vercel
 .DS_Store
 *.log

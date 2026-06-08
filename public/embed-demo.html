@@ -21,10 +21,10 @@
     <iframe id="atamura-calc" src="/embed?price=25000000&zhk=atmosfera&program=rassrochka" title="Калькулятор платежа Atamura" scrolling="no"></iframe>
 
     <script>
-      // Parent-side snippet to copy onto ЖК pages. Replace the origin with https://calc.atamura.kz.
+      // Parent-side snippet to copy onto ЖК pages. Replace the origin with https://calculator.atamuragroup.kz.
       (function () {
         var iframe = document.getElementById("atamura-calc");
-        var allowedOrigin = window.location.origin; // → "https://calc.atamura.kz" in production
+        var allowedOrigin = window.location.origin; // → "https://calculator.atamuragroup.kz" in production
         window.addEventListener("message", function (e) {
           if (e.origin !== allowedOrigin) return;
           if (e.data && e.data.type === "atamura-calc:height" && typeof e.data.height === "number") {
