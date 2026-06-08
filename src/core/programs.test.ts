@@ -33,4 +33,12 @@ describe("isProgramsConfig", () => {
     expect(isProgramsConfig({ programs: [{ id: "x" }] })).toBe(false);
     expect(isProgramsConfig({})).toBe(false);
   });
+
+  it("rejects oversized payloads (bloat guard)", () => {
+    const many = { programs: Array.from({ length: 200 }, (_, i) => ({ ...validProgram, id: `p${i}` })) };
+    expect(isProgramsConfig(many)).toBe(false);
+    expect(isProgram({ ...validProgram, description: "x".repeat(50_000) })).toBe(false);
+    expect(isProgram({ ...validProgram, ratePercent: 999 })).toBe(false);
+    expect(isProgram({ ...validProgram, termMonths: 12.5 })).toBe(false);
+  });
 });

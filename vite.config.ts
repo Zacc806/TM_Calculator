@@ -13,7 +13,7 @@ export default defineConfig({
     setupFiles: ["./src/test/setup.ts"],
     coverage: {
       provider: "v8",
-      include: ["src/core/**", "src/hooks/**", "api/**"],
+      include: ["src/core/**", "src/hooks/**", "api/**", "server/**"],
       thresholds: { lines: 80, functions: 80, branches: 75, statements: 80 },
     },
   },

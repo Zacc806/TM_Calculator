@@ -96,6 +96,24 @@ describe("computePayment — edge cases", () => {
     expect(r.overpayment).toBe(0);
   });
 
+  it("clamps a down payment greater than the cost to a zero loan", () => {
+    const r = computePayment({ cost: 5_000_000, downPayment: 9_000_000, annualRatePercent: 18, termMonths: 120 });
+    expect(r.loanAmount).toBe(0);
+    expect(r.monthlyPayment).toBe(0);
+    expect(r.totalToPay).toBe(0);
+    expect(r.overpayment).toBe(0);
+  });
+
+  it("zero-rate: total equals the loan with no overpayment even for non-divisible terms", () => {
+    for (const [loanCost, term] of [[10_000_000, 3], [7_000_000, 6], [9_000_000, 7]] as const) {
+      const r = computePayment({ cost: loanCost, downPayment: 0, annualRatePercent: 0, termMonths: term });
+      expect(r.isZeroRate).toBe(true);
+      expect(r.totalToPay).toBe(loanCost);
+      expect(r.overpayment).toBe(0);
+      expect(r.monthlyPayment).toBe(Math.round(loanCost / term));
+    }
+  });
+
   it("never crashes and returns safe zeros for non-finite inputs", () => {
     for (const bad of [NaN, Infinity, -Infinity]) {
       const r = computePayment({ cost: 10_000_000, downPayment: 0, annualRatePercent: bad, termMonths: 120 });

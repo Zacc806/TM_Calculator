@@ -32,7 +32,7 @@ React 19 + Vite + TypeScript (strict) + Hono. Светлая/тёмная тем
 npm install
 npm run dev          # Vite, http://localhost:5173
 npm run dev:server   # Hono API на :3000 (tsx watch)
-npm test             # Vitest (102 теста)
+npm test             # Vitest
 npm run typecheck
 npm run build:all    # SPA (dist/) + сервер (dist-server/server.mjs)
 ```

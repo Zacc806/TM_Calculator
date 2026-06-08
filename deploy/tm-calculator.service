@@ -9,8 +9,23 @@ EnvironmentFile=/root/tm-calculator/.env
 ExecStart=/usr/bin/node /root/tm-calculator/server.mjs
 Restart=always
 RestartSec=3
+# Graceful drain: the server traps SIGTERM and closes the listener (10s self-timeout).
+TimeoutStopSec=15
+# Resource + privilege hardening (safe for the current /root layout).
+MemoryMax=512M
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
 StandardOutput=append:/var/log/tm-calculator.log
 StandardError=append:/var/log/tm-calculator.log
+
+# Stronger hardening (do when relocating off /root to a dedicated user):
+#   User=tmcalc
+#   Group=tmcalc
+#   WorkingDirectory=/opt/tm-calculator
+#   ProtectSystem=strict
+#   ProtectHome=true
+#   ReadWritePaths=/opt/tm-calculator/data
 
 [Install]
 WantedBy=multi-user.target

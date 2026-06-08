@@ -3,6 +3,14 @@
   "rewrites": [{ "source": "/((?!api/).*)", "destination": "/index.html" }],
   "headers": [
     {
+      "source": "/(.*)",
+      "headers": [{ "key": "X-Content-Type-Options", "value": "nosniff" }]
+    },
+    {
+      "source": "/((?!bitrix|embed|client).*)",
+      "headers": [{ "key": "Content-Security-Policy", "value": "frame-ancestors 'self'" }]
+    },
+    {
       "source": "/bitrix-deal",
       "headers": [{ "key": "Content-Security-Policy", "value": "frame-ancestors https://*.bitrix24.kz https://*.bitrix24.ru https://*.bitrix24.com" }]
     },

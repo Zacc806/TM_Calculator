@@ -3,17 +3,26 @@
 # Interim public HTTPS via sslip.io — the hostname auto-resolves to 93.115.14.193,
 # so Caddy obtains a real Let's Encrypt certificate with no DNS setup needed.
 93-115-14-193.sslip.io {
+	request_body {
+		max_size 1MB
+	}
 	reverse_proxy localhost:3000
 }
 
 # Plain HTTP access by IP.
 http://93.115.14.193 {
+	request_body {
+		max_size 1MB
+	}
 	reverse_proxy localhost:3000
 }
 
 # When calc.atamura.kz A-record -> 93.115.14.193 is set, add (or replace with):
 #
 # calc.atamura.kz {
+# 	request_body {
+# 		max_size 1MB
+# 	}
 # 	reverse_proxy localhost:3000
 # }
 #
