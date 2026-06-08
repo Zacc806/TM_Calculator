@@ -23,8 +23,9 @@ function isProgramText(v: unknown): boolean {
     optStr(o.description, CAP.description) &&
     optStr(o.conditions, CAP.longText) &&
     optStr(o.requirements, CAP.longText) &&
-    optStr(o.projects, CAP.shortText) &&
-    optStr(o.bank, CAP.shortText)
+    optStr(o.projects, CAP.longText) &&
+    optStr(o.bank, CAP.shortText) &&
+    optStr(o.relevance, CAP.shortText)
   );
 }
 
@@ -55,8 +56,9 @@ export function isProgram(v: unknown): v is Program {
     typeof p.editable === "boolean" &&
     optStr(p.conditions, CAP.longText) &&
     optStr(p.requirements, CAP.longText) &&
-    optStr(p.projects, CAP.shortText) &&
+    optStr(p.projects, CAP.longText) &&
     optStr(p.bank, CAP.shortText) &&
+    optStr(p.relevance, CAP.shortText) &&
     isI18n(p.i18n)
   );
 }

@@ -19,8 +19,10 @@ export interface Program {
   requirements?: string;
   /** Issuing bank / operator (modal). */
   bank?: string;
-  /** Which Atamura projects the program currently applies to (modal). */
+  /** Per-project availability — which ЖК / очереди the program currently covers (modal). */
   projects?: string;
+  /** Freshness note, e.g. "актуально июнь 2026" — shown as a badge (modal). */
+  relevance?: string;
   /**
    * Optional per-locale overrides (kk/en). Any field present here replaces the
    * RU base for that locale; missing fields fall back to the RU value above.
@@ -33,7 +35,7 @@ export type ProgramLocale = "ru" | "kk" | "en";
 
 /** Translatable text fields of a Program. */
 export type ProgramText = Partial<
-  Pick<Program, "name" | "description" | "conditions" | "requirements" | "bank" | "projects">
+  Pick<Program, "name" | "description" | "conditions" | "requirements" | "bank" | "projects" | "relevance">
 >;
 
 export interface ProgramsConfig {

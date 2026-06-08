@@ -9,22 +9,44 @@ import styles from "./Calculator.module.css";
 export function ProgramConditions({ program }: { program: Program | undefined }) {
   const t = useT();
   const [open, setOpen] = useState(false);
+  const [tab, setTab] = useState(0);
   if (!program) return null;
 
-  const sections: Array<[string, string | undefined]> = [
-    [t("modal.conditionsHead"), program.conditions],
-    [t("modal.requirements"), program.requirements],
-    [t("modal.projects"), program.projects],
-    [t("modal.bank"), program.bank],
-  ];
+  // "Islands": one tab per non-empty info block — the calculator stays clean,
+  // the detail lives behind a single button and is browsed one island at a time.
+  const islands = (
+    [
+      ["conditions", t("modal.tabConditions"), program.conditions],
+      ["requirements", t("modal.tabRequirements"), program.requirements],
+      ["projects", t("modal.tabProjects"), program.projects],
+      ["bank", t("modal.tabBank"), program.bank],
+    ] as const
+  ).filter(([, , text]) => text && text.trim());
+
+  const activeIndex = Math.min(tab, Math.max(0, islands.length - 1));
+  const active = islands[activeIndex];
 
   return (
     <>
-      <button type="button" className={styles.conditionsBtn} onClick={() => setOpen(true)}>
+      <button
+        type="button"
+        className={styles.conditionsBtn}
+        onClick={() => {
+          setTab(0);
+          setOpen(true);
+        }}
+      >
         <InfoIcon />
         {t("action.conditions")}
       </button>
       <Modal open={open} onClose={() => setOpen(false)} title={program.name}>
+        {program.relevance?.trim() ? (
+          <div className={modalStyles.relevance}>
+            <span className={modalStyles.relevanceDot} aria-hidden />
+            {program.relevance.trim()}
+          </div>
+        ) : null}
+
         <div className={modalStyles.chips}>
           <span className={modalStyles.chip}>
             <span className={modalStyles.chipLabel}>{t("modal.rate")}</span>
@@ -39,14 +61,28 @@ export function ProgramConditions({ program }: { program: Program | undefined })
             <span className={modalStyles.chipValue}>{formatPercent(program.recommendedDownPaymentPercent)}</span>
           </span>
         </div>
-        {sections
-          .filter(([, value]) => value && value.trim())
-          .map(([head, value]) => (
-            <div className={modalStyles.section} key={head}>
-              <div className={modalStyles.sectionHead}>{head}</div>
-              <p className={modalStyles.sectionText}>{value}</p>
+
+        {islands.length > 0 && active ? (
+          <>
+            <div className={modalStyles.tabs} role="tablist">
+              {islands.map(([key, label], i) => (
+                <button
+                  key={key}
+                  type="button"
+                  role="tab"
+                  aria-selected={i === activeIndex}
+                  className={`${modalStyles.tab} ${i === activeIndex ? modalStyles.tabActive : ""}`}
+                  onClick={() => setTab(i)}
+                >
+                  {label}
+                </button>
+              ))}
             </div>
-          ))}
+            <div className={modalStyles.island} role="tabpanel">
+              <p className={modalStyles.islandText}>{active[2]}</p>
+            </div>
+          </>
+        ) : null}
       </Modal>
     </>
   );

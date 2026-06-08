@@ -86,22 +86,70 @@
   font-weight: 800;
   font-variant-numeric: tabular-nums;
 }
-.section + .section {
-  margin-top: var(--space-4);
-}
-.sectionHead {
+/* Relevance badge */
+.relevance {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--brand-tint);
+  color: var(--brand-ink);
+  border-radius: var(--radius-pill);
+  padding: 5px var(--space-3);
   font-size: var(--fs-label);
-  font-weight: 800;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--brand);
-  margin-bottom: var(--space-2);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  line-height: 1.4;
+  margin-bottom: var(--space-4);
 }
-.sectionText {
+.relevanceDot {
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--brand);
+}
+
+/* Island tabs ("buttons") + the active content card */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+.tab {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--ink-soft);
+  font-size: var(--fs-label);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+}
+.tab:hover {
+  color: var(--brand);
+  border-color: var(--brand);
+}
+.tabActive,
+.tabActive:hover {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+}
+.island {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: var(--space-4);
+}
+.islandText {
   margin: 0;
   font-size: var(--fs-small);
   color: var(--ink-soft);
-  line-height: 1.55;
+  line-height: 1.6;
   white-space: pre-line;
 }
 

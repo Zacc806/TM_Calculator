@@ -69,6 +69,10 @@ export const translations: Record<Lang, Dict> = {
     "modal.rate": "Ставка",
     "modal.term": "Срок",
     "modal.dp": "Взнос",
+    "modal.tabConditions": "Условия",
+    "modal.tabRequirements": "Требования",
+    "modal.tabProjects": "Проекты",
+    "modal.tabBank": "Банк",
 
     "lead.title": "Получить консультацию",
     "lead.subtitle": "Оставьте телефон — менеджер перезвонит и поможет с расчётом и подбором.",
@@ -157,6 +161,10 @@ export const translations: Record<Lang, Dict> = {
     "modal.rate": "Мөлшерлеме",
     "modal.term": "Мерзім",
     "modal.dp": "Жарна",
+    "modal.tabConditions": "Шарттар",
+    "modal.tabRequirements": "Талаптар",
+    "modal.tabProjects": "Жобалар",
+    "modal.tabBank": "Банк",
 
     "lead.title": "Кеңес алу",
     "lead.subtitle": "Телефоныңызды қалдырыңыз — менеджер қайта қоңырау шалып, есеп пен таңдауға көмектеседі.",
@@ -245,6 +253,10 @@ export const translations: Record<Lang, Dict> = {
     "modal.rate": "Rate",
     "modal.term": "Term",
     "modal.dp": "Down payment",
+    "modal.tabConditions": "Terms",
+    "modal.tabRequirements": "Requirements",
+    "modal.tabProjects": "Projects",
+    "modal.tabBank": "Bank",
 
     "lead.title": "Get a consultation",
     "lead.subtitle": "Leave your phone number — a manager will call you back and help you with the calculation and choosing an apartment.",
