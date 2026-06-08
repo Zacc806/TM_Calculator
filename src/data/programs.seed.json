@@ -1,6 +1,6 @@
 {
-  "version": 7,
-  "updatedAt": "2026-06-08T09:56:20.697Z",
+  "version": 8,
+  "updatedAt": "2026-06-08T10:32:23.303Z",
   "programs": [
     {
       "id": "rassrochka",
@@ -17,11 +17,19 @@
       "i18n": {
         "kk": {
           "name": "Құрылыс салушының бөліп төлеуі",
-          "description": "Atamura Group-тен пайызсыз бөліп төлеу: артық төлемсіз тең айлық үлестер. Мерзімі мен жарна жоба бойынша нақтыланады."
+          "description": "Atamura Group-тен пайызсыз бөліп төлеу: артық төлемсіз тең айлық үлестер. Мерзімі мен жарна жоба бойынша нақтыланады.",
+          "bank": "Atamura Group",
+          "conditions": "Құрылыс салушыдан тікелей пайызсыз бөліп төлеу.\nАртық төлемсіз тең айлық үлестер.\nМерзімі мен бастапқы жарна нақты жоба мен пәтер бойынша нақтыланады.",
+          "requirements": "Atamura Group сату бөлімінде нақтыланады.",
+          "projects": "Atamura Group-тің барлық жобалары."
         },
         "en": {
           "name": "Developer installment",
-          "description": "Interest-free installment plan from Atamura Group: equal monthly payments with no markup. Term and down payment specified per project."
+          "description": "Interest-free installment plan from Atamura Group: equal monthly payments with no markup. Term and down payment specified per project.",
+          "bank": "Atamura Group",
+          "conditions": "Interest-free installment plan directly from the developer.\nEqual monthly installments with no markup.\nTerm and down payment are specified for each particular project and apartment.",
+          "requirements": "Specified by the Atamura Group sales department.",
+          "projects": "All Atamura Group projects."
         }
       }
     },
@@ -40,11 +48,21 @@
       "i18n": {
         "kk": {
           "name": "7-20-25",
-          "description": "Мемлекеттік бағдарлама: 7% (ЖТСМ 7,24%-дан), БЖ 20%, 25 жылға дейін. Тек бастапқы нарық, 30 млн ₸-ге дейін (Алматы/Астана). Операторлар: Halyk, БЦК."
+          "description": "Мемлекеттік бағдарлама: 7% (ЖТСМ 7,24%-дан), БЖ 20%, 25 жылға дейін. Тек бастапқы нарық, 30 млн ₸-ге дейін (Алматы/Астана). Операторлар: Halyk, БЦК.",
+          "conditions": "Шарттары: Барлық мерзімге 7% мөлшерлеме (ЖТСМ 7,24%-дан 7,80%-ға дейін). Бастапқы жарна — 20%. Мерзімі — 25 жылға дейін. КРЕДИТТЕЛЕТІН СОМА 30 000 000 теңге – Астана, Алматы (қала маңындағы аймақтарды қоса алғанда), Ақтау, Атырау, Шымкент қалалары үшін\n25 000 000 теңге – Қарағанды қаласы үшін\n20 000 000 теңге – басқа өңірлер үшін\n25 МЛН ТҒ,\nНысанға қойылатын талаптар: Бағдарламаға қатысатын, пайдалануға беру актісі бар жаңа құрылыс (бастапқы тұрғын үй). Шаршы метр: бір адамға кемінде 15 шаршы метр, бірақ бір пәтерге 150 шаршы метрден аспауы тиіс.",
+          "requirements": "Клиентке қойылатын талаптар:\nҚР азаматтығы.\nЖасы: кредит алу сәтінде 21-ден 55 жасқа дейін.\nБастапқы жарнаға (20%) қаражаттың болуы.\nРасталған табыс (ресми жұмысқа орналасу, ЖК декларациясы және т.б.).\nКредит алу сәтінде меншігінде басқа жылжымайтын мүліктің болмауы (маңызды шарт!).\nОтбасында 3-тен аспайтын бала (немесе отбасы мүшесіне шаққандағы табыс 2,5 ЕТК-дан төмен болса, кез келген отбасы құрамы). - Қазақстан азаматтығы\n- соңғы 18 (он сегіз) ай ішінде Қазақстан Республикасы аумағында меншік құқығында (жұбайының) тұрғын үйдің болмауы\n- бір қарыз алушыны кредиттеу бір реттен артық жүргізілмейді\n- ипотекалық тұрғын үй қарыздары бойынша өтелмеген берешектің болмауы\n- тек бастапқы тұрғын үйді сатып алу - оны құрылыс салушыдан (тапсырыс берушіден) не құрылыс салушыдан (тапсырыс берушіден) тұрғын үй өткізетін өзге де заңды тұлғалардан сатып алу кезінде меншік құқығы алғаш рет тіркелетін тұрғын жылжымайтын мүлік нысаны (Тұрғын үй кешенін таңдау бойынша шектеусіз)\n- кепіл беруші тек қарыз алушының өзі бола алады",
+          "projects": "Атмосфера өтеді, бірақ қол жетімді пәтерлер жоқ\nАура - өтеді (бірақ облыс) және тек пайдалануға берілген 2-кезек\nКеруен 2-кезек - 1-қабатта 2 пәтер қалды\nКеруен 4-кезек - арнайы шарттармен 7 пәтер бар. БЖ-ны енгізіп, нысан тапсырылғаннан кейін рәсімдеуге болады. Арнайы шарттар - нысан тапсырылғаннан кейін банк мақұлдауын 3 ай күту",
+          "bank": "Бағдарлама орталықтандырылған. Негізгі операторлар — Halyk Bank, Bank CenterCredit. Өтінімдер «Тұрғын үйге бірыңғай өтінім» порталы (ehub.kz) арқылы беріледі.",
+          "relevance": "июнь 2026 жағдайы бойынша өзекті"
         },
         "en": {
           "name": "7-20-25",
-          "description": "Government program: 7% (APR from 7.24%), 20% down payment, up to 25 years. Primary housing only, up to 30 mln ₸ (Almaty/Astana). Operators: Halyk, BCC."
+          "description": "Government program: 7% (APR from 7.24%), 20% down payment, up to 25 years. Primary housing only, up to 30 mln ₸ (Almaty/Astana). Operators: Halyk, BCC.",
+          "conditions": "Conditions: 7% rate (APR from 7.24% to 7.80%) for the entire term. Down payment — 20%. Term — up to 25 years. LOAN AMOUNT 30,000,000 tenge – for the cities of Astana, Almaty (including suburban zones), Aktau, Atyrau, Shymkent\n25,000,000 tenge – for the city of Karaganda\n20,000,000 tenge – for other regions\n25 MLN TG,\nRequirements for the property: A new building (primary housing) participating in the program, with a commissioning act. Floor area: at least 15 sq.m per person, but no more than 150 sq.m per apartment.",
+          "requirements": "Requirements for the client:\nCitizenship of Kazakhstan.\nAge: from 21 to 55 years at the time of receiving the loan.\nAvailability of funds for the down payment (20%).\nConfirmed income (official employment, sole proprietor declaration, etc.).\nAbsence of other real estate in ownership at the time of receiving the loan (important condition!).\nNo more than 3 children in the family (or any family composition if the income per family member is below 2.5 SM). - citizenship of Kazakhstan\n- absence of housing under ownership right (of the spouse) over the last 18 (eighteen) months in the territory of the Republic of Kazakhstan\n- lending to a single borrower is carried out no more than once\n- absence of outstanding debt on mortgage housing loans\n- purchase of primary housing only - a residential real estate property for which ownership right is registered for the first time upon its acquisition from the developer (customer) or other legal entities selling housing on behalf of the developer (customer) (without restrictions on the choice of Residential Complex)\n- only the borrower themselves may be the pledgor",
+          "projects": "Atmosfera qualifies but there are no available apartments\nAura - qualifies (but it is in the region) and only stage 2, which has been commissioned\nKeruen stage 2 - 2 apartments left on the 1st floor\nKeruen stage 4 - 7 apartments available under special conditions. The down payment can be made, and after the property is handed over it can be formalized. Special conditions - waiting 3 months for bank approval after the property is handed over",
+          "bank": "The program is centralized. The main operators are Halyk Bank, Bank CenterCredit. Applications are submitted through the \"Unified Housing Application\" portal (ehub.kz).",
+          "relevance": "current as of June 2026"
         }
       },
       "relevance": "актуально июнь 2026"
@@ -64,11 +82,21 @@
       "i18n": {
         "kk": {
           "name": "Наурыз",
-          "description": "Отбасы банк: ҚР азаматтары үшін 9% / ӘЖТ үшін 7%, БЖ 20%-дан (таза әрленген тұрғын үй үшін 10%-дан), 19 жылға дейін, 36 млн ₸-ге дейін (Алматы). Депозит 1 млн ₸-дан."
+          "description": "Отбасы банк: ҚР азаматтары үшін 9% / ӘЖТ үшін 7%, БЖ 20%-дан (таза әрленген тұрғын үй үшін 10%-дан), 19 жылға дейін, 36 млн ₸-ге дейін (Алматы). Депозит 1 млн ₸-дан.",
+          "conditions": "АЛМАТЫ ҚАЛАСЫ БОЙЫНША НЕСИЕЛЕНЕТІН СОМА 36 млн тг (ОБЛЫС 30 млн тг) \n- Мөлшерлеме: 7% (ЖТСМ 7,1-ден 9,6%-ға дейін) - тұрғын үйге мұқтаж ретінде есепте тұрған, халықтың әлеуметтік осал топтары (ӘЖТ*) санаты бойынша адамдар үшін / 9% (ЖТСМ 9,4%-дан 13%-ға дейін) жылдық - тұрғын үйге мұқтаж ретінде есепте тұрған адамдар мен Қазақстан Республикасының өзге де азаматтары және қандастар үшін;\n- Бастапқы жарна: таза әрленген бастапқы тұрғын үйді сатып алу кезінде заем сомасының 20%-дан және 10%-дан.\n- Несиелеу мерзімі: 19 жылға дейін \n- Жылжымайтын мүлік объектісі: Бастапқы (облыс орталықтары, республикалық маңызы бар қалалар) және қайталама (аудандар, моноқалалар) Салынып жатқан тұрғын үй (көппәтерлі тұрғын үйдегі пәтер), тұрғын үй құрылысының бірыңғай операторының кепілдігімен үлестік қатысу шарты бойынша, сондай-ақ банктің кепілдік қамтамасыз етуге қойылатын талаптарына сай келетін сақтандыру құралы.",
+          "requirements": "Азаматтық: ҚР азаматтығының болуы міндетті.\nЖасы: Әдетте өтеу сәтінде 21 жастан зейнеткерлік жасқа дейін (кейбір банктерде 68 жасқа дейін).\nТабыс: Соңғы 6 ай ішіндегі табысты ресми растау қажет. Кейбір банктер (Halyk, БЦК) жарна 50%-дан болғанда табысты растаусыз ипотека ұсынады.\nЖинақ: «Отау» және «Наурыз» бағдарламалары үшін Отбасы банкінің салымшысы болу және депозитте кемінде 1 млн теңге болуы қажет. Бағдарламаға қатысушыда және оның отбасы мүшелерінде соңғы 5 жыл ішінде меншігінде тұрғын үйдің және тұрғын үймен операциялардың болмауы. Отбасы мүшелері – бұл күйеуі, әйелі және олардың кәмелетке толмаған балалары. Егер адам некеде тұрмаса, онда тұрғын үйдің болмауы тек оның өзінде ғана тексеріледі. Кәмелетке толған қазақстандықтардың ата-аналары тұрғын үйдің болуына тексерілмейді; Бір салымшы/отбасы бағдарлама шеңберінде тұрғын үйді бір реттен артық сатып ала алмайды; Бағдарламаға жұбайлардың тек біреуі ғана қатыса алады;",
+          "projects": "Атмосфера өтеді (4,5,6 кезектер)\nАура - 2-кезек\nКеруен 2-кезек - 1-қабатта 2 пәтер қалды\nКеруен 3-кезек - 77,6 ш/м 1 пәтер бар, бағасы бойынша қымбатырақ шығады, клиентке айырмасын қосымша төлеу қажет\nКеруен 1 және 4 кезек - пайдалануға енгізуге дейін брондау 500 000 теңге",
+          "bank": "Отбасы банк",
+          "relevance": "июнь 2026 жағдайы бойынша өзекті"
         },
         "en": {
           "name": "Nauryz",
-          "description": "Otbasy Bank: 9% for citizens of Kazakhstan / 7% for SVPP, down payment from 20% (from 10% for turnkey finish), up to 19 years, up to 36 mln ₸ (Almaty). Deposit from 1 mln ₸."
+          "description": "Otbasy Bank: 9% for citizens of Kazakhstan / 7% for SVPP, down payment from 20% (from 10% for turnkey finish), up to 19 years, up to 36 mln ₸ (Almaty). Deposit from 1 mln ₸.",
+          "conditions": "LOAN AMOUNT FOR THE CITY OF ALMATY 36 mln tg (REGION 30 mln tg) \n- Rate: 7% (APR from 7.1 to 9.6%) - for persons registered as in need of housing under the category of socially vulnerable segments of the population (SVPP*) / 9% (APR from 9.4% to 13%) per annum - for persons registered as in need of housing and other citizens of the Republic of Kazakhstan and kandas (repatriates);\n- Down payment: from 20% and from 10% of the loan amount when purchasing primary housing with turnkey finish.\n- Loan term: up to 19 years \n- Real estate object: Primary (regional centers, cities of republican significance) and secondary (districts, mono-towns) Housing under construction (an apartment in a multi-apartment residential building), under a shared-equity participation agreement with a guarantee from the unified operator of housing construction, as well as an insurance instrument, meeting the bank's requirements for collateral.",
+          "requirements": "Citizenship: Citizenship of the Republic of Kazakhstan is mandatory.\nAge: Usually from 21 years to retirement age at the time of repayment (in a number of banks up to 68 years).\nIncome: Official confirmation of income for the last 6 months is required. Some banks (Halyk, BCC) offer a mortgage without income confirmation with a down payment from 50%.\nSavings: For the \"Otau\" and \"Nauryz\" programs it is necessary to be a depositor of Otbasy Bank and have a minimum of 1 mln tenge on deposit. The absence of housing owned by the program participant and members of their family and of any housing transactions over the last 5 years. Family members are the husband, wife, and their minor children. If a person is not married, the absence of housing is checked only for them. The parents of adult Kazakhstanis are not checked for housing ownership; One depositor/family may purchase housing under the program no more than once; Only one of the spouses may participate in the program;",
+          "projects": "Atmosfera available (stages 4, 5, 6)\nAura - stage 2\nKeruen stage 2 - 2 apartments left on the 1st floor\nKeruen stage 3 - there is 1 apartment of 77.6 sq.m, it comes out more expensive in price, the client needs to pay the difference\nKeruen stages 1 and 4 - reservation 500 000 tenge until commissioning",
+          "bank": "Otbasy Bank",
+          "relevance": "current as of June 2026"
         }
       },
       "relevance": "актуально июнь 2026"
@@ -88,11 +116,21 @@
       "i18n": {
         "kk": {
           "name": "Отау",
-          "description": "Отбасы банк: 9% / ӘЖТ үшін 7%, БЖ 20%, 19 жылға дейін, 36 млн ₸-ге дейін (Алматы). Отбасы банкте 1 млн ₸-дан салым қажет."
+          "description": "Отбасы банк: 9% / ӘЖТ үшін 7%, БЖ 20%, 19 жылға дейін, 36 млн ₸-ге дейін (Алматы). Отбасы банкте 1 млн ₸-дан салым қажет.",
+          "conditions": "АЛМАТЫ ҚАЛАСЫ БОЙЫНША НЕСИЕЛЕНЕТІН СОМА 36 млн тг (ОБЛЫС 30 млн тг) - Мөлшерлеме: 7% (ЖТСМ 7,1-ден 9,6%-ға дейін) - тұрғын үйге мұқтаж ретінде халықтың әлеуметтік осал топтары санаты бойынша есепте тұрған тұлғалар үшін;\r\n• жылдық 9% (ЖТСМ 9,4%-дан 13%-ға дейін) – тұрғын үйге мұқтаж ретінде есепте тұрған тұлғалар мен Қазақстан Республикасының өзге де азаматтары және қандастар үшін;\n- Бастапқы жарна: 20%\n- Несиелеу мерзімі: 19 жылға дейін\n- Жылжымайтын мүлік объектісі: Бастапқы тұрғын үй (Астанада, Алматыда, Шымкентте және облыс орталықтарында), қалған өңірлерде — кез келген",
+          "requirements": "Азаматтығы: ҚР азаматтығының болуы міндетті.\nЖасы: Әдетте 21 жастан өтеу сәтінде зейнеткерлік жасқа дейін (бірқатар банктерде 68 жасқа дейін).\nТабысы: Соңғы 6 ай ішіндегі табысты ресми растау қажет. Кейбір банктер (Halyk, БЦК) 50%-дан жарна болған жағдайда табысты растаусыз ипотека ұсынады.\nЖинақ: «Отау» және «Наурыз» бағдарламалары үшін депозиттегі ең аз жинақ сомасы: 1 млн теңге. Сомасы аз депозиттер өтінім беруге жіберілмейді. Соманы өтінім бермес бұрын бір реттік енгізуге болады. Шарттары: Бағдарламаға қатысушыда және оның отбасы мүшелерінде меншігінде тұрғын үйдің болмауы және соңғы 5 жыл ішінде тұрғын үймен операциялардың болмауы. Отбасы мүшелері – күйеуі, әйелі және олардың кәмелетке толмаған балалары. Егер адам некеде тұрмаса, онда тұрғын үйдің болмауы тек оның өзінде ғана тексеріледі. Кәмелетке толған қазақстандықтардың ата-аналары тұрғын үйдің болуына тексерілмейді; Бір салымшы/отбасы бағдарлама шеңберінде тұрғын үйді бір реттен артық сатып ала алмайды; Бағдарламаға жұбайлардың тек біреуі ғана қатыса алады;",
+          "projects": "Атмосфера өтеді (4,5,6 кезек)\nАура - 2-кезек\nКеруен 2-кезек - 1-қабатта 2 пәтер қалды\nКеруен 3-кезек - 77,6 кв/м 1 пәтер бар, бағасы бойынша қымбатырақ шығады, клиентке айырманы қосымша төлеу қажет\nКеруен 1 және 4 кезек - пайдалануға беруге дейін 500 000 теңге брондау",
+          "bank": "Отбасы банк",
+          "relevance": "июнь 2026 жағдайы бойынша өзекті"
         },
         "en": {
           "name": "Otau",
-          "description": "Otbasy Bank: 9% / 7% for SVPP, 20% down payment, up to 19 years, up to 36 mln ₸ (Almaty). Requires an Otbasy Bank deposit from 1 mln ₸."
+          "description": "Otbasy Bank: 9% / 7% for SVPP, 20% down payment, up to 19 years, up to 36 mln ₸ (Almaty). Requires an Otbasy Bank deposit from 1 mln ₸.",
+          "conditions": "LOAN AMOUNT FOR THE CITY OF ALMATY 36 mln tg (REGION 30 mln tg) - Rate: 7% (APR from 7.1 to 9.6%) - for persons registered as being in need of housing under the category of socially vulnerable segments of the population;\r\n• 9% (APR from 9.4% to 13%) per annum – for persons registered as being in need of housing and other citizens of the Republic of Kazakhstan and qandas;\n- Down payment: 20%\n- Loan term: up to 19 years\n- Real estate object: Primary housing (in Astana, Almaty, Shymkent and regional centres), in other regions — any",
+          "requirements": "Citizenship: Citizenship of the Republic of Kazakhstan is mandatory.\nAge: Usually from 21 years up to retirement age at the time of repayment (in a number of banks up to 68 years).\nIncome: Official confirmation of income for the last 6 months is required. Some banks (Halyk, BCC) offer a mortgage without income confirmation with a down payment from 50%.\nSavings: For the \"Otau\" and \"Nauryz\" programmes the minimum savings amount on the deposit: 1 mln tenge. Deposits with a smaller amount are not allowed for application submission. The amount can be deposited in a single payment before submitting the application. Conditions: The programme participant and their family members must not own any housing and must not have carried out any housing transactions during the last 5 years. Family members are the husband, wife and their minor children. If a person is not married, the absence of housing is checked only for them. The parents of adult Kazakhstanis are not checked for housing ownership; One depositor/family may purchase housing under the programme no more than once; Only one of the spouses may participate in the programme;",
+          "projects": "Atmosfera is available (stages 4, 5, 6)\nAura - stage 2\nKeruen stage 2 - 2 apartments left on the 1st floor\nKeruen stage 3 - there is 1 apartment of 77.6 sq/m, by price it comes out more expensive, the client needs to pay the difference\nKeruen stages 1 and 4 - reservation of 500,000 tenge until commissioning",
+          "bank": "Otbasy Bank",
+          "relevance": "current as of June 2026"
         }
       },
       "relevance": "актуально июнь 2026"
@@ -112,11 +150,21 @@
       "i18n": {
         "kk": {
           "name": "Умай (әйелдерге арналған)",
-          "description": "Отбасы, жұмыс істейтін әйелдерге: 15%-дан, БЖ 10-20%, 15 жылға дейін, кез келген тұрғын үй. Шарттары алдын ала."
+          "description": "Отбасы, жұмыс істейтін әйелдерге: 15%-дан, БЖ 10-20%, 15 жылға дейін, кез келген тұрғын үй. Шарттары алдын ала.",
+          "conditions": "- Мөлшерлеме: 15%-дан\n- Бастапқы жарна: 10-20%\n- Несиелеу мерзімі: 15 жылға дейін\n- Жылжымайтын мүлік нысаны: Кез келген тұрғын үй (бастапқы тұрғын үй/қайталама)",
+          "requirements": "Азаматтығы: ҚР азаматтығының болуы міндетті.\nЖасы: Әдетте 21 жастан өтеу сәтіндегі зейнеткерлік жасқа дейін (бірқатар банктерде 68 жасқа дейін).\nТабысы: Соңғы 6 ай ішіндегі табысты ресми растау қажет. Кейбір банктер (Halyk, БЦК) 50%-дан жарна болғанда табысты растаусыз ипотека ұсынады.",
+          "projects": "Атмосфера өтеді (4, 5, 6 кезектер)\nАура - 2-кезек\nКеруен 2-кезек - 1-қабатта 2 пәтер қалды\nКеруен 3-кезек - 77,6 ш/м 1 пәтер бар, бағасы бойынша қымбатырақ шығады, клиент айырманы қосымша төлеуі керек\nКеруен 1 және 4-кезек - пайдалануға берілгенге дейін брондау 500 000 теңге",
+          "bank": "Отбасы банк",
+          "relevance": "қазіргі сәтте нақты шарттар жоқ, өйткені әзірге қаржыландыру жоқ, шамамен толтырдым"
         },
         "en": {
           "name": "Umai (women's)",
-          "description": "Otbasy, for employed women: from 15%, down payment 10-20%, up to 15 years, any housing. Terms are preliminary."
+          "description": "Otbasy, for employed women: from 15%, down payment 10-20%, up to 15 years, any housing. Terms are preliminary.",
+          "conditions": "- Rate: from 15%\n- Down payment: 10-20%\n- Loan term: up to 15 years\n- Real estate object: Any housing (primary housing/secondary)",
+          "requirements": "Citizenship: Kazakhstani citizenship is mandatory.\nAge: Usually from 21 years to retirement age at the moment of repayment (in a number of banks up to 68 years).\nIncome: Official income confirmation for the last 6 months is required. Some banks (Halyk, BCC) offer a mortgage without income confirmation with a down payment from 50%.",
+          "projects": "Atmosfera is available (stages 4, 5, 6)\nAura - stage 2\nKeruen stage 2 - 2 apartments left on the 1st floor\nKeruen stage 3 - there is 1 apartment of 77.6 sq.m, by price it comes out more expensive, the client needs to pay the difference\nKeruen stages 1 and 4 - reservation 500,000 tenge until commissioning",
+          "bank": "Otbasy Bank",
+          "relevance": "at the moment there are no exact terms, since there is no financing yet, I filled it in approximately"
         }
       },
       "relevance": "на данный момент точных условий нет, так как пока нет финансирования заполнила приблизительно"
@@ -136,11 +184,21 @@
       "i18n": {
         "kk": {
           "name": "Наурыз жұмыскер",
-          "description": "Отбасы, өндірістік/техникалық салалардың жұмыскерлеріне: 9% / ӘЖТ үшін 7%, БЖ 10%-дан (таза әрлеу), 19 жылға дейін, 36 млн ₸-ге дейін. Депозит 2 млн ₸-дан."
+          "description": "Отбасы, өндірістік/техникалық салалардың жұмыскерлеріне: 9% / ӘЖТ үшін 7%, БЖ 10%-дан (таза әрлеу), 19 жылға дейін, 36 млн ₸-ге дейін. Депозит 2 млн ₸-дан.",
+          "conditions": "НЕСИЕ СОМАСЫ 36 млн тг (Облыс 30 млн тг) \n Сыйақы мөлшерлемесі:\n7% (ЖТСМ 7,1%-дан) — тұрғын үй кезегінде тұрған халықтың әлеуметтік осал топтары (ӘЖТ) үшін.\n9% (ЖТСМ 9,4%-дан) — қатысушылардың қалған барлық санаттары үшін.\nБастапқы жарна:\n10%-дан — егер сіз таза әрлеуі бар жаңа тұрғын үй сатып алсаңыз.\n20%-дан — егер тұрғын үй әрлеусіз болса немесе қайталама нарықта сатып алынса (қайталама тұрғын үй тек моноқалалар мен ауылдарда ғана рұқсат етілген).\nҚарыз мерзімі: 19 жылға дейін.\nҚарыздың ең жоғары сомасы:\nАлматы мен Астана үшін — 36 млн теңгеге дейін.\nҚалған өңірлер үшін — 30 млн теңгеге дейін.",
+          "requirements": "Бағдарлама тек өндірістік және техникалық салалардың жұмыскерлеріне арналған. Тізімге кіреді:\nӨнеркәсіп жұмысшылары (зауыттар, фабрикалар).\nЭнергетика саласының мамандары.\nКөлік және логистика жұмыскерлері.\nАуыл шаруашылығы мамандары.\nСу шаруашылығы саласының қызметкерлері.\n Қатысушыға қойылатын талаптар  Жасы: Әдетте 21 жастан өтеу сәтіндегі зейнеткерлік жасқа дейін (бірқатар банктерде 68 жасқа дейін).\nОтбасы банкіндегі депозит: Банктің салымшысы болу және шотта кемінде 2 миллион теңге болуы қажет.\nТұрғын үйдің болмауы: Қатысушыда және оның отбасы мүшелерінде соңғы 5 жыл ішінде ҚР бүкіл аумағы бойынша өзіндік жылжымайтын мүлік болмауы тиіс.\nРесми табыс: Соңғы 6 ай ішіндегі жалақыны растау қажет (БЖЗҚ-дан үзінді көшірме).\nӨтіл: Жоғарыда көрсетілген салаларда ресми еңбек өтілінің болуы талап етіледі. Қатысушыда және оның отбасы мүшелерінде соңғы 5 жыл ішінде меншігінде тұрғын үйдің және тұрғын үймен операциялардың болмауы. Отбасы мүшелері – бұл күйеуі, әйелі және олардың кәмелетке толмаған балалары. Егер адам некеде тұрмаса, онда тұрғын үйдің болмауы тек оның өзінде тексеріледі. Кәмелетке толған қазақстандықтардың ата-аналары тұрғын үйдің болуына тексерілмейді;\nБір салымшы/отбасы бағыт шеңберінде тұрғын үйді бір реттен артық сатып ала алмайды;\nБағдарламаға жұбайлардың тек біреуі ғана қатыса алады;\nБағытқа қатысу және қарыз алу туралы ақпаратты банктің ресми сайтында орналастыруға келісім беру (Бағдарлама қатысушылары тізімінің ашықтығы үшін).",
+          "projects": "Атмосфера өтеді (4,5,6 кезектер)\nАура - 2-кезек\nКеруен 2-кезек - 1-қабатта 2 пәтер қалды\nКеруен 3-кезек - 1 пәтер бар 77,6 кв/м, бағасы бойынша қымбатырақ шығады, клиентке айырманы қосымша төлеу қажет\nКеруен 1 және 4 кезек - пайдалануға беруге дейін брондау 500 000 теңге",
+          "relevance": "июнь 2026 жағдайы бойынша өзекті",
+          "bank": "Отбасы банк"
         },
         "en": {
           "name": "Nauryz Jumysker",
-          "description": "Otbasy, for workers in manufacturing/technical sectors: 9% / 7% for SVPP, down payment from 10% (turnkey finish), up to 19 years, up to 36 mln ₸. Deposit from 2 mln ₸."
+          "description": "Otbasy, for workers in manufacturing/technical sectors: 9% / 7% for SVPP, down payment from 10% (turnkey finish), up to 19 years, up to 36 mln ₸. Deposit from 2 mln ₸.",
+          "conditions": "LOAN AMOUNT 36 mln tg (Region 30 mln tg) \n Interest rate:\n7% (APR from 7.1%) — for socially vulnerable population groups (SVPP) registered in the housing queue.\n9% (APR from 9.4%) — for all other categories of participants.\nDown payment:\nfrom 10% — if you are buying new housing with turnkey finish.\nfrom 20% — if the housing is without finish or is bought on the secondary market (secondary housing is permitted only in single-industry towns and villages).\nLoan term: up to 19 years.\nMaximum loan amount:\nFor Almaty and Astana — up to 36 mln tenge.\nFor other regions — up to 30 mln tenge.",
+          "requirements": "The program is intended exclusively for workers in manufacturing and technical sectors. The list includes:\nIndustrial workers (plants, factories).\nEnergy-sector specialists.\nTransport and logistics workers.\nAgricultural specialists.\nWater-management sector employees.\n Requirements for the participant  Age: Usually from 21 years to retirement age at the time of repayment (in a number of banks up to 68 years).\nDeposit at Otbasy Bank: You must be a depositor of the bank and have at least 2 million tenge in the account.\nAbsence of housing: The participant and members of their family must not own any real estate over the last 5 years across the entire territory of the RK.\nOfficial income: You must confirm your salary for the last 6 months (statement from the UAPF).\nWork experience: Official employment record in the sectors listed above is required. Absence of housing owned by the participant and members of their family, and of operations with housing, over the last 5 years. Family members are the husband, wife, and their minor children. If a person is not married, then the absence of housing is checked only for them. Parents of adult Kazakhstanis are not checked for housing ownership;\nOne depositor/family may purchase housing within the framework of the program no more than once;\nOnly one of the spouses may participate in the program;\nProviding consent to the publication of information about participation in the program and receipt of the loan on the bank's official website (For transparency of the list of program participants).",
+          "projects": "Atmosfera is going through (stages 4, 5, 6)\nAura - stage 2\nKeruen stage 2 - 2 apartments remaining on the 1st floor\nKeruen stage 3 - there is 1 apartment of 77.6 sq/m, by price it comes out more expensive, the client needs to pay the difference\nKeruen stages 1 and 4 - reservation 500,000 tenge until commissioning",
+          "relevance": "current as of June 2026",
+          "bank": "Otbasy Bank"
         }
       },
       "relevance": "актуально июнь 2026"
@@ -160,11 +218,21 @@
       "i18n": {
         "kk": {
           "name": "Наурыз әскери",
-          "description": "Отбасы, әскери/құқық қорғау құрылымдарына (тұрғын үй төлемдерін алушылар): 9%, БЖ 20%-дан, 19 жылға дейін, БЖ 20-50% болғанда 80 млн ₸-ге дейін."
+          "description": "Отбасы, әскери/құқық қорғау құрылымдарына (тұрғын үй төлемдерін алушылар): 9%, БЖ 20%-дан, 19 жылға дейін, БЖ 20-50% болғанда 80 млн ₸-ге дейін.",
+          "conditions": "Қарыз бойынша сыйақы мөлшерлемесі:\nЖылдық 9% (ЖТСМ 9,7%-дан 10,4%-ға дейін).. Бұл бүкіл мерзімге бекітілген мөлшерлеме.\nБастапқы жарна: 20%-дан.\nМаңызды: Жарна ретінде «Отбасы банкіндегі» арнайы салымда сіздің тұрғын үй төлемдеріңізден қалыптасқан жинақтарды пайдалануға болады.\nҚарыз мерзімі: 19 жылға дейін.\nҚарыздың ең жоғары сомасы:\n• бастапқы жарна 0-ден 20%-ға дейін болғанда — Астана және Алматы қалалары үшін 36 млн теңгеге дейін, қалған өңірлер үшін 30 млн теңгеге дейін;\n• бастапқы жарна 20-дан 50%-ға дейін болғанда — 80 млн теңгеге дейін (барлық өңірлер үшін).\nТЕХПАСПОРТ БОЛУЫ КЕРЕК Пайдалануға берілген, банктің кепілдік қамтамасыз етуге қойылатын талаптарына сай келетін бастапқы тұрғын үй (көппәтерлі тұрғын үйдегі пәтер).",
+          "requirements": "ҚР әскери қызметшілері және құқық қорғау құрылымдарының қызметкерлері (Қорғаныс министрлігі, ІІМ, ҰҚК, МКҚ, ТЖМ және т.б.).\nМіндетті шарт: сіз тұрғын үй төлемдерін алушы болуыңыз керек.\nСізде «Отбасы банкінде» қолданыстағы арнайы салым (депозит) болуы керек.\n3. Қатысушыларға қойылатын талаптар\nЖинақтар: Өтінім беру сәтінде депозитте кемінде 1 миллион теңге болуы керек.\nТұрғын үйдің болмауы: Қатысушыда және оның отбасы мүшелерінде соңғы 5 жыл ішінде меншікте тұрғын үйдің және тұрғын үймен жасалған операциялардың болмауы. Отбасы мүшелері – күйеуі, әйелі және олардың кәмелетке толмаған балалары. Егер адам некеде тұрмаса, онда тұрғын үйдің болмауы тек оның өзінде ғана тексеріледі. Кәмелетке толған қазақстандықтардың ата-аналары тұрғын үйдің болуына тексерілмейді;\nБір салымшы/отбасы осы бағыт аясында тұрғын үйді бір реттен артық сатып ала алмайды;\nБағдарламаға жұбайлардың тек біреуі ғана қатыса алады.\nЖасы: Қатысуға өтінім беру сәтінде 18-ден 63 жасқа дейін қоса алғанда",
+          "projects": "Атмосфера өтеді (4 пайдалануға берілген үй)\nАура - 2-кезек\nКеруен 2-кезек - 1-қабатта 2 пәтер қалды",
+          "relevance": "2026 жылдың маусым айындағы жағдай бойынша өзекті",
+          "bank": "Отбасы банк"
         },
         "en": {
           "name": "Nauryz Askeri",
-          "description": "Otbasy, for military/law enforcement personnel (housing allowance recipients): 9%, down payment from 20%, up to 19 years, up to 80 mln ₸ with a 20-50% down payment."
+          "description": "Otbasy, for military/law enforcement personnel (housing allowance recipients): 9%, down payment from 20%, up to 19 years, up to 80 mln ₸ with a 20-50% down payment.",
+          "conditions": "Loan remuneration rate:\n9% per annum (APR from 9.7% to 10.4%).. This is a fixed rate for the entire term.\nDown payment: from 20%.\nImportant: As a contribution, you may use savings on a special deposit at Otbasy Bank, accumulated from your housing allowances.\nLoan term: up to 19 years.\nMaximum loan amount:\n• with a down payment from 0 to 20% — up to 36 mln tenge for the cities of Astana and Almaty, up to 30 mln tenge for the other regions;\n• with a down payment from 20 to 50% — up to 80 mln tenge (for all regions).\nA TECHNICAL PASSPORT IS REQUIRED Primary housing (an apartment in a multi-apartment residential building) that has been put into operation and meets the bank's requirements for collateral security.",
+          "requirements": "Military personnel and employees of the law enforcement structures of the Republic of Kazakhstan (Ministry of Defense, Ministry of Internal Affairs, NSC, SGS, Ministry of Emergency Situations, etc.).\nMandatory condition: you must be a recipient of housing allowances.\nYou must have an active special deposit at Otbasy Bank.\n3. Requirements for participants\nSavings: At the time of submitting the application, the deposit must hold at least 1 million tenge.\nAbsence of housing: The participant and their family members must not have owned housing or carried out housing transactions over the last 5 years. Family members are the husband, wife and their minor children. If a person is not married, the absence of housing is checked only for them. The parents of adult Kazakhstanis are not checked for housing ownership;\nOne depositor/family may purchase housing under this program no more than once;\nOnly one of the spouses may participate in the program.\nAge: from 18 to 63 years inclusive at the time of submitting the application for participation",
+          "projects": "Atmosfera is available (4th commissioned building)\nAura - stage 2\nKeruen stage 2 - 2 apartments left on the 1st floor",
+          "relevance": "current as of June 2026",
+          "bank": "Otbasy Bank"
         }
       },
       "relevance": "актуально июнь 2026"
@@ -184,11 +252,21 @@
       "i18n": {
         "kk": {
           "name": "Алматы жастары",
-          "description": "Отбасы, 35 жасқа дейінгі Алматы жастарына (тіркелуі 1 жылдан): 5%, БЖ 10%-дан, 19 жылға дейін, 20 млн ₸-ге дейін (айырмасын қатысушы қосып төлейді)."
+          "description": "Отбасы, 35 жасқа дейінгі Алматы жастарына (тіркелуі 1 жылдан): 5%, БЖ 10%-дан, 19 жылға дейін, 20 млн ₸-ге дейін (айырмасын қатысушы қосып төлейді).",
+          "conditions": "Мөлшерлеме: жылдық 5% (ЖТСМ 5,2%-дан).\nБастапқы жарна: 10%-дан.\nҚарыздың ең жоғары сомасы: 20 млн теңгеге дейін. Егер тұрғын үйдің құны жоғары болса, айырмасын қатысушы өзі қосып төлейді.\nҚарыз мерзімі: 19 жылға дейін.\nТұрғын үй түрі: Алматының бастапқы нарығынан да, қайталама нарығынан да пәтер сатып алуға болады. \n\nАлматы қаласында",
+          "requirements": "Жасы: өтінім берген сәтте 35 жасты қоса алғанда.\nТіркелуі: Алматы қаласында кемінде соңғы бір жыл бойы тұрақты тіркелу міндетті («Жұмыс істейтін жастар» бағдарламасының қатысушыларынан басқа).\nТұрғын үйдің болмауы: қатысушыда және отбасы мүшелерінде соңғы 5 жыл ішінде ҚР аумағында меншікте жылжымайтын мүлік болмауы тиіс.\nЕңбек өтілі: Алматыдағы белгілі бір салалардағы кемінде соңғы 6 айлық ресми жұмыс өтілі.\nҚызмет салалары: денсаулық сақтау, білім беру, мәдениет, спорт, ЖОО және ҒЗИ, БАҚ, әлеуметтік сала, құқық қорғау органдары, коммуналдық қызметтер.",
+          "projects": "Атмосфера өтеді (4, 5, 6-кезектер)\nАура - 2-кезек\n\"Атмосфера өтеді (4, 5, 6-кезектер)\nАура - 2-кезек\nКеруен 2-кезек - 1-қабатта 2 пәтер қалды\nКеруен 3-кезек - 77,6 ш/м 1 пәтер бар, бағасы бойынша қымбатқа шығады, клиент айырмасын қосып төлеуі қажет\nКеруен 1 және 4-кезек - пайдалануға берілгенге дейін 500 000 теңге брондау\"",
+          "relevance": "2026 жылдың маусымы жағдайы бойынша өзекті",
+          "bank": "Отбасы банк"
         },
         "en": {
           "name": "Almaty Jastary",
-          "description": "Otbasy, for Almaty youth under 35 (registered for 1+ year): 5%, down payment from 10%, up to 19 years, up to 20 mln ₸ (participant covers any difference)."
+          "description": "Otbasy, for Almaty youth under 35 (registered for 1+ year): 5%, down payment from 10%, up to 19 years, up to 20 mln ₸ (participant covers any difference).",
+          "conditions": "Rate: 5% per annum (APR from 5.2%).\nDown payment: from 10%.\nMaximum loan amount: up to 20 mln tenge. If the cost of the housing is higher, the participant covers the difference independently.\nLoan term: up to 19 years.\nHousing type: You may buy an apartment on both the primary and the secondary market of Almaty. \n\nin the city of Almaty",
+          "requirements": "Age: up to 35 years inclusive at the time of application.\nRegistration: mandatory permanent registration in the city of Almaty for at least the last year (except for participants of the \"Working Youth\" programme).\nNo housing: the participant and family members must not have any real estate in ownership on the territory of the RK over the last 5 years.\nWork experience: official work experience in Almaty for at least the last 6 months in certain fields.\nFields of activity: healthcare, education, culture, sports, universities and research institutes, mass media, social sphere, law enforcement agencies, public utility services.",
+          "projects": "Atmosfera is available (stages 4, 5, 6)\nAura - stage 2\n\"Atmosfera is available (stages 4, 5, 6)\nAura - stage 2\nKeruen stage 2 - 2 apartments left on the 1st floor\nKeruen stage 3 - there is 1 apartment of 77.6 sq.m, the price comes out more expensive, the client needs to pay the difference\nKeruen stages 1 and 4 - reservation of 500,000 tenge until commissioning\"",
+          "relevance": "current as of June 2026",
+          "bank": "Otbasy Bank"
         }
       },
       "relevance": "актуально июнь 2026"
@@ -208,11 +286,21 @@
       "i18n": {
         "kk": {
           "name": "Halyk стандартты ипотекасы",
-          "description": "Halyk Bank: 20,5-22,5% (ЖТСМ 22,78%-дан), БЖ 20%-дан, 6-240 ай. Бастапқы/қайталама нарық. БЖ 50%-дан болғанда табысты растаусыз."
+          "description": "Halyk Bank: 20,5-22,5% (ЖТСМ 22,78%-дан), БЖ 20%-дан, 6-240 ай. Бастапқы/қайталама нарық. БЖ 50%-дан болғанда табысты растаусыз.",
+          "conditions": "Мөлшерлемелер: Комиссиямен\n20,5%-дан 22,5%-ға дейін (ЖТСМ 22,78%-дан 25,00%-ға дейін) Комиссиясыз\n22%-дан 24%-ға дейін (ЖТСМ 24,32%-дан 25,00%-ға дейін)*\nБастапқы жарна: 20%-дан. Қарыз мерзімі: 6 айдан 240 айға дейін\nӘріптестік бағдарламалар: 5%-дан 18,5%-ға дейін (ЖТСМ 5,03%-дан 20,15%-ға дейін) мөлшерлеменің бір бөлігін субсидиялайтын нақты әріптес-құрылыс салушылардан (қазіргі уақытта тек BI Group) тұрғын үй сатып алу кезінде қолжетімді.\nТабысты растаусыз: 50%-дан жарна болғанда, жалақы туралы анықтамасыз және зейнетақы аударымдарынсыз ипотека рәсімдеуге болады.\nТұрғын үй түрі: Бастапқы және қайталама тұрғын үй.",
+          "requirements": "Стандартты ипотекалар бойынша банктердің негізгі талаптары:\r\nҚР азаматтығы.\r\n21 жастан 65 жасқа дейін (кредитті өтеу сәтінде).\r\nСоңғы 6-12 ай ішінде ресми расталған табыстың болуы (зейнетақы аударымдары/салық аударымдары).\r\nОң кредиттік тарих.",
+          "projects": "Атмосфера өтеді, келісім қосылды\nКеруен 2-кезек өтеді",
+          "bank": "Halyk Bank (Халық банкі)",
+          "relevance": "июнь 2026 жағдайы бойынша өзекті"
         },
         "en": {
           "name": "Halyk standard mortgage",
-          "description": "Halyk Bank: 20.5-22.5% (APR from 22.78%), down payment from 20%, 6-240 months. Primary/secondary housing. No income verification with a down payment from 50%."
+          "description": "Halyk Bank: 20.5-22.5% (APR from 22.78%), down payment from 20%, 6-240 months. Primary/secondary housing. No income verification with a down payment from 50%.",
+          "conditions": "Rates: With commission\nfrom 20.5% to 22.5% (APR from 22.78% to 25.00%) Without commission\nfrom 22% to 24% (APR from 24.32% to 25.00%)*\nDown payment: from 20%. Loan term: from 6 months to 240 months\nPartner programs: from 5% to 18.5% (APR from 5.03% to 20.15%) available when purchasing housing from specific partner developers (currently only BI Group) that subsidize part of the rate.\nNo income verification: With a down payment from 50%, a mortgage can be arranged without a salary certificate and pension contributions.\nHousing type: Primary and secondary housing.",
+          "requirements": "Banks' main requirements for standard mortgages:\r\nCitizenship of the Republic of Kazakhstan.\r\nAge from 21 to 65 years (at the time of loan repayment).\r\nOfficially verified income for the last 6-12 months (pension contributions/tax contributions).\r\nPositive credit history.",
+          "projects": "Atmosfera qualifies, the agreement is connected\nKeruen stage 2 qualifies",
+          "bank": "Halyk Bank (Halyk Bank)",
+          "relevance": "current as of June 2026"
         }
       },
       "relevance": "актуально июнь 2026"
@@ -232,11 +320,21 @@
       "i18n": {
         "kk": {
           "name": "Freedom стандартты ипотекасы",
-          "description": "Freedom Bank: ЖТСМ 24,5-24,9%, БЖ 20%-дан, 70 млн ₸-ге дейін. Онлайн рәсімдеу 1-2 күнде. Мөлшерлеме шамамен."
+          "description": "Freedom Bank: ЖТСМ 24,5-24,9%, БЖ 20%-дан, 70 млн ₸-ге дейін. Онлайн рәсімдеу 1-2 күнде. Мөлшерлеме шамамен.",
+          "bank": "Freedom Bank (Банк Фридом Финанс)",
+          "conditions": "Банк жылдам онлайн-шешімдерге және қолда бар тұрғын үйді кепілге қою арқылы ипотекаға маманданған.\nМөлшерлемелер: ЖТСМ 24,5%-дан 24,9%-ға дейін\nБастапқы жарна: 20%-дан. Қарыздың ең жоғары сомасы — 70 000 000 ₸\nЕрекшелігі: Бүкіл процесс — мақұлдаудан мәміленi тіркеуге дейін — қосымша арқылы 1-2 күнде онлайн өтеді.\nКепілге ипотека: Қолда бар жылжымайтын мүлікті кепілге қою арқылы тиімді қарыз бағдарламаларын ұсынады.",
+          "requirements": "Стандартты ипотекалар бойынша банктердің негізгі талаптары:\nҚР азаматтығы.\n21 жастан 65 жасқа дейін (кредитті өтеу сәтінде).\nСоңғы 6-12 ай ішінде ресми түрде расталған табыстың болуы (зейнетақы аударымдары/салық аударымдары).\nОң кредиттік тарих.",
+          "projects": "Атмосфера өтеді\nАура өтеді\nКеруен 2-кезек өтеді",
+          "relevance": "июнь 2026 жағдайы бойынша өзекті"
         },
         "en": {
           "name": "Freedom standard mortgage",
-          "description": "Freedom Bank: APR 24.5-24.9%, down payment from 20%, up to 70 mln ₸. Online processing in 1-2 days. Rate is indicative."
+          "description": "Freedom Bank: APR 24.5-24.9%, down payment from 20%, up to 70 mln ₸. Online processing in 1-2 days. Rate is indicative.",
+          "bank": "Freedom Bank (Bank Freedom Finance)",
+          "conditions": "The bank specialises in fast online decisions and mortgages secured by existing housing.\nRates: APR from 24.5% to 24.9%\nDown payment: from 20%. Maximum loan amount — 70,000,000 ₸\nKey feature: The entire process — from approval to registration of the transaction — takes place online via the app in 1-2 days.\nMortgage against collateral: They offer favourable loan programs secured by already owned real estate.",
+          "requirements": "Main bank requirements for standard mortgages:\nCitizenship of the Republic of Kazakhstan.\nAge from 21 to 65 years (at the time of loan repayment).\nAvailability of officially confirmed income for the last 6-12 months (pension contributions/tax contributions).\nPositive credit history.",
+          "projects": "Atmosfera passes\nAura passes\nKeruen stage 2 passes",
+          "relevance": "current as of June 2026"
         }
       },
       "relevance": "актуально июнь 2026"
@@ -256,11 +354,21 @@
       "i18n": {
         "kk": {
           "name": "БЦК стандартты ипотекасы",
-          "description": "Банк ЦентрКредит (#Ипотека): 20,55-21,85%, БЖ 20%-дан, 180 айға дейін. 50 млн ₸-ге дейін (Алматы/Астана); БЖ 30%-дан болғанда лимитсіз."
+          "description": "Банк ЦентрКредит (#Ипотека): 20,55-21,85%, БЖ 20%-дан, 180 айға дейін. 50 млн ₸-ге дейін (Алматы/Астана); БЖ 30%-дан болғанда лимитсіз.",
+          "conditions": "БЦК өз брендімен #Ипотека бойынша ипотеканы белсенді түрде береді.\nМөлшерлемелер: жылдық 20,55%-21,85%\nБастапқы жарна: 20%-дан. Несиелеу мерзімі\n180 айға дейін\nЕрекшелігі: Стандартты бағдарламалар да, лимиттер болған жағдайда 7-20-25 бағдарламасы да қолжетімді. Банктің көбіне белгілі бір құрылыс салушылармен бағдарламалары болады. кірісі расталған және бастапқы жарнасы 20%-дан болатын сегмент үшін:\nАстана Алматы қалалары үшін – 50 млн. теңге;\nШымкент, Қарағанды, Ақтау, Атырау, Ақтөбе, Өскемен қалалары үшін – 45 млн. теңге;\nқалған өңірлер үшін – 30 млн. теңге;\nбастапқы жарна 30%-дан болғанда тұрғын үй құнына шектеулер жоқ.",
+          "requirements": "Стандартты ипотекалар бойынша банктердің негізгі талаптары:\nҚР азаматтығы.\n21 жастан 65 жасқа дейін (несиені өтеу сәтінде).\nСоңғы 6-12 ай ішінде ресми расталған кірістің болуы (зейнетақы аударымдары/салық аударымдары).\nОң несиелік тарих.",
+          "projects": "Атмосфера өтеді\nАура өтеді\nКеруен 2-кезек өтеді",
+          "relevance": "июнь 2026 жағдайы бойынша өзекті",
+          "bank": "Банк ЦентрКредит (БЦК)"
         },
         "en": {
           "name": "BCC standard mortgage",
-          "description": "Bank CenterCredit (#Mortgage): 20.55-21.85%, down payment from 20%, up to 180 months. Up to 50 mln ₸ (Almaty/Astana); no cap with a down payment from 30%."
+          "description": "Bank CenterCredit (#Mortgage): 20.55-21.85%, down payment from 20%, up to 180 months. Up to 50 mln ₸ (Almaty/Astana); no cap with a down payment from 30%.",
+          "conditions": "BCC actively issues mortgages under its own brand #Mortgage.\nRates: 20.55%-21.85% per annum\nDown payment: from 20%. Loan term\nup to 180 months\nFeature: Both standard programs and the 7-20-25 program (subject to available limits) are accessible. The bank often has programs with specific developers. for the segment with income verification and a down payment from 20%:\nfor the cities of Astana, Almaty – 50 mln tenge;\nfor the cities of Shymkent, Karaganda, Aktau, Atyrau, Aktobe, Ust-Kamenogorsk – 45 mln tenge;\nfor the other regions – 30 mln tenge;\nwith a down payment from 30% there are no restrictions on the cost of housing.",
+          "requirements": "Main bank requirements for standard mortgages:\nCitizenship of the Republic of Kazakhstan.\nAge from 21 to 65 years (at the time of loan repayment).\nA documented official income for the last 6-12 months (pension contributions/tax contributions).\nA positive credit history.",
+          "projects": "Atmosfera qualifies\nAura qualifies\nKeruen stage 2 qualifies",
+          "relevance": "current as of June 2026",
+          "bank": "Bank CenterCredit (BCC)"
         }
       },
       "relevance": "актуально июнь 2026"
@@ -280,11 +388,21 @@
       "i18n": {
         "kk": {
           "name": "Altyn стандартты ипотекасы",
-          "description": "Altyn Bank: 21-22,4% (ЖТСМ 23,15%-дан), БЖ 20%-дан, 20 жылға дейін, 175 млн ₸-ге дейін (Алматыдағы премиум-тұрғын үй)."
+          "description": "Altyn Bank: 21-22,4% (ЖТСМ 23,15%-дан), БЖ 20%-дан, 20 жылға дейін, 175 млн ₸-ге дейін (Алматыдағы премиум-тұрғын үй).",
+          "conditions": "Банк бәсекеге қабілетті мөлшерлемелерді және ірі сомаларды несиелеу мүмкіндігін ұсынады.\nМөлшерлемелер: 21%-дан 22,4%-ға дейін, ЖТСМ 23,15%-дан 24,93%-ға дейін\nБастапқы жарна: 20%-дан. Мерзімі\r\n20 жылға дейін\nЕң жоғары сома: Алматыдағы элиталық және премиум-тұрғын үй үшін 175 млн теңгеге дейін.",
+          "requirements": "Банктердің стандартты ипотекалар бойынша негізгі талаптары:\r\nҚР азаматтығы.\r\n21 жастан 65 жасқа дейінгі жас (несиені өтеу сәтінде).\r\nСоңғы 6-12 ай ішінде ресми расталған табыстың болуы (зейнетақы аударымдары/салық аударымдары).\r\nОң несиелік тарих.",
+          "projects": "Атмосфера өтеді \nАура өтеді\nКеруен 2-кезек өтеді",
+          "bank": ". Altyn Bank",
+          "relevance": "июнь 2026 жағдайы бойынша өзекті"
         },
         "en": {
           "name": "Altyn standard mortgage",
-          "description": "Altyn Bank: 21-22.4% (APR from 23.15%), down payment from 20%, up to 20 years, up to 175 mln ₸ (premium housing in Almaty)."
+          "description": "Altyn Bank: 21-22.4% (APR from 23.15%), down payment from 20%, up to 20 years, up to 175 mln ₸ (premium housing in Almaty).",
+          "conditions": "The bank offers competitive rates and the option to finance large amounts.\nRates: from 21% to 22.4%, APR from 23.15% to 24.93%\nDown payment: from 20%. Term\r\nup to 20 years\nMaximum amount: up to 175 mln tenge for elite and premium housing in Almaty.",
+          "requirements": "Banks' main requirements for standard mortgages:\r\nCitizenship of the Republic of Kazakhstan.\r\nAge from 21 to 65 years (at the time of loan repayment).\r\nProof of officially confirmed income for the last 6-12 months (pension contributions/tax contributions).\r\nPositive credit history.",
+          "projects": "Atmosfera qualifies \nAura qualifies\nKeruen stage 2 qualifies",
+          "bank": ". Altyn Bank",
+          "relevance": "current as of June 2026"
         }
       },
       "relevance": "актуально июнь 2026"
@@ -304,11 +422,21 @@
       "i18n": {
         "kk": {
           "name": "Freedom каскадты ипотекасы",
-          "description": "Freedom Bank, серіктес ТК: мөлшерлеме мерзіммен бірге өседі (қысқа мерзімде 12,5%-дан, ЖТСМ 18,8-20,9%), БЖ 20%-дан, 5-20 жыл, 35 млн ₸-ге дейін."
+          "description": "Freedom Bank, серіктес ТК: мөлшерлеме мерзіммен бірге өседі (қысқа мерзімде 12,5%-дан, ЖТСМ 18,8-20,9%), БЖ 20%-дан, 5-20 жыл, 35 млн ₸-ге дейін.",
+          "conditions": "Каскадты ипотека шарттары (2026 жыл)\nБұл бағдарлама банктің серіктестерінен жаңа үйлердегі пәтерлерге ипотеканы онлайн режимінде жылдам ресімдеуге мүмкіндік береді.\nБастапқы жарна: меншікті қаражаттың 20%-дан. Каскадты ипотека бойынша мөлшерлеме мерзімнің ұлғаюымен бірге өседі. Мерзім неғұрлым қысқа болса — мөлшерлеме мен артық төлем соғұрлым аз.\nБағдарламаға ТК-нің екі тобы қатысады: біріншісінде ең төменгі мөлшерлеме алғашқы үш жылда 12,5%-дан басталады, екіншісінде — 14,5%-дан: ЖТСМ 18,8%-дан 20.9%-ға дейін, төмендегі сілтеме бойынша есептеудің толық схемасы https://bankffin.kz/ipoteka/programs/b2cc\nНесиелеу мерзімі: 5 жылдан 20 жылға дейін.\nЕң жоғары қарыз сомасы — 35 000 000 ₸\nТұрғын үй түрі: Тек банк мақұлдаған серіктес тұрғын үй кешендеріндегі пәтерлер.\nРесімдеу: Қағаз құжаттарды жинамай және банкке бармай, толығымен онлайн режимінде Freedom SuperApp қосымшасы арқылы.",
+          "requirements": "Қарыз алушыға қойылатын талаптар\r\nҚазақстан Республикасының азаматтығы.\r\nЖасы: 21-ден 63 жасқа дейін (ипотека аяқталған сәтте).\r\nЕңбек немесе кәсіпкерлік қызметтен табыстың болуы (зейнетақы аударымдары/салық есептілігі арқылы расталады).\r\nӨтінім беруге және нақты шарттарды есептеуге Freedom Bank-тің ресми сайтында немесе bankffin.kz/ipoteka/programs/b2cc қосымшасында болады.",
+          "projects": "Атмосфера өтеді\nАура өтеді\nКеруен 2-кезек өтеді",
+          "bank": "Freedom Bank (Банк Фридом Финанс)",
+          "relevance": "июнь 2026 жағдайы бойынша өзекті"
         },
         "en": {
           "name": "Freedom cascade mortgage",
-          "description": "Freedom Bank, partner residential complexes: rate rises with the term (from 12.5% for short terms, APR 18.8-20.9%), down payment from 20%, 5-20 years, up to 35 mln ₸."
+          "description": "Freedom Bank, partner residential complexes: rate rises with the term (from 12.5% for short terms, APR 18.8-20.9%), down payment from 20%, 5-20 years, up to 35 mln ₸.",
+          "conditions": "Cascade mortgage terms (2026)\nThis program lets you quickly arrange a mortgage online for apartments in new-build developments from the bank's partners.\nDown payment: from 20% of your own funds. The cascade mortgage rate rises along with the increase in the term. The shorter the term, the lower the rate and the overpayment.\nTwo groups of residential complexes participate in the program: in the first, the minimum rate starts at 12.5% for the first three years, in the second — at 14.5%: APR from 18.8% to 20.9%, the full calculation scheme is at the link below https://bankffin.kz/ipoteka/programs/b2cc\nLending term: from 5 to 20 years.\nMaximum loan amount — 35 000 000 ₸\nHousing type: Only apartments in partner residential complexes approved by the bank.\nProcessing: Fully online via the Freedom SuperApp application, without collecting paper documents or visiting the bank.",
+          "requirements": "Borrower requirements\r\nCitizenship of the Republic of Kazakhstan.\r\nAge: from 21 to 63 years (at the time the mortgage ends).\r\nHaving income from employment or entrepreneurial activity (confirmed via pension contributions/tax reporting).\r\nYou can submit an application and calculate exact terms on the official Freedom Bank website or in the bankffin.kz/ipoteka/programs/b2cc application.",
+          "projects": "Atmosfera passes\nAura passes\nKeruen stage 2 passes",
+          "bank": "Freedom Bank (Bank Freedom Finance)",
+          "relevance": "current as of June 2026"
         }
       },
       "relevance": "актуально июнь 2026"
@@ -328,11 +456,21 @@
       "i18n": {
         "kk": {
           "name": "БЦК серіктестік ипотекасы",
-          "description": "Банк ЦентрКредит, #Ипотека Плюс: 18,1-21,95% (БЖ мен құрылыс салушы субсидиясына байланысты), БЖ 20%-дан, 15 жылға дейін. Бастапқы/қайталама нарық."
+          "description": "Банк ЦентрКредит, #Ипотека Плюс: 18,1-21,95% (БЖ мен құрылыс салушы субсидиясына байланысты), БЖ 20%-дан, 15 жылға дейін. Бастапқы/қайталама нарық.",
+          "bank": "БЦК",
+          "conditions": "«#Ипотека Плюс» бағдарламасы Мөлшерлемелер: Жылдық 18,1%-21,95% аралығында ауытқиды. Мөлшерлеме бастапқы жарнаның мөлшеріне және құрылыс салушының несиені қаншалықты субсидиялауға дайын екеніне байланысты.\nБастапқы жарна: 20%-дан. Жарна 50% және одан жоғары болған жағдайда табысты толық растамай оңайлатылған қарау мүмкін.\nҚарыз мерзімі: 15 жылға дейін.\nтабысты растайтын және бастапқы жарнасы 20%-дан болатын сегмент үшін: \n\nАстана, Алматы қалалары үшін – 50 млн. теңге;\nШымкент, Қарағанды, Ақтау, Атырау, Ақтөбе, Өскемен қалалары үшін – 45 млн. теңге;\nқалған өңірлер үшін – 30 млн. теңге;\nбастапқы жарна 30%-дан болған жағдайда тұрғын үй құнына қатысты шектеулер жоқ.  Клиент бастапқы жарна ретінде қосымша қамтамасыз ету объектісін (тұрғын жылжымайтын мүлік (үйлер, пәтерлер)) кепілге беруге құқылы.  «#Ипотека Плюс» бағдарламасы: Тұрғын үйді бастапқы немесе қайталама нарықтан сатып алу",
+          "requirements": "Стандартты ипотека бойынша банктердің негізгі талаптары:\r\nҚР азаматтығы.\r\n21 жастан 65 жасқа дейінгі жас (несиені өтеу сәтінде).\r\nСоңғы 6-12 ай ішінде ресми расталған табыстың болуы (зейнетақы аударымдары/салық аударымдары).\r\nОң несиелік тарих.",
+          "projects": "Атмосфера өтеді \nАура өтеді\nКеруен 2-кезек өтеді",
+          "relevance": "июнь 2026 жағдайы бойынша өзекті"
         },
         "en": {
           "name": "BCC partner mortgage",
-          "description": "Bank CenterCredit, #Mortgage Plus: 18.1-21.95% (depends on down payment and developer subsidy), down payment from 20%, up to 15 years. Primary/secondary housing."
+          "description": "Bank CenterCredit, #Mortgage Plus: 18.1-21.95% (depends on down payment and developer subsidy), down payment from 20%, up to 15 years. Primary/secondary housing.",
+          "bank": "BCC",
+          "conditions": "\"#Mortgage Plus\" program Rates: Vary from 18.1% to 21.95% per annum. The rate depends on the size of the down payment and how strongly the developer is willing to subsidize the loan.\nDown payment: from 20%. With a down payment of 50% or more, simplified review without full income verification is possible.\nLoan term: up to 15 years.\nfor the segment with income verification and a down payment from 20%: \n\nfor the cities of Astana and Almaty – 50 million tenge;\nfor the cities of Shymkent, Karaganda, Aktau, Atyrau, Aktobe, Ust-Kamenogorsk – 45 million tenge;\nfor the remaining regions – 30 million tenge;\nwith a down payment from 30% there are no restrictions on the cost of the housing.  The client has the right to pledge an additional collateral object (residential real estate (houses, apartments)) as a down payment.  \"#Mortgage Plus\" program: Purchase of housing on the primary or secondary market",
+          "requirements": "Banks' main requirements for standard mortgages:\r\nCitizenship of the Republic of Kazakhstan.\r\nAge from 21 to 65 years (at the time of loan repayment).\r\nAvailability of officially confirmed income for the last 6-12 months (pension contributions/tax contributions).\r\nPositive credit history.",
+          "projects": "Atmosfera qualifies \nAura qualifies\nKeruen stage 2 qualifies",
+          "relevance": "current as of June 2026"
         }
       },
       "relevance": "актуально июнь 2026"
@@ -352,11 +490,21 @@
       "i18n": {
         "kk": {
           "name": "Altyn серіктестік ипотекасы",
-          "description": "Altyn Bank: субсидияланған 0,1%-дан (алғашқы 1-2 жыл) немесе бүкіл мерзімге тіркелген 14,5-16,5%, БЖ 20%-дан, 175 млн ₸-ге дейін."
+          "description": "Altyn Bank: субсидияланған 0,1%-дан (алғашқы 1-2 жыл) немесе бүкіл мерзімге тіркелген 14,5-16,5%, БЖ 20%-дан, 175 млн ₸-ге дейін.",
+          "conditions": "Мөлшерлемелер:\nСубсидияланған: 0,1%-дан 18,5%-ға дейін (ЖТСМ 0,1%-дан 20,31%-ға дейін)(әдетте төмен мөлшерлеме тек алғашқы 1-2 жыл ғана қолданылады, содан кейін көтеріледі).\nТіркелген серіктестік: бүкіл мерзімге шамамен 14,5% – 16,5%.\nБастапқы жарна: 20%-дан.\nЕң жоғары сома: нарықтағы ең жоғарыларының бірі — 175 млн теңгеге дейін, бұл Алматыдағы бизнес және элит-класс ТК-лары үшін өзекті.\nЕрекшеліктері:\nЦифрлық ипотека: Altyn Bank ЖСН бойынша онлайн режимде бірнеше минут ішінде мақұлдау алуға мүмкіндік береді.\nИкемділік: аннуитеттік (тең үлестермен) немесе сараланған (азаюға) төлем кестесін таңдауға болады.",
+          "requirements": "Стандартты ипотекалар бойынша банктердің негізгі талаптары:\nҚР азаматтығы.\n21 жастан 65 жасқа дейінгі жас (несиені өтеу сәтінде).\nСоңғы 6-12 ай ішінде ресми расталған кірістің болуы (зейнетақы аударымдары/салық аударымдары).\nОң несие тарихы.",
+          "projects": "Атмосфера өтеді\nАура өтеді\nКеруен 2-кезек өтеді",
+          "relevance": "июнь 2026 жағдайы бойынша өзекті",
+          "bank": "Altyn Bank"
         },
         "en": {
           "name": "Altyn partner mortgage",
-          "description": "Altyn Bank: subsidized from 0.1% (first 1-2 years) or fixed 14.5-16.5% for the full term, down payment from 20%, up to 175 mln ₸."
+          "description": "Altyn Bank: subsidized from 0.1% (first 1-2 years) or fixed 14.5-16.5% for the full term, down payment from 20%, up to 175 mln ₸.",
+          "conditions": "Rates:\nSubsidized: from 0.1% to 18.5% (APR from 0.1% to 20.31%)(usually the low rate applies only for the first 1-2 years, then increases).\nFixed partner rate: about 14.5% – 16.5% for the full term.\nDown payment: from 20%.\nMaximum amount: one of the highest on the market — up to 175 mln tenge, which is relevant for business and elite-class residential complexes in Almaty.\nFeatures:\nDigital mortgage: Altyn Bank allows obtaining approval by IIN online within a few minutes.\nFlexibility: you can choose an annuity (equal installments) or differentiated (declining balance) payment schedule.",
+          "requirements": "Banks' main requirements for standard mortgages:\nCitizenship of the Republic of Kazakhstan.\nAge from 21 to 65 years (at the time of loan repayment).\nOfficially confirmed income for the last 6-12 months (pension contributions/tax contributions).\nPositive credit history.",
+          "projects": "Atmosfera qualifies\nAura qualifies\nKeruen stage 2 qualifies",
+          "relevance": "current as of June 2026",
+          "bank": "Altyn Bank"
         }
       },
       "relevance": "актуально июнь 2026"
@@ -375,11 +523,17 @@
       "i18n": {
         "kk": {
           "name": "Алатау",
-          "description": "Отбасы банк, «Алатау Сити» ТК: 5%, БЖ 10%-дан, 19 жылға дейін. Таза әрленген тапсыру, әкімдік арқылы іріктеу."
+          "description": "Отбасы банк, «Алатау Сити» ТК: 5%, БЖ 10%-дан, 19 жылға дейін. Таза әрленген тапсыру, әкімдік арқылы іріктеу.",
+          "bank": "Отбасы банк",
+          "conditions": "Пайыздық мөлшерлеме: жылдық 5%.\r\nБастапқы жарна: 10%-дан.\r\nҚарыз мерзімі: 19 жылға дейін.\r\nТұрғын үйдің ең жоғары құны: 18 млн теңгеден (нақты лимиттер жобаға байланысты).\r\nТұрғын үй түрі: пайдалануға берілген, таза әрленген үйлердегі пәтерлер («Алатау Сити» жобасы аясында).",
+          "requirements": "Негізгі шарт — әкімдік арқылы іріктеуден өту. Әдетте талап етіледі: \nҚР азаматы болу.\nӘкімдікте тұрғын үй кезегінде тұру немесе бағдарлама критерийлеріне сай келу (мысалы, Алматы облысындағы «Алатау жастары» жастар ипотекасы үшін өз шарттары бар).\nТөлем қабілеттілігін растау. \nАғымдағы конкурстар мен шарттар туралы толық ақпарат алу үшін Отбасы банкке немесе оның otbasybank.kz жылжымайтын мүлік порталына жүгіну ұсынылады."
         },
         "en": {
           "name": "Alatau",
-          "description": "Otbasy Bank, Alatau City complex: 5%, down payment from 10%, up to 19 years. Turnkey finish, selection via the akimat."
+          "description": "Otbasy Bank, Alatau City complex: 5%, down payment from 10%, up to 19 years. Turnkey finish, selection via the akimat.",
+          "bank": "Otbasy Bank",
+          "conditions": "Interest rate: 5% per annum.\r\nDown payment: from 10%.\r\nLoan term: up to 19 years.\r\nMaximum cost of housing: from 18 million tenge (specific limits depend on the project).\r\nType of housing: apartments in commissioned buildings with turnkey finish (within the Alatau City project).",
+          "requirements": "The main condition is passing the selection via the akimat. As a rule, the following is required: \nBeing a citizen of the Republic of Kazakhstan.\nBeing on the housing waiting list at the akimat or meeting the program criteria (for example, the \"Alatau zhastary\" youth mortgage in the Almaty Region has its own conditions).\nConfirming solvency. \nFor detailed information on current competitions and conditions, it is recommended to contact Otbasy Bank or its real estate portal otbasybank.kz."
         }
       }
     },
@@ -398,11 +552,13 @@
       "i18n": {
         "kk": {
           "name": "Өз нұсқаңыз",
-          "description": "Мөлшерлеме мен мерзімді қолмен енгізіңіз."
+          "description": "Мөлшерлеме мен мерзімді қолмен енгізіңіз.",
+          "conditions": "Жеке есептеу үшін мөлшерлеме мен мерзімді қолмен енгізу."
         },
         "en": {
           "name": "Custom option",
-          "description": "Enter the rate and term manually."
+          "description": "Enter the rate and term manually.",
+          "conditions": "Manual entry of the rate and term for an individual calculation."
         }
       }
     }
