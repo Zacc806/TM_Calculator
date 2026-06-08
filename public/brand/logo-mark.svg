@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" role="img" aria-label="Atamura">
-  <rect width="40" height="40" rx="10" fill="#007484"/>
-  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M12 30 L20 11 L28 30" stroke="#ffffff" stroke-width="3.6"/>
-    <path d="M14.6 24 H25.4" stroke="#7fd0da" stroke-width="3"/>
-  </g>
-</svg>

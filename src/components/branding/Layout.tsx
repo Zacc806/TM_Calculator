@@ -25,10 +25,7 @@ export function Layout({ children, variant = "full", title, subtitle }: Props) {
     <div className={styles.page}>
       <header className={styles.header}>
         <div className={styles.headerInner}>
-          <div className={styles.brand} aria-label="Atamura Group">
-            <img className={styles.brandMark} src="/brand/logo-mark.svg" alt="" />
-            <span className={styles.brandName}>ATAMURA</span>
-          </div>
+          <img className={styles.logo} src="/brand/logo.svg" alt="Atamura Group" />
           <Controls />
         </div>
       </header>
