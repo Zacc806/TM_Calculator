@@ -39,7 +39,7 @@ export function useCalcQuery(): CalcQuery {
       term: num(params.get("term")),
       zhk: params.get("zhk") ?? undefined,
       program: params.get("program") ?? undefined,
-      lang: langRaw === "ru" || langRaw === "kk" ? langRaw : undefined,
+      lang: langRaw === "ru" || langRaw === "kk" || langRaw === "en" ? langRaw : undefined,
     };
   }, [params]);
 }

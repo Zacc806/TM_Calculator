@@ -1,7 +1,8 @@
-export type Lang = "ru" | "kk";
+export type Lang = "ru" | "kk" | "en";
 export const LANGS: ReadonlyArray<{ code: Lang; label: string }> = [
   { code: "ru", label: "RU" },
   { code: "kk", label: "ҚАЗ" },
+  { code: "en", label: "EN" },
 ];
 
 type Dict = Record<string, string>;
@@ -108,13 +109,13 @@ export const translations: Record<Lang, Dict> = {
     "field.term": "Мерзім, ай",
     "field.cost.aria": "Пәтердің теңгемен құны",
     "field.rate.aria": "Жылдық пайыздық мөлшерлеме",
-    "field.term.aria": "Айлық мерзім",
+    "field.term.aria": "Мерзім, ай",
     "field.dpPercent.aria": "Бастапқы жарна, пайыз",
     "field.dpAmount.aria": "Бастапқы жарна, теңге",
     "field.dpSlider.aria": "Бастапқы жарна жүгірткісі",
     "field.dpUnit.aria": "Бастапқы жарна бірлігі",
 
-    "calc.error": "Өрістерді тексеріңіз: құны мен мерзім нөлден жоғары, жарна құннан аспауы тиіс.",
+    "calc.error": "Өрістерді тексеріңіз: құны мен мерзім нөлден жоғары болуы тиіс, жарна құннан аспауы тиіс.",
 
     "result.label": "Айлық төлем",
     "result.perMonth": "айына",
@@ -138,7 +139,7 @@ export const translations: Record<Lang, Dict> = {
     "action.copy": "Көшіру",
     "action.copied": "Көшірілді ✓",
     "action.pdf": "PDF жүктеу",
-    "action.pdfBusy": "Дайындаудамыз…",
+    "action.pdfBusy": "Дайындалуда…",
     "action.clientLink": "Клиентке сілтеме",
     "action.linkCopied": "Сілтеме көшірілді ✓",
     "action.conditions": "Бағдарлама шарттары",
@@ -164,7 +165,7 @@ export const translations: Record<Lang, Dict> = {
     "lead.consent":
       "Қазақстан Республикасының заңнамасына сәйкес дербес деректерімді жинауға және өңдеуге, кері қоңырауға келісім беремін.",
     "lead.submit": "Кеңес алу",
-    "lead.submitting": "Жіберудеміз…",
+    "lead.submitting": "Жіберілуде…",
     "lead.successTitle": "Өтінім қабылданды",
     "lead.successText": "Atamura Group менеджері дайын есеппен сізге қайта қоңырау шалады.",
     "lead.errorRequired": "Атыңызды, дұрыс телефонды көрсетіп, келісімді растаңыз.",
@@ -182,5 +183,93 @@ export const translations: Record<Lang, Dict> = {
 
     "ctrl.theme.aria": "Тақырыпты ауыстыру",
     "ctrl.lang.aria": "Тілді ауыстыру",
+  },
+  en: {
+    "app.tagline": "Payment calculator",
+    "landing.title": "Monthly payment calculator",
+    "landing.subtitle":
+      "Find out your apartment payment in seconds: pick a program, then enter the price and the down payment.",
+
+    "field.cost": "Apartment price",
+    "field.downPayment": "Down payment",
+    "field.program": "Purchase program",
+    "field.rate": "Interest rate, % per year",
+    "field.term": "Term, months",
+    "field.cost.aria": "Apartment price in tenge",
+    "field.rate.aria": "Annual interest rate, percent",
+    "field.term.aria": "Term in months",
+    "field.dpPercent.aria": "Down payment, percent",
+    "field.dpAmount.aria": "Down payment, tenge",
+    "field.dpSlider.aria": "Down payment slider",
+    "field.dpUnit.aria": "Down payment unit",
+
+    "calc.error": "Check the fields: price and term must be greater than zero, and the down payment must not exceed the price.",
+
+    "result.label": "Monthly payment",
+    "result.perMonth": "per month",
+    "result.installment": "installment",
+    "result.annual": "per year",
+    "result.cost": "Apartment price",
+    "result.downPayment": "Down payment",
+    "result.loanInstallment": "Installment amount",
+    "result.loanCredit": "Loan amount",
+    "result.overpayment": "Overpayment",
+    "result.total": "Total cost",
+    "result.program": "Program",
+    "result.cardTitle": "Monthly payment calculation",
+
+    "term.months": "mo.",
+    "term.year": "year",
+    "term.years2": "years",
+    "term.years5": "years",
+
+    "action.print": "Print",
+    "action.copy": "Copy",
+    "action.copied": "Copied ✓",
+    "action.pdf": "Download PDF",
+    "action.pdfBusy": "Preparing…",
+    "action.clientLink": "Client link",
+    "action.linkCopied": "Link copied ✓",
+    "action.conditions": "Program terms",
+
+    "bitrix.loading": "Loading the calculator…",
+    "bitrix.save": "Save to deal",
+    "bitrix.saving": "Saving…",
+    "bitrix.saved": "Saved to deal ✓",
+
+    "modal.requirements": "Borrower requirements",
+    "modal.bank": "Bank / operator",
+    "modal.projects": "Available in these projects",
+    "modal.conditionsHead": "Program terms",
+    "modal.close": "Close",
+    "modal.rate": "Rate",
+    "modal.term": "Term",
+    "modal.dp": "Down payment",
+
+    "lead.title": "Get a consultation",
+    "lead.subtitle": "Leave your phone number — a manager will call you back and help you with the calculation and choosing an apartment.",
+    "lead.name": "Your name",
+    "lead.phone": "Phone",
+    "lead.consent":
+      "I consent to the collection and processing of my personal data in accordance with the laws of the Republic of Kazakhstan and agree to a callback.",
+    "lead.submit": "Get a consultation",
+    "lead.submitting": "Sending…",
+    "lead.successTitle": "Request received",
+    "lead.successText": "An Atamura Group manager will call you back with the completed calculation.",
+    "lead.errorRequired": "Enter your name, a valid phone number, and confirm consent.",
+    "lead.errorSend": "Couldn't send. Please try again or call us.",
+
+    "footer.disclaimer":
+      "This calculation is for information only and is not a public offer. Confirm exact rates, terms, and program conditions with Atamura Group managers and partner banks.",
+
+    "client.title": "Your payment calculation",
+    "client.subtitle": "Preliminary calculation from Atamura Group.",
+    "client.unavailableTitle": "Calculation unavailable",
+    "client.unavailableText":
+      "The link is outdated or incomplete. Request a new calculation from an Atamura Group manager.",
+    "client.customProgram": "Custom terms",
+
+    "ctrl.theme.aria": "Toggle theme",
+    "ctrl.lang.aria": "Change language",
   },
 };

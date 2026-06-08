@@ -10,11 +10,15 @@ interface I18nCtx {
 const I18nContext = createContext<I18nCtx | null>(null);
 const KEY = "atamura_lang";
 
+function isLang(v: unknown): v is Lang {
+  return v === "ru" || v === "kk" || v === "en";
+}
+
 function initialLang(): Lang {
   if (typeof window === "undefined") return "ru";
   try {
     const saved = localStorage.getItem(KEY);
-    if (saved === "ru" || saved === "kk") return saved;
+    if (isLang(saved)) return saved;
   } catch {
     /* ignore */
   }
@@ -25,7 +29,7 @@ export function LangProvider({ children }: { children: ReactNode }) {
   const [lang, setLang] = useState<Lang>(initialLang);
 
   useEffect(() => {
-    document.documentElement.setAttribute("lang", lang === "kk" ? "kk" : "ru");
+    document.documentElement.setAttribute("lang", lang);
     try {
       localStorage.setItem(KEY, lang);
     } catch {
