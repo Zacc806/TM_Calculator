@@ -1,6 +1,8 @@
 node_modules
 dist
 dist-ssr
+dist-server
+*.tsbuildinfo
 coverage
 *.local
 .env
