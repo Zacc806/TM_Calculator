@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import type { CalcInput, CalcResult } from "../../core/calc.types";
-import { formatTenge } from "../../core/money";
+import { formatTenge, formatPercent } from "../../core/money";
 import { formatTerm } from "../../lib/format";
 import { useT } from "../../i18n";
 import styles from "./Calculator.module.css";
@@ -35,7 +35,7 @@ export const ResultCard = forwardRef<HTMLDivElement, Props>(function ResultCard(
         {t("result.perMonth")} · {formatTerm(input.termMonths, t)}
         {result.isZeroRate
           ? ` · ${t("result.installment")}`
-          : ` · ${input.annualRatePercent}% ${t("result.annual")}`}
+          : ` · ${formatPercent(input.annualRatePercent)} ${t("result.annual")}`}
       </div>
 
       <div className={styles.resultGrid}>

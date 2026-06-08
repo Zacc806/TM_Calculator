@@ -10,6 +10,12 @@ export function formatTenge(value: number): string {
   return `${sign}${grouped}${NBSP}₸`;
 }
 
+/** Formats a percent with ru-locale decimals (comma), up to 2 fraction digits: 7% / 18,5%. */
+export function formatPercent(value: number): string {
+  if (!Number.isFinite(value)) return "0%";
+  return `${new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 2 }).format(value)}%`;
+}
+
 /** Parses a money string (spaces, ₸, NBSP) into an integer tenge value. Non-numeric → 0. */
 export function parseTenge(raw: string): number {
   const digits = raw.replace(/[^\d]/g, "");

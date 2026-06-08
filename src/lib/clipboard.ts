@@ -1,5 +1,5 @@
 import type { CalcInput, CalcResult } from "../core/calc.types";
-import { formatTenge } from "../core/money";
+import { formatTenge, formatPercent } from "../core/money";
 import { formatTerm } from "./format";
 
 /** Builds a plain-text расчёт for WhatsApp / clipboard. */
@@ -16,7 +16,7 @@ export function buildSummary(
     `Программа: ${programName}`,
     result.isZeroRate
       ? `Рассрочка, ${formatTerm(input.termMonths)}`
-      : `Ставка: ${input.annualRatePercent}% годовых · ${formatTerm(input.termMonths)}`,
+      : `Ставка: ${formatPercent(input.annualRatePercent)} годовых · ${formatTerm(input.termMonths)}`,
     "",
     `Ежемесячный платёж: ${formatTenge(result.monthlyPayment)}`,
     `Сумма ${result.isZeroRate ? "рассрочки" : "кредита"}: ${formatTenge(result.loanAmount)}`,

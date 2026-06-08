@@ -55,6 +55,11 @@ export const translations: Record<Lang, Dict> = {
     "action.linkCopied": "Ссылка скопирована ✓",
     "action.conditions": "Условия программы",
 
+    "bitrix.loading": "Загрузка калькулятора…",
+    "bitrix.save": "Сохранить в сделку",
+    "bitrix.saving": "Сохраняем…",
+    "bitrix.saved": "Сохранено в сделку ✓",
+
     "modal.requirements": "Требования к клиенту",
     "modal.bank": "Банк / оператор",
     "modal.projects": "Доступно по проектам",
@@ -67,6 +72,7 @@ export const translations: Record<Lang, Dict> = {
     "lead.title": "Получить консультацию",
     "lead.subtitle": "Оставьте телефон — менеджер перезвонит и поможет с расчётом и подбором.",
     "lead.name": "Ваше имя",
+    "lead.phone": "Телефон",
     "lead.consent":
       "Я согласен(а) на сбор и обработку моих персональных данных в соответствии с законодательством Республики Казахстан и даю согласие на обратный звонок.",
     "lead.submit": "Получить консультацию",
@@ -137,6 +143,11 @@ export const translations: Record<Lang, Dict> = {
     "action.linkCopied": "Сілтеме көшірілді ✓",
     "action.conditions": "Бағдарлама шарттары",
 
+    "bitrix.loading": "Калькулятор жүктелуде…",
+    "bitrix.save": "Мәмілеге сақтау",
+    "bitrix.saving": "Сақталуда…",
+    "bitrix.saved": "Мәмілеге сақталды ✓",
+
     "modal.requirements": "Клиентке қойылатын талаптар",
     "modal.bank": "Банк / оператор",
     "modal.projects": "Жобалар бойынша қолжетімді",
@@ -149,6 +160,7 @@ export const translations: Record<Lang, Dict> = {
     "lead.title": "Кеңес алу",
     "lead.subtitle": "Телефоныңызды қалдырыңыз — менеджер қайта қоңырау шалып, есеп пен таңдауға көмектеседі.",
     "lead.name": "Атыңыз",
+    "lead.phone": "Телефон нөмірі",
     "lead.consent":
       "Қазақстан Республикасының заңнамасына сәйкес дербес деректерімді жинауға және өңдеуге, кері қоңырауға келісім беремін.",
     "lead.submit": "Кеңес алу",

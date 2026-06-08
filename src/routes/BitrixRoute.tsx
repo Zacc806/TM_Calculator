@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Layout } from "../components/branding/Layout";
 import { Calculator } from "../components/Calculator/Calculator";
+import { useCalcQuery } from "../hooks/useQueryParams";
+import { useI18n } from "../i18n";
 import type { UseCalculatorInit } from "../hooks/useCalculator";
 import type { CalcInput, CalcResult } from "../core/calc.types";
 import { buildSummary } from "../lib/clipboard";
@@ -16,12 +18,18 @@ interface Snapshot {
 }
 
 export function BitrixRoute() {
+  const query = useCalcQuery();
+  const { t, setLang } = useI18n();
   const [ready, setReady] = useState(false);
   const [dealId, setDealId] = useState<string | null>(null);
   const [initial, setInitial] = useState<UseCalculatorInit>({ programId: "rassrochka" });
   const [save, setSave] = useState<SaveState>("idle");
   const sdkRef = useRef<Bx24Sdk | null>(null);
   const snapRef = useRef<Snapshot | null>(null);
+
+  useEffect(() => {
+    if (query.lang) setLang(query.lang);
+  }, [query.lang, setLang]);
 
   useEffect(() => {
     let active = true;
@@ -81,7 +89,7 @@ export function BitrixRoute() {
   if (!ready) {
     return (
       <Layout variant="bare">
-        <p style={{ color: "var(--ink-soft)" }}>Загрузка калькулятора…</p>
+        <p style={{ color: "var(--ink-soft)" }}>{t("bitrix.loading")}</p>
       </Layout>
     );
   }
@@ -89,7 +97,7 @@ export function BitrixRoute() {
   const saveSlot = dealId ? (
     <div className={styles.actions}>
       <button type="button" className={`${styles.actionBtn} ${styles.actionBtnPrimary}`} onClick={saveToDeal} disabled={save === "saving"}>
-        {save === "saving" ? "Сохраняем…" : save === "saved" ? "Сохранено в сделку ✓" : "Сохранить в сделку"}
+        {save === "saving" ? t("bitrix.saving") : save === "saved" ? t("bitrix.saved") : t("bitrix.save")}
       </button>
     </div>
   ) : null;

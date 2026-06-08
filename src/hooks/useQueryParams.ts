@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { parseTenge } from "../core/money";
+import type { Lang } from "../i18n/translations";
 
 export interface CalcQuery {
   /** Apartment cost, ₸. */
@@ -13,6 +14,8 @@ export interface CalcQuery {
   term: number | undefined;
   zhk: string | undefined;
   program: string | undefined;
+  /** Locale requested by the host page (iframe ?lang=ru|kk). */
+  lang: Lang | undefined;
 }
 
 function num(raw: string | null): number | undefined {
@@ -28,6 +31,7 @@ export function useCalcQuery(): CalcQuery {
     const priceRaw = params.get("price");
     const price = priceRaw ? parseTenge(priceRaw) : 0;
     const dpRaw = params.get("dp");
+    const langRaw = params.get("lang");
     return {
       price: price > 0 ? price : undefined,
       dp: dpRaw ? parseTenge(dpRaw) : undefined,
@@ -35,6 +39,7 @@ export function useCalcQuery(): CalcQuery {
       term: num(params.get("term")),
       zhk: params.get("zhk") ?? undefined,
       program: params.get("program") ?? undefined,
+      lang: langRaw === "ru" || langRaw === "kk" ? langRaw : undefined,
     };
   }, [params]);
 }

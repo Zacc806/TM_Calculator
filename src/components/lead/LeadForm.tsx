@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { CalcInput, CalcResult } from "../../core/calc.types";
 import { validateLead, type LeadPayload } from "../../core/lead";
+import { apiUrl } from "../../lib/api";
 import { trackEvent } from "../../lib/analytics";
 import { useT } from "../../i18n";
 import { ConsentText } from "./ConsentText";
@@ -45,7 +46,7 @@ export function LeadForm({ input, result, programId, programName, source }: Prop
     if (!validation.ok || status === "sending") return;
     setStatus("sending");
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE}api/lead`, {
+      const res = await fetch(apiUrl("api/lead"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -85,6 +86,8 @@ export function LeadForm({ input, result, programId, programName, source }: Prop
         <input
           className={`${styles.input} ${nameError ? styles.inputError : ""}`}
           placeholder={t("lead.name")}
+          aria-label={t("lead.name")}
+          aria-invalid={nameError}
           value={name}
           autoComplete="name"
           onChange={(e) => setName(e.target.value)}
@@ -92,6 +95,8 @@ export function LeadForm({ input, result, programId, programName, source }: Prop
         <input
           className={`${styles.input} ${phoneError ? styles.inputError : ""}`}
           placeholder="+7 (___) ___-__-__"
+          aria-label={t("lead.phone")}
+          aria-invalid={phoneError}
           inputMode="tel"
           autoComplete="tel"
           value={phone}

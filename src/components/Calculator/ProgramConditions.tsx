@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Program } from "../../core/programs.types";
 import { useT } from "../../i18n";
+import { formatPercent } from "../../core/money";
 import { formatTerm } from "../../lib/format";
 import { Modal, modalStyles } from "../ui/Modal";
 import styles from "./Calculator.module.css";
@@ -27,7 +28,7 @@ export function ProgramConditions({ program }: { program: Program | undefined })
         <div className={modalStyles.chips}>
           <span className={modalStyles.chip}>
             <span className={modalStyles.chipLabel}>{t("modal.rate")}</span>
-            <span className={modalStyles.chipValue}>{program.ratePercent}%</span>
+            <span className={modalStyles.chipValue}>{formatPercent(program.ratePercent)}</span>
           </span>
           <span className={modalStyles.chip}>
             <span className={modalStyles.chipLabel}>{t("modal.term")}</span>
@@ -35,7 +36,7 @@ export function ProgramConditions({ program }: { program: Program | undefined })
           </span>
           <span className={modalStyles.chip}>
             <span className={modalStyles.chipLabel}>{t("modal.dp")}</span>
-            <span className={modalStyles.chipValue}>{program.recommendedDownPaymentPercent}%</span>
+            <span className={modalStyles.chipValue}>{formatPercent(program.recommendedDownPaymentPercent)}</span>
           </span>
         </div>
         {sections
