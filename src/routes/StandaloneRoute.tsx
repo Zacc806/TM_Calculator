@@ -6,7 +6,7 @@ export function StandaloneRoute() {
   const t = useT();
   return (
     <Layout variant="full" title={t("landing.title")} subtitle={t("landing.subtitle")}>
-      <Calculator context="standalone" initial={{ programId: "rassrochka" }} showLead leadSource="site" />
+      <Calculator context="standalone" initial={{ programId: "rassrochka" }} />
     </Layout>
   );
 }

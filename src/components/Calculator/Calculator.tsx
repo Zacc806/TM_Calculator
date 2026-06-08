@@ -11,7 +11,6 @@ import { ProgramConditions } from "./ProgramConditions";
 import { RateTermInputs } from "./RateTermInputs";
 import { ResultCard } from "./ResultCard";
 import { ActionsBar } from "../actions/ActionsBar";
-import { LeadForm } from "../lead/LeadForm";
 import { useT } from "../../i18n";
 import styles from "./Calculator.module.css";
 
@@ -23,10 +22,6 @@ interface Props {
   showActions?: boolean;
   /** Manager contexts: show a "client link" action (no personal data). */
   showShareLink?: boolean;
-  /** Show the lead-capture form below the result (Этап 2). */
-  showLead?: boolean;
-  /** Lead source label (ЖК slug or "calculator"/"embed"). */
-  leadSource?: string;
   /** Bitrix "save to deal" control (Этап 3). */
   saveSlot?: ReactNode;
   onResultChange?: (
@@ -41,8 +36,6 @@ export function Calculator({
   context = "standalone",
   showActions = true,
   showShareLink = false,
-  showLead = false,
-  leadSource = "calculator",
   saveSlot,
   onResultChange,
 }: Props) {
@@ -115,15 +108,6 @@ export function Calculator({
             />
           )}
           {saveSlot}
-          {showLead && (
-            <LeadForm
-              input={calc.input}
-              result={calc.result}
-              programId={calc.state.programId}
-              programName={programName}
-              source={leadSource}
-            />
-          )}
         </div>
       </div>
     </div>
