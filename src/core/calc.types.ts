@@ -24,6 +24,33 @@ export interface CalcResult {
   isZeroRate: boolean;
 }
 
+/**
+ * Otbasy savings-loan scheme. The client's deposit accumulation covers part of the
+ * cost, so the main loan amortises only `loanShare` of the cost (not cost − downPayment).
+ * With `bridgeMonths` the payment is two-phase: a higher first-period payment on the full
+ * (cost − downPayment) bridge loan, then the steady main-loan payment. Decoded from the
+ * bank's reference table — see docs/calc-test-cases.md.
+ */
+export interface OtbasyScheme {
+  /** Main loan = round(cost × loanShare); the deposit covers the rest. */
+  loanShare: number;
+  /** Amortise the main loan over this term (months) at the program rate. */
+  mainMonths?: number;
+  /** OR a fixed monthly factor applied to the main loan (when the bank quotes a flat factor). */
+  mainFactor?: number;
+  /** Two-phase: first-period payment amortises (cost − downPayment) over this term (months). */
+  bridgeMonths?: number;
+}
+
+export interface OtbasyResult {
+  /** Main loan principal = round(cost × loanShare). */
+  mainLoan: Tenge;
+  /** Steady payment after accumulation (the "later" phase, or the only payment). */
+  mainPayment: Tenge;
+  /** Higher first-period payment (present only for a two-phase scheme). */
+  bridgePayment?: Tenge;
+}
+
 export type CalcErrorCode =
   | "cost_required"
   | "down_payment_range"

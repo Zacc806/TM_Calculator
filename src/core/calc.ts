@@ -4,6 +4,8 @@ import type {
   CalcResult,
   CalcValidation,
   CalcFieldError,
+  OtbasyScheme,
+  OtbasyResult,
 } from "./calc.types";
 
 /**
@@ -20,6 +22,22 @@ function safe(value: number): number {
   return Number.isFinite(value) && value > 0 ? value : 0;
 }
 
+/**
+ * Monthly annuity payment for a loan, rounded to whole ₸.
+ * rate > 0: P = K·i·(1+i)^n / ((1+i)^n − 1), i = annual/12/100. rate ≤ 0: P = K / n.
+ */
+export function annuity(loan: number, annualRatePercent: number, n: number): number {
+  const k0 = Math.round(safe(loan));
+  const months = Math.floor(safe(n));
+  const rate = safe(annualRatePercent);
+  if (k0 <= 0 || months <= 0) return 0;
+  if (rate <= 0) return Math.round(k0 / months);
+  const k = new Decimal(k0);
+  const i = new Decimal(rate).div(12).div(100);
+  const pow = i.plus(1).pow(months);
+  return Math.round(k.mul(i).mul(pow).div(pow.minus(1)).toNumber());
+}
+
 export function computePayment(input: CalcInput): CalcResult {
   // Sanitize at the boundary so the engine never throws (decimal.js rejects NaN)
   // and never emits nonsensical figures, regardless of caller.
@@ -30,20 +48,7 @@ export function computePayment(input: CalcInput): CalcResult {
 
   const loanAmount = Math.max(0, cost - downPayment);
   const isZeroRate = ratePercent <= 0;
-
-  let monthlyPayment: number;
-  if (loanAmount <= 0 || n <= 0) {
-    monthlyPayment = 0;
-  } else if (isZeroRate) {
-    monthlyPayment = Math.round(loanAmount / n);
-  } else {
-    const k = new Decimal(loanAmount);
-    const i = new Decimal(ratePercent).div(12).div(100);
-    const onePlus = i.plus(1);
-    const pow = onePlus.pow(n);
-    const payment = k.mul(i).mul(pow).div(pow.minus(1));
-    monthlyPayment = Math.round(payment.toNumber());
-  }
+  const monthlyPayment = annuity(loanAmount, ratePercent, n);
 
   // Interest-free (or no-loan/no-term) plans never overpay: the rounding remainder
   // is absorbed by the last instalment, so the client pays exactly the loan amount.
@@ -52,6 +57,28 @@ export function computePayment(input: CalcInput): CalcResult {
   const totalToPay = isZeroRate || monthlyPayment <= 0 ? loanAmount : monthlyPayment * n;
   const overpayment = Math.max(0, totalToPay - loanAmount);
   return { loanAmount, monthlyPayment, totalToPay, overpayment, isZeroRate };
+}
+
+/**
+ * Otbasy savings-loan payment. The deposit covers part of the cost, so the main loan is
+ * only `loanShare` of the cost. Two-phase schemes also return the higher bridge-loan
+ * payment for the first period. (Approximate — see the disclaimer; the bank's exact
+ * figure depends on the valuation score and accumulation speed.)
+ */
+export function computeOtbasy(input: CalcInput, scheme: OtbasyScheme): OtbasyResult {
+  const cost = Math.round(safe(input.cost));
+  const downPayment = Math.min(Math.round(safe(input.downPayment)), cost);
+  const rate = safe(input.annualRatePercent);
+  const mainLoan = Math.round(cost * scheme.loanShare);
+  const mainPayment =
+    scheme.mainFactor != null
+      ? Math.round(mainLoan * scheme.mainFactor)
+      : annuity(mainLoan, rate, scheme.mainMonths ?? 0);
+  if (scheme.bridgeMonths != null) {
+    const bridgePayment = annuity(Math.max(0, cost - downPayment), rate, scheme.bridgeMonths);
+    return { mainLoan, mainPayment, bridgePayment };
+  }
+  return { mainLoan, mainPayment };
 }
 
 export function validateInput(input: CalcInput): CalcValidation {

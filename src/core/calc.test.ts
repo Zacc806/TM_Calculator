@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { computePayment, validateInput } from "./calc";
+import { computePayment, computeOtbasy, validateInput } from "./calc";
 import type { CalcInput } from "./calc.types";
 
 describe("computePayment — annuity (rate > 0)", () => {
@@ -205,4 +205,34 @@ describe("bank parity — annuity matches the reference PMT within tolerance", (
       expect(r.overpayment).toBe(r.monthlyPayment * c.n - (c.cost - c.dp));
     });
   }
+});
+
+describe("computeOtbasy — decoded savings-loan scheme", () => {
+  const inp = (cost: number, downPayment: number, annualRatePercent: number): CalcInput => ({
+    cost,
+    downPayment,
+    annualRatePercent,
+    termMonths: 228,
+  });
+
+  it("Nauryz two-phase reproduces the bank within 1% (deposit covers 50% of cost)", () => {
+    // cost 26 239 500, ПВ 20%, 9% → bank phase1 196 796 / phase2 120 701
+    const r = computeOtbasy(inp(26_239_500, 5_247_900, 9), {
+      loanShare: 0.5,
+      mainMonths: 228,
+      bridgeMonths: 216,
+    });
+    expect(r.mainLoan).toBe(13_119_750);
+    expect(r.bridgePayment).toBeDefined();
+    expect(Math.abs((r.bridgePayment ?? 0) - 196_796)).toBeLessThan(196_796 * 0.01);
+    expect(Math.abs(r.mainPayment - 120_701)).toBeLessThan(120_701 * 0.01);
+  });
+
+  it("50/50 flat factor reproduces the bank within 0.1% (single phase on 50% of cost)", () => {
+    // cost 38 024 000 → bank 269 336
+    const r = computeOtbasy(inp(38_024_000, 19_012_000, 8.5), { loanShare: 0.5, mainFactor: 0.014167 });
+    expect(r.mainLoan).toBe(19_012_000);
+    expect(r.bridgePayment).toBeUndefined();
+    expect(Math.abs(r.mainPayment - 269_336)).toBeLessThan(269_336 * 0.001);
+  });
 });

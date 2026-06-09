@@ -1,3 +1,5 @@
+import type { OtbasyScheme } from "./calc.types";
+
 export interface Program {
   /** Stable id, e.g. "rassrochka" | "otbasy" | "7-20-25" | "nauryz" | "ipoteka-bvu" | "custom". */
   id: string;
@@ -23,6 +25,9 @@ export interface Program {
   projects?: string;
   /** Freshness note, e.g. "актуально июнь 2026" — shown as a badge (modal). */
   relevance?: string;
+  /** Otbasy savings-loan scheme — when set, the payment is computed from it (deposit
+   *  covers part of the cost), not the plain annuity on cost − downPayment. */
+  otbasy?: OtbasyScheme;
   /**
    * Optional per-locale overrides (kk/en). Any field present here replaces the
    * RU base for that locale; missing fields fall back to the RU value above.

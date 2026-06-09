@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, type ReactNode } from "react";
+import { computeOtbasy } from "../../core/calc";
 import { useCalculator, type UseCalculatorInit } from "../../hooks/useCalculator";
 import { usePrograms } from "../../hooks/usePrograms";
 import { SEED_PROGRAMS } from "../../data/programs.client";
@@ -67,6 +68,9 @@ export function Calculator({
   // Otbasy programs use a multi-stage bridge-loan scheme; a single annuity is only
   // an estimate, so flag it (decided with Pavel — see docs/calc-test-cases.md).
   const isOtbasyScheme = (baseProgram?.bank ?? "").includes("Отбасы");
+  // When a program carries the decoded Otbasy scheme, compute its (two-phase) payment
+  // from the deposit-covers-part model instead of the plain annuity.
+  const otbasy = baseProgram?.otbasy ? computeOtbasy(calc.input, baseProgram.otbasy) : undefined;
 
   useEffect(() => {
     onResultChange?.(calc.result, calc.input, { programId: calc.state.programId, programName });
@@ -105,6 +109,7 @@ export function Calculator({
             input={calc.input}
             result={calc.result}
             programName={programName}
+            otbasy={otbasy}
             note={isOtbasyScheme ? t("result.otbasyNote") : t("result.standardNote")}
           />
           {!calc.validation.ok && <div className={styles.errors}>{t("calc.error")}</div>}
