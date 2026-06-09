@@ -25,7 +25,15 @@ export function Layout({ children, variant = "full", title, subtitle }: Props) {
     <div className={styles.page}>
       <header className={styles.header}>
         <div className={styles.headerInner}>
-          <img className={styles.logo} src="/brand/logo.svg" alt="Atamura Group" />
+          <span className={styles.brand} role="img" aria-label="Atamura Group">
+            <svg className={styles.brandMark} viewBox="0 0 100 100" fill="currentColor" aria-hidden="true">
+              <circle cx="28" cy="28" r="18" />
+              <circle cx="72" cy="28" r="18" />
+              <circle cx="28" cy="72" r="18" />
+              <circle cx="72" cy="72" r="18" />
+            </svg>
+            <span className={styles.brandName}>ATAMURA</span>
+          </span>
           <Controls />
         </div>
       </header>
