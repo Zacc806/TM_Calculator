@@ -64,6 +64,9 @@ export function Calculator({
     config.programs.find((p) => p.id === CUSTOM_PROGRAM_ID);
   const selectedProgram = baseProgram ? localizeProgram(baseProgram, lang) : undefined;
   const programName = selectedProgram?.name ?? "—";
+  // Otbasy programs use a multi-stage bridge-loan scheme; a single annuity is only
+  // an estimate, so flag it (decided with Pavel — see docs/calc-test-cases.md).
+  const isOtbasyScheme = (baseProgram?.bank ?? "").includes("Отбасы");
 
   useEffect(() => {
     onResultChange?.(calc.result, calc.input, { programId: calc.state.programId, programName });
@@ -97,7 +100,13 @@ export function Calculator({
         </div>
 
         <div>
-          <ResultCard ref={cardRef} input={calc.input} result={calc.result} programName={programName} />
+          <ResultCard
+            ref={cardRef}
+            input={calc.input}
+            result={calc.result}
+            programName={programName}
+            note={isOtbasyScheme ? t("result.otbasyNote") : ""}
+          />
           {!calc.validation.ok && <div className={styles.errors}>{t("calc.error")}</div>}
           {showActions && (
             <ActionsBar

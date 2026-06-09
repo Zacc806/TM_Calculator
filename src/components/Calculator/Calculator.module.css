@@ -293,6 +293,14 @@
   color: var(--ink-soft);
   line-height: 1.4;
 }
+.resultNote {
+  margin: var(--space-4) 0 0;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--line);
+  font-size: var(--fs-small);
+  color: var(--ink-soft);
+  line-height: 1.45;
+}
 .conditionsBtn {
   display: inline-flex;
   align-items: center;

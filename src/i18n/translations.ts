@@ -40,6 +40,8 @@ export const translations: Record<Lang, Dict> = {
     "result.overpayment": "Переплата",
     "result.total": "Итоговая стоимость",
     "result.program": "Программа",
+    "result.otbasyNote":
+      "Ориентировочно: у программ Отбасы банка двухфазная схема (промежуточный заём) — точный платёж уточняйте у менеджера.",
     "result.cardTitle": "Расчёт ежемесячного платежа",
 
     "term.months": "мес.",
@@ -132,6 +134,8 @@ export const translations: Record<Lang, Dict> = {
     "result.overpayment": "Артық төлем",
     "result.total": "Жалпы құны",
     "result.program": "Бағдарлама",
+    "result.otbasyNote":
+      "Шамамен: Отбасы банкінің бағдарламаларында екіфазалы схема (аралық қарыз) — нақты төлемді менеджерден нақтылаңыз.",
     "result.cardTitle": "Ай сайынғы төлем есебі",
 
     "term.months": "ай",
@@ -224,6 +228,8 @@ export const translations: Record<Lang, Dict> = {
     "result.overpayment": "Overpayment",
     "result.total": "Total cost",
     "result.program": "Program",
+    "result.otbasyNote":
+      "Estimate: Otbasy Bank programs use a two-phase scheme (bridge loan) — confirm the exact payment with a manager.",
     "result.cardTitle": "Monthly payment calculation",
 
     "term.months": "mo.",

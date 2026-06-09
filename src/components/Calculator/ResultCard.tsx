@@ -9,11 +9,13 @@ interface Props {
   input: CalcInput;
   result: CalcResult;
   programName: string;
+  /** Optional note under the card (e.g. Otbasy two-phase "estimate" disclaimer). */
+  note?: string;
 }
 
 /** Client-facing card. Same node is captured for PDF and shown in print mode. */
 export const ResultCard = forwardRef<HTMLDivElement, Props>(function ResultCard(
-  { input, result, programName },
+  { input, result, programName, note },
   ref,
 ) {
   const t = useT();
@@ -68,6 +70,8 @@ export const ResultCard = forwardRef<HTMLDivElement, Props>(function ResultCard(
           <span className={styles.resultItemValue}>{programName}</span>
         </div>
       </div>
+
+      {note ? <p className={styles.resultNote}>{note}</p> : null}
     </div>
   );
 });
