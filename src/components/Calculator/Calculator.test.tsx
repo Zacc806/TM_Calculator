@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import type { ReactElement } from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { LangProvider } from "../../i18n";
 import { Calculator } from "./Calculator";
 
@@ -22,6 +22,8 @@ describe("Calculator", () => {
 
   it("shows the program presets", async () => {
     renderCalc(<Calculator context="standalone" showActions={false} />);
+    // The program picker is a custom listbox; options render once it's opened.
+    fireEvent.click(screen.getByRole("button", { name: /программа покупки/i }));
     expect(await screen.findByRole("option", { name: "Рассрочка застройщика" })).toBeInTheDocument();
     expect(screen.getByRole("option", { name: "7-20-25" })).toBeInTheDocument();
   });
