@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { parseTenge } from "../../core/money";
 import { DP_MAX_PCT } from "../../data/defaults";
 import type { DownPaymentMode } from "../../hooks/useCalculator";
@@ -69,6 +70,7 @@ export function DownPayment({ mode, percent, amount, onMode, onPercent, onAmount
       <input
         type="range"
         className={styles.slider}
+        style={{ "--dp-fill": `${(roundedPct / DP_MAX_PCT) * 100}%` } as CSSProperties}
         min={0}
         max={DP_MAX_PCT}
         step={1}

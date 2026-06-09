@@ -122,8 +122,15 @@
   appearance: none;
   width: 100%;
   height: 6px;
-  border-radius: 2px;
-  background: var(--surface-2);
+  border-radius: var(--radius-pill);
+  /* Filled track up to the thumb (teal), empty after. --dp-fill set inline from the value. */
+  background: linear-gradient(
+    to right,
+    var(--brand) 0,
+    var(--brand) var(--dp-fill, 0%),
+    var(--surface-2) var(--dp-fill, 0%),
+    var(--surface-2) 100%
+  );
   outline: none;
   margin-top: var(--space-4);
   touch-action: pan-y; /* allow vertical page scroll while dragging the slider */
@@ -131,21 +138,42 @@
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 26px;
-  height: 26px;
-  border-radius: 2px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
   background: var(--brand);
-  cursor: pointer;
+  cursor: grab;
   border: 3px solid var(--bg);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2), 0 0 0 1px var(--line);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.slider::-webkit-slider-thumb:hover {
+  transform: scale(1.12);
+}
+.slider:active::-webkit-slider-thumb {
+  cursor: grabbing;
+  transform: scale(1.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.24), 0 0 0 5px var(--brand-tint);
+}
+.slider:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2), 0 0 0 5px var(--brand-tint);
 }
 .slider::-moz-range-thumb {
-  width: 24px;
-  height: 24px;
-  border-radius: 2px;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
   background: var(--brand);
-  cursor: pointer;
+  cursor: grab;
   border: 3px solid var(--bg);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.12s ease;
+}
+.slider:active::-moz-range-thumb {
+  cursor: grabbing;
+  transform: scale(1.12);
+}
+.slider:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 5px var(--brand-tint);
 }
 
 /* ── Program select ── */
