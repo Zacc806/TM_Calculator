@@ -105,7 +105,7 @@ export function Calculator({
             input={calc.input}
             result={calc.result}
             programName={programName}
-            note={isOtbasyScheme ? t("result.otbasyNote") : ""}
+            note={isOtbasyScheme ? t("result.otbasyNote") : t("result.standardNote")}
           />
           {!calc.validation.ok && <div className={styles.errors}>{t("calc.error")}</div>}
           {showActions && (
