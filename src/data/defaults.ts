@@ -8,6 +8,10 @@ export const TERM_MAX_MONTHS = 360;
 /** Rate input upper guard, percent annual. */
 export const RATE_MAX_PERCENT = 60;
 
+/** Apartment price upper guard, ₸. Caps absurd inputs so huge numbers can't break
+ *  money formatting (scientific notation) or overflow the mobile layout. */
+export const COST_MAX = 100_000_000_000;
+
 /** Default starting input for a fresh calculator (standalone landing). */
 export const DEFAULT_COST = 25_000_000;
 export const DEFAULT_DP_PERCENT = 20;

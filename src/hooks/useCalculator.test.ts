@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 import { useCalculator } from "./useCalculator";
+import { COST_MAX, RATE_MAX_PERCENT, TERM_MAX_MONTHS } from "../data/defaults";
 import type { Program } from "../core/programs.types";
 
 const program: Program = {
@@ -65,6 +66,28 @@ describe("useCalculator", () => {
     act(() => result.current.setRate(15));
     expect(result.current.state.annualRatePercent).toBe(15);
     expect(result.current.state.programId).toBe("custom");
+  });
+
+  it("clamps an absurd price to COST_MAX (no scientific-notation / overflow blowups)", () => {
+    const { result } = renderHook(() => useCalculator({ cost: 10_000_000 }));
+    act(() => result.current.setCost(1e38));
+    expect(result.current.state.cost).toBe(COST_MAX);
+  });
+
+  it("clamps the rate to [0, RATE_MAX_PERCENT] (no negative / runaway interest)", () => {
+    const { result } = renderHook(() => useCalculator({ cost: 10_000_000 }));
+    act(() => result.current.setRate(-50));
+    expect(result.current.state.annualRatePercent).toBe(0);
+    act(() => result.current.setRate(99999));
+    expect(result.current.state.annualRatePercent).toBe(RATE_MAX_PERCENT);
+  });
+
+  it("clamps the term to [1, TERM_MAX_MONTHS]", () => {
+    const { result } = renderHook(() => useCalculator({ cost: 10_000_000 }));
+    act(() => result.current.setTerm(0));
+    expect(result.current.state.termMonths).toBe(1);
+    act(() => result.current.setTerm(100000));
+    expect(result.current.state.termMonths).toBe(TERM_MAX_MONTHS);
   });
 
   it("exposes the computed result", () => {

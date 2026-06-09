@@ -4,12 +4,15 @@ import type { Program } from "../core/programs.types";
 import { computePayment, validateInput } from "../core/calc";
 import { amountToPct, clamp, pctToAmount } from "../core/money";
 import {
+  COST_MAX,
   CUSTOM_PROGRAM_ID,
   DEFAULT_COST,
   DEFAULT_DP_PERCENT,
   DEFAULT_RATE_PERCENT,
   DEFAULT_TERM_MONTHS,
   DP_MAX_PCT,
+  RATE_MAX_PERCENT,
+  TERM_MAX_MONTHS,
 } from "../data/defaults";
 
 export type DownPaymentMode = "percent" | "amount";
@@ -53,7 +56,9 @@ function withPercent(state: CalcState, percent: number): CalcState {
 function reducer(state: CalcState, action: Action): CalcState {
   switch (action.type) {
     case "setCost": {
-      const cost = Math.max(0, Math.round(action.value));
+      // Clamp to a sane max so an absurd price can't break money formatting
+      // (scientific notation) or blow out the mobile layout.
+      const cost = clamp(Math.round(action.value), 0, COST_MAX);
       // Anchor on percent: keep the same %, recompute the amount for the new cost.
       return { ...state, cost, downPaymentAmount: pctToAmount(cost, state.downPaymentPercent) };
     }
@@ -72,9 +77,9 @@ function reducer(state: CalcState, action: Action): CalcState {
     case "setDpMode":
       return { ...state, downPaymentMode: action.value };
     case "setRate":
-      return { ...state, annualRatePercent: Math.max(0, action.value), programId: CUSTOM_PROGRAM_ID };
+      return { ...state, annualRatePercent: clamp(action.value, 0, RATE_MAX_PERCENT), programId: CUSTOM_PROGRAM_ID };
     case "setTerm":
-      return { ...state, termMonths: Math.max(1, Math.round(action.value)), programId: CUSTOM_PROGRAM_ID };
+      return { ...state, termMonths: clamp(Math.round(action.value), 1, TERM_MAX_MONTHS), programId: CUSTOM_PROGRAM_ID };
     case "applyProgram": {
       // ТЗ: selecting a program auto-fills only the rate and term; the user's
       // entered down payment is preserved (not overwritten by the recommended %).
