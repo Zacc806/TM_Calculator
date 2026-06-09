@@ -19,33 +19,17 @@
   gap: var(--space-4);
 }
 .brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 11px;
-  /* Brand colour follows the theme (teal #007484 light / #1aa6ba dark) so the
-     logo always has contrast — the old flat-teal raster went faint on dark. */
-  color: var(--brand);
-}
-.brandMark {
-  flex: none;
-  width: 30px;
-  height: 30px;
   display: block;
-}
-.brandName {
-  font-weight: 800;
-  font-size: 1.1rem;
-  letter-spacing: 0.2em;
-  line-height: 1;
-  /* optical: tracked caps gain trailing space; pull it back so the mark↔text gap reads even */
-  margin-right: -0.2em;
-  color: var(--brand);
-}
-@media (max-width: 480px) {
-  .brandName {
-    font-size: 1rem;
-    letter-spacing: 0.16em;
-  }
+  width: 70px;
+  height: 44px;
+  /* The official Atamura lockup is a single-colour shape; paint it with the
+     theme brand colour through a mask so it stays crisp and keeps contrast on
+     both themes (teal #007484 light / #1aa6ba dark). */
+  background-color: var(--brand);
+  -webkit-mask: url(/brand/atamura.png) left center / contain no-repeat;
+  mask: url(/brand/atamura.png) left center / contain no-repeat;
+  -webkit-mask-mode: alpha;
+  mask-mode: alpha;
 }
 
 .controls {
