@@ -24,6 +24,9 @@ export function ProgramSelect({ programs, selectedId, onSelect }: Props) {
   const [open, setOpen] = useState(false);
   const selectedIndex = Math.max(0, programs.findIndex((p) => p.id === selectedId));
   const [active, setActive] = useState(selectedIndex);
+  // Where the popup opens (down/up) and how tall it can be, so it never spills
+  // past the viewport edge.
+  const [placement, setPlacement] = useState<{ up: boolean; maxH: number }>({ up: false, maxH: 320 });
 
   const rootRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
@@ -38,6 +41,15 @@ export function ProgramSelect({ programs, selectedId, onSelect }: Props) {
 
   useEffect(() => {
     if (!open) return;
+    const rect = btnRef.current?.getBoundingClientRect();
+    if (rect) {
+      const gap = 12;
+      const below = window.innerHeight - rect.bottom - gap;
+      const above = rect.top - gap;
+      const want = 320;
+      const up = below < want && above > below;
+      setPlacement({ up, maxH: Math.max(160, Math.min(want, up ? above : below)) });
+    }
     listRef.current?.focus();
     const onDocPointer = (e: MouseEvent) => {
       if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false);
@@ -127,6 +139,11 @@ export function ProgramSelect({ programs, selectedId, onSelect }: Props) {
           <ul
             ref={listRef}
             className={styles.comboMenu}
+            style={
+              placement.up
+                ? { maxHeight: placement.maxH, top: "auto", bottom: "calc(100% + 6px)" }
+                : { maxHeight: placement.maxH }
+            }
             role="listbox"
             tabIndex={-1}
             aria-labelledby={labelId}

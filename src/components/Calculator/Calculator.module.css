@@ -233,9 +233,31 @@
   border: 1px solid var(--line-strong);
   border-radius: var(--radius);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
-  max-height: 320px;
+  max-height: min(320px, 60vh);
   overflow-y: auto;
+  overscroll-behavior: contain;
   outline: none;
+  /* Slim, rounded scrollbar inset from the rounded corners — the default
+     square-cornered scrollbar clashes with the menu's border-radius. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+.comboMenu::-webkit-scrollbar {
+  width: 10px;
+}
+.comboMenu::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 8px 0;
+}
+.comboMenu::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+.comboMenu::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-faint);
+  background-clip: padding-box;
 }
 .comboOption {
   display: flex;
