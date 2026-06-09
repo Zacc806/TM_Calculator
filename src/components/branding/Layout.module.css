@@ -75,9 +75,14 @@
 }
 
 .hero {
+  /* Full-width with the same side padding as .main; the inner wrapper holds the
+     max-width + centering exactly like the calculator's .root, so the title/
+     subtitle line up flush above "Стоимость квартиры" on every screen width. */
+  padding: var(--space-6) var(--space-5) 0;
+}
+.heroInner {
   max-width: var(--maxw);
   margin: 0 auto;
-  padding: var(--space-6) var(--space-5) 0;
 }
 .heroTitle {
   font-size: var(--fs-h1);

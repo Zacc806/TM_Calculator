@@ -31,8 +31,10 @@ export function Layout({ children, variant = "full", title, subtitle }: Props) {
       </header>
       {(title || subtitle) && (
         <div className={styles.hero}>
-          {title && <h1 className={styles.heroTitle}>{title}</h1>}
-          {subtitle && <p className={styles.heroSub}>{subtitle}</p>}
+          <div className={styles.heroInner}>
+            {title && <h1 className={styles.heroTitle}>{title}</h1>}
+            {subtitle && <p className={styles.heroSub}>{subtitle}</p>}
+          </div>
         </div>
       )}
       <main className={styles.main}>{children}</main>
