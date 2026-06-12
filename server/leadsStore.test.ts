@@ -3,8 +3,9 @@ import { describe, it, expect, beforeEach } from "vitest";
 import { promises as fs } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { appendLead, readLeads } from "./leadsStore";
+import { appendLead, appendSiteLead, readLeads } from "./leadsStore";
 import type { LeadPayload } from "../src/core/lead";
+import type { SiteLeadPayload } from "../src/core/siteLead";
 
 const base: LeadPayload = {
   name: "Тест",
@@ -41,5 +42,38 @@ describe("leadsStore", () => {
   it("returns an empty array when the file does not exist", async () => {
     process.env.LEADS_FILE = join(tmpdir(), `tm-leads-missing-${process.pid}.jsonl`);
     expect(await readLeads()).toEqual([]);
+  });
+});
+
+describe("siteLeadsStore", () => {
+  const SITE_FILE = join(tmpdir(), `tm-site-leads-${process.pid}.jsonl`);
+  const siteLead: SiteLeadPayload = {
+    name: "Айбек",
+    phone: "8 707 123 45 67",
+    source: "foot-cta",
+    page: "/contacts.html",
+    ref: "https://google.com/",
+    utm: "?utm_source=ig",
+    ts: "2026-06-12T09:59:58.000Z",
+  };
+
+  beforeEach(async () => {
+    process.env.SITE_LEADS_FILE = SITE_FILE;
+    await fs.rm(SITE_FILE, { force: true });
+  });
+
+  it("appends a site lead to its own file with a normalized phone", async () => {
+    await appendSiteLead(siteLead, "2026-06-12T10:00:00.000Z");
+    const raw = await fs.readFile(SITE_FILE, "utf8");
+    expect(JSON.parse(raw.trim())).toEqual({
+      at: "2026-06-12T10:00:00.000Z",
+      name: "Айбек",
+      phone: "77071234567",
+      source: "foot-cta",
+      page: "/contacts.html",
+      ref: "https://google.com/",
+      utm: "?utm_source=ig",
+      ts: "2026-06-12T09:59:58.000Z",
+    });
   });
 });

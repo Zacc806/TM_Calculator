@@ -13,6 +13,7 @@ const SECRET = "test-secret-at-least-16-chars-long";
 const LEADS = join(tmpdir(), `tm-it-leads-${process.pid}.jsonl`);
 const PROGRAMS = join(tmpdir(), `tm-it-programs-${process.pid}.json`);
 const LEADS_DIR = join(tmpdir(), `tm-it-leadsdir-${process.pid}`);
+const SITE_LEADS = join(tmpdir(), `tm-it-site-leads-${process.pid}.jsonl`);
 
 const lead: LeadPayload = {
   name: "Айбек",
@@ -51,15 +52,20 @@ describe("server/index integration", () => {
     process.env.ADMIN_TOKEN_SECRET = SECRET;
     process.env.LEADS_FILE = LEADS;
     process.env.PROGRAMS_FILE = PROGRAMS;
+    process.env.SITE_LEADS_FILE = SITE_LEADS;
     delete process.env.BITRIX_WEBHOOK_URL;
     delete process.env.TELEGRAM_BOT_TOKEN;
+    delete process.env.ALLOWED_ORIGIN;
     await fs.rm(LEADS, { force: true });
     await fs.rm(PROGRAMS, { force: true });
+    await fs.rm(SITE_LEADS, { force: true });
   });
   afterEach(async () => {
     vi.unstubAllGlobals();
+    delete process.env.ALLOWED_ORIGIN;
     await fs.rm(LEADS, { force: true });
     await fs.rm(PROGRAMS, { force: true });
+    await fs.rm(SITE_LEADS, { force: true });
     await fs.rm(LEADS_DIR, { recursive: true, force: true });
   });
 
@@ -139,5 +145,106 @@ describe("server/index integration", () => {
     const huge = { ...lead, name: "x".repeat(300_000) };
     const res = await post("/api/lead", huge, {}, "1.0.0.9");
     expect(res.status).toBe(413);
+  });
+
+  describe("POST /api/site-lead", () => {
+    const siteLead = {
+      name: "Айбек",
+      phone: "87071234567",
+      source: "zk-aura",
+      page: "/zk/aura.html",
+      ref: "https://google.com/",
+      utm: "?utm_source=ig",
+      ts: "2026-06-12T10:00:00.000Z",
+    };
+
+    it("persists a site lead with a normalized phone", async () => {
+      const res = await post("/api/site-lead", siteLead, {}, "2.0.0.1");
+      expect(res.status).toBe(200);
+      expect(await res.json()).toEqual({ ok: true });
+      const stored = JSON.parse((await fs.readFile(SITE_LEADS, "utf8")).trim()) as { phone: string; source: string };
+      expect(stored.phone).toBe("77071234567");
+      expect(stored.source).toBe("zk-aura");
+    });
+
+    it("rejects an invalid phone with 400", async () => {
+      const res = await post("/api/site-lead", { ...siteLead, phone: "12345" }, {}, "2.0.0.2");
+      expect(res.status).toBe(400);
+      expect(await res.json()).toEqual({ ok: false, error: "validation", fields: ["phone"] });
+    });
+
+    it("silently drops a honeypot submission without storing it", async () => {
+      const res = await post("/api/site-lead", { ...siteLead, company: "Spam Inc" }, {}, "2.0.0.3");
+      expect(res.status).toBe(200);
+      expect(await res.json()).toEqual({ ok: true });
+      await expect(fs.readFile(SITE_LEADS, "utf8")).rejects.toThrow();
+    });
+
+    it("logs a rejected submission with a masked phone so the contact is recoverable from server logs", async () => {
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+      const res = await post("/api/site-lead", { ...siteLead, phone: "8707123" }, {}, "2.0.0.5");
+      expect(res.status).toBe(400);
+      const logged = warn.mock.calls.map((c) => c.join(" ")).join("\n");
+      expect(logged).toContain("[site-lead]");
+      expect(logged).not.toContain("8707123"); // raw phone must be masked
+      warn.mockRestore();
+    });
+
+    it("allows bursts above the default 5/min from one IP (CGNAT) but still rate-limits eventually", async () => {
+      for (let i = 0; i < 10; i++) {
+        const res = await post("/api/site-lead", siteLead, {}, "2.0.0.6");
+        expect(res.status).toBe(200);
+      }
+      let limited = 0;
+      for (let i = 0; i < 30; i++) {
+        const res = await post("/api/site-lead", siteLead, {}, "2.0.0.6");
+        if (res.status === 429) limited++;
+      }
+      expect(limited).toBeGreaterThan(0);
+    });
+
+    it("applies a global ceiling across distinct IPs", async () => {
+      let limited = 0;
+      for (let i = 0; i < 150; i++) {
+        const res = await post("/api/site-lead", siteLead, {}, `3.0.${Math.floor(i / 250)}.${i % 250}`);
+        if (res.status === 429) limited++;
+      }
+      expect(limited).toBeGreaterThan(0);
+    });
+
+    it("mirrors a site lead to Bitrix crm.lead.add", async () => {
+      process.env.BITRIX_WEBHOOK_URL = "https://amanat.bitrix24.kz/rest/10/tok/";
+      const fetchMock = vi.fn(async () =>
+        new Response(JSON.stringify({ result: 123 }), { status: 200, headers: { "content-type": "application/json" } }),
+      );
+      vi.stubGlobal("fetch", fetchMock);
+      const res = await post("/api/site-lead", siteLead, {}, "2.0.0.4");
+      expect(res.status).toBe(200);
+      await vi.waitFor(() => {
+        expect(fetchMock).toHaveBeenCalledWith(
+          "https://amanat.bitrix24.kz/rest/10/tok/crm.lead.add.json",
+          expect.objectContaining({ method: "POST" }),
+        );
+      });
+    });
+  });
+
+  describe("CORS with a comma-separated ALLOWED_ORIGIN", () => {
+    const preflight = (origin: string) =>
+      app.request("/api/site-lead", {
+        method: "OPTIONS",
+        headers: { origin, "access-control-request-method": "POST" },
+      });
+
+    it("echoes each allowed origin and denies unknown ones", async () => {
+      process.env.ALLOWED_ORIGIN = "https://calculator.atamuragroup.kz,https://atamura.group";
+      expect((await preflight("https://atamura.group")).headers.get("access-control-allow-origin")).toBe("https://atamura.group");
+      expect((await preflight("https://calculator.atamuragroup.kz")).headers.get("access-control-allow-origin")).toBe("https://calculator.atamuragroup.kz");
+      expect((await preflight("https://evil.example")).headers.get("access-control-allow-origin")).toBeNull();
+    });
+
+    it("keeps wildcard behaviour when ALLOWED_ORIGIN is unset", async () => {
+      expect((await preflight("https://anything.example")).headers.get("access-control-allow-origin")).toBe("*");
+    });
   });
 });

@@ -6,14 +6,15 @@ import { bodyLimit } from "hono/body-limit";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { validateLead, type LeadPayload } from "../src/core/lead";
+import { parseSiteLead, type SiteLeadPayload } from "../src/core/siteLead";
 import { computePayment } from "../src/core/calc";
 import { isProgramsConfig } from "../src/core/programs";
-import { bitrixCall, buildLeadFields } from "../api/_shared/bitrix";
+import { bitrixCall, buildLeadFields, buildSiteLeadFields } from "../api/_shared/bitrix";
 import { rateLimit } from "../api/_shared/ratelimit";
 import { issueToken, verifyToken, bearer, constantTimeEqual } from "../api/_shared/adminAuth";
 import { readPrograms, writePrograms } from "./programsStore";
-import { appendLead, readLeads } from "./leadsStore";
-import { notifyTelegram } from "./notify";
+import { appendLead, appendSiteLead, readLeads } from "./leadsStore";
+import { notifyTelegram, notifySiteLead } from "./notify";
 
 const STATIC_ROOT = process.env.STATIC_ROOT ?? "./web";
 const PORT = Number(process.env.PORT ?? 3000);
@@ -50,11 +51,41 @@ async function mirrorLead(lead: LeadPayload): Promise<void> {
   }
 }
 
+/** Same best-effort mirror for atamura.group site-form leads. */
+async function mirrorSiteLead(lead: SiteLeadPayload): Promise<void> {
+  const tasks: Promise<unknown>[] = [notifySiteLead(lead)];
+  const webhook = process.env.BITRIX_WEBHOOK_URL;
+  if (webhook && !webhook.includes("<")) {
+    tasks.push(
+      bitrixCall<number>(
+        "crm.lead.add",
+        {
+          fields: buildSiteLeadFields(lead, process.env.BITRIX_SOURCE_ID ?? "WEB"),
+          params: { REGISTER_SONET_EVENT: "Y" },
+        },
+        { webhookUrl: webhook },
+      ),
+    );
+  }
+  for (const r of await Promise.allSettled(tasks)) {
+    if (r.status === "rejected") console.error("[site-lead] mirror failed (lead is still saved)", r.reason);
+  }
+}
+
 const api = new Hono();
 api.use(
   "*",
   cors({
-    origin: process.env.ALLOWED_ORIGIN ?? "*",
+    // ALLOWED_ORIGIN is a comma-separated allowlist (calculator + atamura.group site).
+    // Read lazily per request so a restart-only env change is enough and tests can vary it.
+    origin: (origin) => {
+      const allowed = (process.env.ALLOWED_ORIGIN ?? "*")
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean);
+      if (allowed.includes("*")) return "*";
+      return allowed.includes(origin) ? origin : undefined;
+    },
     allowMethods: ["GET", "POST", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization"],
   }),
@@ -92,6 +123,57 @@ api.post("/lead", async (c) => {
   //    third party can never stall the user's submit (lead is already saved).
   void mirrorLead(lead);
 
+  return c.json({ ok: true });
+});
+
+/** Masked one-line trace of a rejected submission — the client ignores responses,
+ *  so the server log is the only place a dropped contact can be recovered from. */
+function siteLeadTrace(body: Record<string, unknown> | null, c: Context): string {
+  const digits = typeof body?.phone === "string" ? body.phone.replace(/\D/g, "") : "";
+  return JSON.stringify({
+    phone: digits ? `***${digits.slice(-4)}` : "none",
+    source: typeof body?.source === "string" ? body.source.slice(0, 64) : "",
+    page: typeof body?.page === "string" ? body.page.slice(0, 128) : "",
+    ip: clientIp(c),
+  });
+}
+
+// Lead forms of the static atamura.group site (app.js LEAD_WEBHOOK) post here.
+api.post("/site-lead", async (c) => {
+  const body = (await c.req.json().catch(() => null)) as Record<string, unknown> | null;
+
+  // Per-IP limit is generous (KZ carriers CGNAT many visitors behind one IP);
+  // the sitewide ceiling keeps a distributed bot run from flooding CRM/Telegram.
+  if (!rateLimit(`site-lead:${clientIp(c)}`, 20, 60_000) || !rateLimit("site-lead:global", 120, 60_000)) {
+    console.warn("[site-lead] rate-limited submission dropped", siteLeadTrace(body, c));
+    return c.json({ ok: false, error: "rate_limited" }, 429);
+  }
+  if (!body || typeof body !== "object") {
+    console.warn("[site-lead] invalid body dropped", siteLeadTrace(body, c));
+    return c.json({ ok: false, error: "invalid_body" }, 400);
+  }
+
+  // Honeypot: the visible forms have no "company" field — only bots fill it.
+  // Answer ok so the bot moves on, store nothing.
+  if (typeof body.company === "string" && body.company.trim()) {
+    console.warn("[site-lead] honeypot tripped, dropping submission", siteLeadTrace(body, c));
+    return c.json({ ok: true });
+  }
+
+  const lead = parseSiteLead(body);
+  if (!lead) {
+    console.warn("[site-lead] validation-rejected submission dropped", siteLeadTrace(body, c));
+    return c.json({ ok: false, error: "validation", fields: ["phone"] }, 400);
+  }
+
+  try {
+    await appendSiteLead(lead, new Date().toISOString());
+  } catch (err) {
+    console.error("[site-lead] file append failed", err);
+    return c.json({ ok: false, error: "store_failed" }, 500);
+  }
+
+  void mirrorSiteLead(lead);
   return c.json({ ok: true });
 });
 
@@ -200,8 +282,10 @@ function assertConfig(): void {
 // Bootstrap only when run as the server (skipped when imported by tests).
 if (!process.env.VITEST) {
   assertConfig();
-  const server = serve({ fetch: app.fetch, port: PORT }, (info) => {
-    console.log(`[tm-calculator] listening on :${info.port}, static=${STATIC_ROOT}`);
+  // Loopback only: all real traffic comes through Caddy on the same host, and a
+  // publicly reachable :3000 would let clients spoof X-Forwarded-For past the rate limiter.
+  const server = serve({ fetch: app.fetch, port: PORT, hostname: "127.0.0.1" }, (info) => {
+    console.log(`[tm-calculator] listening on 127.0.0.1:${info.port}, static=${STATIC_ROOT}`);
   });
   for (const sig of ["SIGTERM", "SIGINT"] as const) {
     process.on(sig, () => {

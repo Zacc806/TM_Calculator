@@ -1,7 +1,8 @@
 // @vitest-environment node
 import { describe, it, expect, vi } from "vitest";
-import { bitrixCall, buildLeadFields, BitrixError, ZHK_FIELD } from "./bitrix";
+import { bitrixCall, buildLeadFields, buildSiteLeadFields, BitrixError, ZHK_FIELD } from "./bitrix";
 import type { LeadPayload } from "../../src/core/lead";
+import type { SiteLeadPayload } from "../../src/core/siteLead";
 
 const lead: LeadPayload = {
   name: "Айбек",
@@ -25,18 +26,51 @@ function jsonResponse(body: unknown, status = 200): Response {
 }
 
 describe("buildLeadFields", () => {
-  it("maps name, normalized phone, source and the ЖК project field", () => {
+  it("maps name, normalized phone, source and the ЖК complex field", () => {
     const f = buildLeadFields(lead, "WEB");
     expect(f.NAME).toBe("Айбек");
     expect(f.PHONE).toEqual([{ VALUE: "77071234567", VALUE_TYPE: "WORK" }]);
     expect(f.SOURCE_ID).toBe("WEB");
-    expect(f[ZHK_FIELD]).toBe("1962");
+    expect(f[ZHK_FIELD]).toBe("Атмосфера");
     expect(String(f.COMMENTS)).toContain("Ежемесячный платёж");
   });
 
   it("omits the project field for a non-ЖК source", () => {
     const f = buildLeadFields({ ...lead, source: "calculator" }, "WEB");
     expect(f[ZHK_FIELD]).toBeUndefined();
+  });
+});
+
+describe("buildSiteLeadFields", () => {
+  const siteLead: SiteLeadPayload = {
+    name: "Айбек",
+    phone: "87071234567",
+    source: "zk-aura",
+    page: "/zk/aura.html",
+    ref: "https://google.com/",
+    utm: "?utm_source=ig&utm_campaign=june",
+    ts: "2026-06-12T10:00:00.000Z",
+  };
+
+  it("maps name, normalized phone, source and resolves the ЖК from a zk-prefixed source", () => {
+    const f = buildSiteLeadFields(siteLead, "WEB");
+    expect(f.TITLE).toBe("Сайт atamura.group: zk-aura");
+    expect(f.NAME).toBe("Айбек");
+    expect(f.PHONE).toEqual([{ VALUE: "77071234567", VALUE_TYPE: "WORK" }]);
+    expect(f.SOURCE_ID).toBe("WEB");
+    expect(f[ZHK_FIELD]).toBe("Аура");
+    const comments = String(f.COMMENTS);
+    expect(comments).toContain("/zk/aura.html");
+    expect(comments).toContain("https://google.com/");
+    expect(comments).toContain("utm_campaign=june");
+  });
+
+  it("omits the project field for the footer form and skips empty context lines", () => {
+    const f = buildSiteLeadFields({ ...siteLead, source: "foot-cta", ref: "", utm: "" }, "WEB");
+    expect(f[ZHK_FIELD]).toBeUndefined();
+    const comments = String(f.COMMENTS);
+    expect(comments).not.toContain("Реферер");
+    expect(comments).not.toContain("UTM");
   });
 });
 

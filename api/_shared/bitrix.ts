@@ -3,9 +3,12 @@ import { normalizeKzPhone } from "../../src/core/phone";
 import { formatTenge } from "../../src/core/money";
 import { formatTerm } from "../../src/lib/format";
 import { findProject } from "../../src/data/projects";
+import type { SiteLeadPayload } from "../../src/core/siteLead";
 
-/** Existing CRM field "Проект - встреча" — receives the source ЖК. */
-export const ZHK_FIELD = "UF_CRM_1758630528";
+/** Lead CRM field for the source ЖК (string, RU name — same format other lead
+ *  channels use). NOTE: UF_CRM_1758630528 "Проект - встреча" exists only on DEALS
+ *  and is silently ignored by crm.lead.add — verified against the live portal. */
+export const ZHK_FIELD = "UF_CRM_COMPLEX";
 
 export class BitrixError extends Error {
   constructor(
@@ -121,8 +124,35 @@ export function buildLeadFields(p: LeadPayload, sourceId: string): Record<string
     OPPORTUNITY: p.cost,
     CURRENCY_ID: "KZT",
   };
-  if (project?.bitrixProjectId) {
-    fields[ZHK_FIELD] = project.bitrixProjectId;
+  if (project) {
+    fields[ZHK_FIELD] = project.name;
+  }
+  return fields;
+}
+
+/** Builds the FIELDS object for crm.lead.add from a validated atamura.group site-form lead. */
+export function buildSiteLeadFields(p: SiteLeadPayload, sourceId: string): Record<string, unknown> {
+  const phone = normalizeKzPhone(p.phone) ?? p.phone;
+  // ЖК-page forms tag the lead as "zk-<slug>" — strip the prefix to reuse the project map.
+  const project = findProject(p.source.replace(/^zk-/, ""));
+  const comments = [
+    "Заявка с формы сайта atamura.group",
+    p.page && `Страница: ${p.page}`,
+    p.ref && `Реферер: ${p.ref}`,
+    p.utm && `UTM: ${p.utm}`,
+    p.ts && `Отправлено: ${p.ts}`,
+  ]
+    .filter(Boolean)
+    .join("\n");
+  const fields: Record<string, unknown> = {
+    TITLE: `Сайт atamura.group: ${p.source}`,
+    NAME: p.name,
+    PHONE: [{ VALUE: phone, VALUE_TYPE: "WORK" }],
+    SOURCE_ID: sourceId,
+    COMMENTS: comments,
+  };
+  if (project) {
+    fields[ZHK_FIELD] = project.name;
   }
   return fields;
 }

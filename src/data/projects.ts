@@ -1,7 +1,9 @@
 /**
  * Atamura Group residential complexes (ЖК).
- * `bitrixProjectId` maps to the existing CRM field UF_CRM_1758630528 ("Проект - встреча")
- * so a lead's source ЖК is written into the same field the sales team already uses.
+ * Leads carry `name` in the string field UF_CRM_COMPLEX (the field other lead
+ * channels populate). `bitrixProjectId` is the enum item id of the DEAL field
+ * UF_CRM_1758630528 («Проект - встреча») — that field does not exist on leads,
+ * the id is kept for a future lead→deal flow.
  */
 export interface Project {
   slug: string;
