@@ -42,18 +42,6 @@ export function ActionsBar({ cardRef, input, result, programName, shareLink, pro
     }
   }
 
-  // Force a light card for print/PDF so a dark-theme page still produces a clean
-  // light document for the client (html2canvas captures live computed styles).
-  function onPrint() {
-    const el = cardRef.current;
-    if (el) el.setAttribute("data-theme", "light");
-    const restore = () => {
-      if (el) el.removeAttribute("data-theme");
-      window.removeEventListener("afterprint", restore);
-    };
-    window.addEventListener("afterprint", restore);
-    window.print();
-  }
 
   async function onPdf() {
     if (!cardRef.current || pdfBusy) return;
@@ -72,9 +60,6 @@ export function ActionsBar({ cardRef, input, result, programName, shareLink, pro
 
   return (
     <div className={styles.actions}>
-      <button type="button" className={styles.actionBtn} onClick={onPrint}>
-        <PrinterIcon /> {t("action.print")}
-      </button>
       <button type="button" className={styles.actionBtn} onClick={onCopy}>
         <CopyIcon /> {copied ? t("action.copied") : t("action.copy")}
       </button>
@@ -95,15 +80,6 @@ function LinkIcon() {
     <svg className={styles.icon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
       <path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-    </svg>
-  );
-}
-
-function PrinterIcon() {
-  return (
-    <svg className={styles.icon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
-      <rect x="6" y="14" width="12" height="8" />
     </svg>
   );
 }
