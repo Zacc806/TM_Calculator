@@ -41,9 +41,9 @@ export const translations: Record<Lang, Dict> = {
     "result.total": "Итоговая стоимость",
     "result.program": "Программа",
     "result.otbasyNote":
-      "Расчёт приблизительный. Для более точного нужны данные оценочного показателя, вознаграждения и основной суммы займа — точные расчёты и информация в отделе продаж.",
+      "Расчёт приблизительный: Otbasy — двухфазная программа, точные суммы в отделе продаж.",
     "result.standardNote":
-      "Расчёт приблизительный. Точная информация — в отделе продаж и у менеджеров банка.",
+      "Расчёт приблизительный.",
     "result.firstYears": "первые ~8 лет",
     "result.then": "далее",
     "result.cardTitle": "Расчёт ежемесячного платежа",
@@ -139,9 +139,9 @@ export const translations: Record<Lang, Dict> = {
     "result.total": "Жалпы құны",
     "result.program": "Бағдарлама",
     "result.otbasyNote":
-      "Есеп шамамен. Дәлірегі үшін бағалау көрсеткіші, сыйақы және негізгі қарыз сомасы туралы деректер қажет — нақты есептер мен ақпарат сату бөлімінде.",
+      "Есеп шамамен: Otbasy — екі фазалы бағдарлама, нақты сомалар сату бөлімінде.",
     "result.standardNote":
-      "Есеп шамамен. Нақты ақпарат — сату бөлімінде және банк менеджерлерінде.",
+      "Есеп шамамен.",
     "result.firstYears": "алғашқы ~8 жыл",
     "result.then": "одан кейін",
     "result.cardTitle": "Ай сайынғы төлем есебі",
@@ -237,9 +237,9 @@ export const translations: Record<Lang, Dict> = {
     "result.total": "Total cost",
     "result.program": "Program",
     "result.otbasyNote":
-      "Estimate. A precise figure needs the valuation score, the remuneration and the principal loan amount — exact calculations and details are with the sales department.",
+      "Estimate: Otbasy is a two-phase program; exact figures are with the sales department.",
     "result.standardNote":
-      "Estimate. For exact details, contact the sales department and the bank's managers.",
+      "Estimate only.",
     "result.firstYears": "first ~8 years",
     "result.then": "then",
     "result.cardTitle": "Monthly payment calculation",

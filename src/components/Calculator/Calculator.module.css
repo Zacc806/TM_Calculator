@@ -7,12 +7,14 @@
 .grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-5);
+  gap: var(--space-4);
 }
 
-@media (min-width: 760px) {
+/* B1/B2: 2 колонки от 769px (ввод слева, расчёт справа), стек на ≤768px.
+   Соотношение ближе к квадрату (1.15fr/1fr), плотный gap 16px. */
+@media (min-width: 769px) {
   .grid {
-    grid-template-columns: 1.05fr 0.95fr;
+    grid-template-columns: 1.15fr 1fr;
     align-items: start;
   }
 }
@@ -21,7 +23,7 @@
 .panel {
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+  gap: var(--space-4);
 }
 
 .field {
