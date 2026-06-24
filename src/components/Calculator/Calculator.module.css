@@ -433,6 +433,11 @@
   border-color: var(--brand-dark);
   color: var(--on-brand);
 }
+/* K1: кнопка «Консультация с менеджером» — на всю ширину строки действий, как основная CTA */
+.actionBtnWide {
+  flex: 1 1 100%;
+  text-decoration: none;
+}
 .icon {
   width: 16px;
   height: 16px;

@@ -58,8 +58,27 @@ export function ActionsBar({ cardRef, input, result, programName, shareLink, pro
     }
   }
 
+  // K1: «Консультация с менеджером» — WhatsApp с приветствием + расчётом (вариант A: текст).
+  // wa.me умеет только текст; PDF автоматически не прикрепить, поэтому расчёт передаём строками.
+  const consultUrl =
+    "https://wa.me/77006410499?text=" +
+    encodeURIComponent(
+      "Здравствуйте! Я сделал(а) расчёт ипотеки на сайте ATAMURA и хочу получить консультацию менеджера.\n\n" +
+        buildSummary(input, result, programName),
+    ) +
+    "&utm_source=site&utm_medium=whatsapp&utm_campaign=calc";
+
   return (
     <div className={styles.actions}>
+      <a
+        className={`${styles.actionBtn} ${styles.actionBtnPrimary} ${styles.actionBtnWide}`}
+        href={consultUrl}
+        target="_blank"
+        rel="noopener"
+        onClick={() => trackEvent("calc_done", { action: "whatsapp_consult" })}
+      >
+        <WaIcon /> {t("action.consult")}
+      </a>
       <button type="button" className={styles.actionBtn} onClick={onCopy}>
         <CopyIcon /> {copied ? t("action.copied") : t("action.copy")}
       </button>
@@ -80,6 +99,14 @@ function LinkIcon() {
     <svg className={styles.icon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
       <path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+    </svg>
+  );
+}
+
+function WaIcon() {
+  return (
+    <svg className={styles.icon} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm5.41 14.09c-.24.67-1.2 1.22-1.66 1.29-.44.06-.84.27-2.83-.59-2.39-1.04-3.93-3.5-4.05-3.66-.12-.16-.97-1.29-.97-2.46 0-1.17.61-1.74.83-1.98.22-.24.48-.3.64-.3.16 0 .32 0 .46.01.15.01.35-.06.54.41.2.48.69 1.68.75 1.8.06.12.1.26.02.42-.08.16-.12.26-.24.4-.12.14-.25.31-.36.42-.12.12-.24.25-.1.49.14.24.63 1.04 1.35 1.68.93.83 1.72 1.09 1.96 1.21.24.12.38.1.52-.06.14-.16.6-.7.76-.94.16-.24.32-.2.54-.12.22.08 1.42.67 1.66.79.24.12.4.18.46.28.06.1.06.58-.18 1.25z"/>
     </svg>
   );
 }
