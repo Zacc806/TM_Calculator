@@ -1,0 +1,10 @@
+# Caddy config for the docker-compose deploy. SITE_ADDRESS is injected by compose:
+#   - a domain (calculator.atamuragroup.kz) → automatic Let's Encrypt HTTPS
+#   - ":80" (default) → plain HTTP for local runs
+# The upstream is the `app` service on the internal compose network.
+{$SITE_ADDRESS} {
+	request_body {
+		max_size 1MB
+	}
+	reverse_proxy app:3000
+}

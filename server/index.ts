@@ -18,6 +18,10 @@ import { notifyTelegram, notifySiteLead } from "./notify";
 
 const STATIC_ROOT = process.env.STATIC_ROOT ?? "./web";
 const PORT = Number(process.env.PORT ?? 3000);
+// Bind loopback by default (bare-metal behind same-host Caddy). In a container the
+// process is already network-isolated, so set HOST=0.0.0.0 to accept the proxy's
+// traffic across the container's published/bridged interface.
+const HOST = process.env.HOST ?? "127.0.0.1";
 
 function clientIp(c: Context): string {
   // Behind Caddy the rightmost X-Forwarded-For entry is the proxy-appended real
@@ -282,10 +286,12 @@ function assertConfig(): void {
 // Bootstrap only when run as the server (skipped when imported by tests).
 if (!process.env.VITEST) {
   assertConfig();
-  // Loopback only: all real traffic comes through Caddy on the same host, and a
-  // publicly reachable :3000 would let clients spoof X-Forwarded-For past the rate limiter.
-  const server = serve({ fetch: app.fetch, port: PORT, hostname: "127.0.0.1" }, (info) => {
-    console.log(`[tm-calculator] listening on 127.0.0.1:${info.port}, static=${STATIC_ROOT}`);
+  // Default loopback: real traffic comes through Caddy on the same host, and a
+  // publicly reachable :3000 would let clients spoof X-Forwarded-For past the rate
+  // limiter. In a container keep the app on an internal network (Caddy still fronts
+  // it) — do NOT publish :3000 straight to the internet.
+  const server = serve({ fetch: app.fetch, port: PORT, hostname: HOST }, (info) => {
+    console.log(`[tm-calculator] listening on ${HOST}:${info.port}, static=${STATIC_ROOT}`);
   });
   for (const sig of ["SIGTERM", "SIGINT"] as const) {
     process.on(sig, () => {

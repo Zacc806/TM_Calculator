@@ -67,6 +67,29 @@ HTTPS: продакшн-домен **https://calculator.atamuragroup.kz** жив
 > Альтернатива: каталог `api/*.ts` — serverless-функции для деплоя на Vercel (Edge Config
 > вместо файлового стора). Для текущего VDS не используется.
 
+### Docker
+
+Образ — multi-stage: сборка ставит dev-зависимости и делает `build:all`, рантайм несёт только
+`node` + самодостаточный бандл `server.mjs` (esbuild инлайнит все зависимости) и `web/`.
+Данные (`programs.json`, лиды) — на volume `/app/data`. В контейнере сервер слушает
+`HOST=0.0.0.0`; наружу его не публикуем — фронтит Caddy на общей compose-сети.
+
+```bash
+cp deploy/.env.server.example .env         # заполнить ADMIN_PASSWORD / ADMIN_TOKEN_SECRET
+# прод (домен → авто-HTTPS Let's Encrypt):
+SITE_ADDRESS=calculator.atamuragroup.kz docker compose up -d --build
+# локально (HTTP на http://localhost):
+docker compose up -d --build
+```
+
+Артефакты: `Dockerfile`, `docker-compose.yml` (app + Caddy), `deploy/Caddyfile.docker`.
+Без Caddy — одиночный контейнер за уже имеющимся реверс-прокси:
+
+```bash
+docker run -d --name tm-calculator --env-file .env \
+  -e HOST=0.0.0.0 -v tmcalc-data:/app/data -p 127.0.0.1:3000:3000 tm-calculator:latest
+```
+
 ## Размещение в Битрикс24
 
 - **Левое меню** — пункт со ссылкой на `/bitrix` (вне фрейма открывается как обычный калькулятор).

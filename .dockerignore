@@ -1,0 +1,17 @@
+.git
+node_modules
+dist
+dist-ssr
+dist-server
+coverage
+*.tsbuildinfo
+*.log
+.env
+.env.*
+!.env.example
+!deploy/.env.server.example
+.vercel
+.DS_Store
+.vscode
+# Large data dump not needed for the build.
+*.xlsx.zip
