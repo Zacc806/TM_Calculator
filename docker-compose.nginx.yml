@@ -1,0 +1,30 @@
+# App-only deploy for a host that ALREADY runs nginx (or another reverse proxy)
+# owning :80/:443. No Caddy here — the app is published on loopback and the host
+# nginx proxies to it and terminates TLS.
+#
+#   docker compose -f docker-compose.nginx.yml up -d --build
+#
+# Then point an nginx server block at http://127.0.0.1:8090 (see deploy/nginx-calculator.conf).
+services:
+  app:
+    build: .
+    image: tm-calculator:latest
+    restart: unless-stopped
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      HOST: 0.0.0.0
+      PORT: "3000"
+      STATIC_ROOT: /app/web
+      PROGRAMS_FILE: /app/data/programs.json
+      LEADS_FILE: /app/data/leads.jsonl
+      SITE_LEADS_FILE: /app/data/site-leads.jsonl
+    volumes:
+      - tmcalc-data:/app/data
+    # Loopback only: reachable from the host's nginx, never directly from the internet.
+    ports:
+      - "127.0.0.1:8090:3000"
+
+volumes:
+  tmcalc-data:

@@ -9,8 +9,10 @@ services:
     build: .
     image: tm-calculator:latest
     restart: unless-stopped
-    # Secrets + optional mirrors (Bitrix/Telegram) come from .env …
-    env_file: .env
+    # Secrets + optional mirrors (Bitrix/Telegram) come from .env if present …
+    env_file:
+      - path: .env
+        required: false
     # … but the on-disk paths and bind host are fixed for the container layout,
     # so we override whatever the bare-metal .env set for them.
     environment:
@@ -34,9 +36,11 @@ services:
     environment:
       # Domain → auto Let's Encrypt on :443; ":80" (default) → plain HTTP locally.
       SITE_ADDRESS: ${SITE_ADDRESS:-:80}
+    # Defaults own the standard ports (VDS). Override for local runs where 80/443
+    # are taken: HTTP_PORT=8080 HTTPS_PORT=8443 docker compose up -d
     ports:
-      - "80:80"
-      - "443:443"
+      - "${HTTP_PORT:-80}:80"
+      - "${HTTPS_PORT:-443}:443"
     volumes:
       - ./deploy/Caddyfile.docker:/etc/caddy/Caddyfile:ro
       - caddy-data:/data
