@@ -167,6 +167,20 @@ describe("server/index integration", () => {
       expect(stored.source).toBe("zk-aura");
     });
 
+    it("parses and stores the discrete UTM params from the body", async () => {
+      const body = { ...siteLead, utm_source: "google", utm_medium: "cpc", utm_campaign: "june" };
+      const res = await post("/api/site-lead", body, {}, "2.0.0.9");
+      expect(res.status).toBe(200);
+      const stored = JSON.parse((await fs.readFile(SITE_LEADS, "utf8")).trim()) as {
+        utmSource: string;
+        utmMedium: string;
+        utmCampaign: string;
+      };
+      expect(stored.utmSource).toBe("google");
+      expect(stored.utmMedium).toBe("cpc");
+      expect(stored.utmCampaign).toBe("june");
+    });
+
     it("rejects an invalid phone with 400", async () => {
       const res = await post("/api/site-lead", { ...siteLead, phone: "12345" }, {}, "2.0.0.2");
       expect(res.status).toBe(400);
@@ -237,8 +251,9 @@ describe("server/index integration", () => {
       });
 
     it("echoes each allowed origin and denies unknown ones", async () => {
-      process.env.ALLOWED_ORIGIN = "https://calculator.atamuragroup.kz,https://atamura.group";
-      expect((await preflight("https://atamura.group")).headers.get("access-control-allow-origin")).toBe("https://atamura.group");
+      process.env.ALLOWED_ORIGIN = "https://calculator.atamuragroup.kz,https://atamuragroup.kz,https://www.atamuragroup.kz";
+      expect((await preflight("https://atamuragroup.kz")).headers.get("access-control-allow-origin")).toBe("https://atamuragroup.kz");
+      expect((await preflight("https://www.atamuragroup.kz")).headers.get("access-control-allow-origin")).toBe("https://www.atamuragroup.kz");
       expect((await preflight("https://calculator.atamuragroup.kz")).headers.get("access-control-allow-origin")).toBe("https://calculator.atamuragroup.kz");
       expect((await preflight("https://evil.example")).headers.get("access-control-allow-origin")).toBeNull();
     });

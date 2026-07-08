@@ -3,7 +3,7 @@ import { normalizeKzPhone } from "../../src/core/phone";
 import { formatTenge } from "../../src/core/money";
 import { formatTerm } from "../../src/lib/format";
 import { findProject } from "../../src/data/projects";
-import type { SiteLeadPayload } from "../../src/core/siteLead";
+import { formatUtm, type SiteLeadPayload } from "../../src/core/siteLead";
 
 /** Lead CRM field for the source ЖК (string, RU name — same format other lead
  *  channels use). NOTE: UF_CRM_1758630528 "Проект - встреча" exists only on DEALS
@@ -135,11 +135,12 @@ export function buildSiteLeadFields(p: SiteLeadPayload, sourceId: string): Recor
   const phone = normalizeKzPhone(p.phone) ?? p.phone;
   // ЖК-page forms tag the lead as "zk-<slug>" — strip the prefix to reuse the project map.
   const project = findProject(p.source.replace(/^zk-/, ""));
+  const utm = formatUtm(p);
   const comments = [
     "Заявка с формы сайта atamura.group",
     p.page && `Страница: ${p.page}`,
     p.ref && `Реферер: ${p.ref}`,
-    p.utm && `UTM: ${p.utm}`,
+    utm && `UTM: ${utm}`,
     p.ts && `Отправлено: ${p.ts}`,
   ]
     .filter(Boolean)
@@ -151,6 +152,13 @@ export function buildSiteLeadFields(p: SiteLeadPayload, sourceId: string): Recor
     SOURCE_ID: sourceId,
     COMMENTS: comments,
   };
+  // Bitrix's native UTM lead fields — populate whichever the site provided so the
+  // CRM's own source/campaign analytics work, not just the comment text.
+  if (p.utmSource) fields.UTM_SOURCE = p.utmSource;
+  if (p.utmMedium) fields.UTM_MEDIUM = p.utmMedium;
+  if (p.utmCampaign) fields.UTM_CAMPAIGN = p.utmCampaign;
+  if (p.utmContent) fields.UTM_CONTENT = p.utmContent;
+  if (p.utmTerm) fields.UTM_TERM = p.utmTerm;
   if (project) {
     fields[ZHK_FIELD] = project.name;
   }

@@ -1,5 +1,5 @@
 import type { LeadPayload } from "../src/core/lead";
-import type { SiteLeadPayload } from "../src/core/siteLead";
+import { formatUtm, type SiteLeadPayload } from "../src/core/siteLead";
 import { normalizeKzPhone } from "../src/core/phone";
 import { formatTenge } from "../src/core/money";
 
@@ -41,6 +41,7 @@ export async function notifyTelegram(lead: LeadPayload): Promise<void> {
 /** Telegram notification for an atamura.group site-form lead. */
 export async function notifySiteLead(lead: SiteLeadPayload): Promise<void> {
   const phone = normalizeKzPhone(lead.phone) ?? lead.phone;
+  const utm = formatUtm(lead);
   await sendTelegram(
     [
       "🌐 Новая заявка с сайта atamura.group",
@@ -49,7 +50,7 @@ export async function notifySiteLead(lead: SiteLeadPayload): Promise<void> {
       `Форма: ${lead.source}`,
       lead.page && `Страница: ${lead.page}`,
       lead.ref && `Реферер: ${lead.ref}`,
-      lead.utm && `UTM: ${lead.utm}`,
+      utm && `UTM: ${utm}`,
     ]
       .filter(Boolean)
       .join("\n"),

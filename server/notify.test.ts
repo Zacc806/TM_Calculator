@@ -53,6 +53,11 @@ describe("notifySiteLead", () => {
     page: "/zk/aura.html",
     ref: "https://google.com/",
     utm: "?utm_source=ig",
+    utmSource: "ig",
+    utmMedium: "",
+    utmCampaign: "",
+    utmContent: "",
+    utmTerm: "",
     ts: "2026-06-12T10:00:00.000Z",
   };
 

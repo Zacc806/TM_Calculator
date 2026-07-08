@@ -12,12 +12,32 @@ export interface SiteLeadPayload {
   source: string;
   page: string;
   ref: string;
+  /** Raw UTM query string ("?utm_source=…"), kept for the human-readable summary. */
   utm: string;
+  /** Discrete UTM params — mapped to Bitrix's native UTM_* lead fields. */
+  utmSource: string;
+  utmMedium: string;
+  utmCampaign: string;
+  utmContent: string;
+  utmTerm: string;
   ts: string;
 }
 
 /** Length caps for free-text fields (DoS / CRM-poisoning guard). */
-export const SITE_LEAD_LIMITS = { name: 120, phone: 32, source: 64, page: 256, ref: 512, utm: 512, ts: 40 } as const;
+export const SITE_LEAD_LIMITS = {
+  name: 120,
+  phone: 32,
+  source: 64,
+  page: 256,
+  ref: 512,
+  utm: 512,
+  utmSource: 256,
+  utmMedium: 256,
+  utmCampaign: 256,
+  utmContent: 256,
+  utmTerm: 256,
+  ts: 40,
+} as const;
 
 // These fields end up as "Label: value" lines in Bitrix COMMENTS and Telegram —
 // newlines/control chars would let a bot forge extra lines managers trust,
@@ -47,6 +67,29 @@ export function parseSiteLead(raw: unknown): SiteLeadPayload | null {
     page: capped(p.page, SITE_LEAD_LIMITS.page),
     ref: capped(p.ref, SITE_LEAD_LIMITS.ref),
     utm: capped(p.utm, SITE_LEAD_LIMITS.utm),
+    utmSource: capped(p.utm_source, SITE_LEAD_LIMITS.utmSource),
+    utmMedium: capped(p.utm_medium, SITE_LEAD_LIMITS.utmMedium),
+    utmCampaign: capped(p.utm_campaign, SITE_LEAD_LIMITS.utmCampaign),
+    utmContent: capped(p.utm_content, SITE_LEAD_LIMITS.utmContent),
+    utmTerm: capped(p.utm_term, SITE_LEAD_LIMITS.utmTerm),
     ts: ISO_TS.test(capped(p.ts, SITE_LEAD_LIMITS.ts)) ? (p.ts as string) : "",
   };
+}
+
+/**
+ * Human-readable UTM summary for Telegram / CRM comments. Prefers the raw query
+ * string the site sends; if it only sends discrete keys, composes one from them
+ * so managers never lose the attribution even when `utm` is empty.
+ */
+export function formatUtm(p: SiteLeadPayload): string {
+  if (p.utm) return p.utm;
+  return [
+    p.utmSource && `utm_source=${p.utmSource}`,
+    p.utmMedium && `utm_medium=${p.utmMedium}`,
+    p.utmCampaign && `utm_campaign=${p.utmCampaign}`,
+    p.utmContent && `utm_content=${p.utmContent}`,
+    p.utmTerm && `utm_term=${p.utmTerm}`,
+  ]
+    .filter(Boolean)
+    .join("&");
 }

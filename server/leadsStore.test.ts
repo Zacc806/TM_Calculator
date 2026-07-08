@@ -54,6 +54,11 @@ describe("siteLeadsStore", () => {
     page: "/contacts.html",
     ref: "https://google.com/",
     utm: "?utm_source=ig",
+    utmSource: "ig",
+    utmMedium: "cpc",
+    utmCampaign: "june",
+    utmContent: "banner-a",
+    utmTerm: "ипотека",
     ts: "2026-06-12T09:59:58.000Z",
   };
 
@@ -73,6 +78,11 @@ describe("siteLeadsStore", () => {
       page: "/contacts.html",
       ref: "https://google.com/",
       utm: "?utm_source=ig",
+      utmSource: "ig",
+      utmMedium: "cpc",
+      utmCampaign: "june",
+      utmContent: "banner-a",
+      utmTerm: "ипотека",
       ts: "2026-06-12T09:59:58.000Z",
     });
   });

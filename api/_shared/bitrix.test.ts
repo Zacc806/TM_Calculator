@@ -49,6 +49,11 @@ describe("buildSiteLeadFields", () => {
     page: "/zk/aura.html",
     ref: "https://google.com/",
     utm: "?utm_source=ig&utm_campaign=june",
+    utmSource: "ig",
+    utmMedium: "cpc",
+    utmCampaign: "june",
+    utmContent: "banner-a",
+    utmTerm: "ипотека",
     ts: "2026-06-12T10:00:00.000Z",
   };
 
@@ -65,8 +70,49 @@ describe("buildSiteLeadFields", () => {
     expect(comments).toContain("utm_campaign=june");
   });
 
+  it("maps the discrete UTM params to Bitrix's native UTM_* lead fields", () => {
+    const f = buildSiteLeadFields(siteLead, "WEB");
+    expect(f.UTM_SOURCE).toBe("ig");
+    expect(f.UTM_MEDIUM).toBe("cpc");
+    expect(f.UTM_CAMPAIGN).toBe("june");
+    expect(f.UTM_CONTENT).toBe("banner-a");
+    expect(f.UTM_TERM).toBe("ипотека");
+  });
+
+  it("omits absent UTM_* fields instead of writing empty strings", () => {
+    const f = buildSiteLeadFields(
+      { ...siteLead, utmSource: "ig", utmMedium: "", utmCampaign: "", utmContent: "", utmTerm: "" },
+      "WEB",
+    );
+    expect(f.UTM_SOURCE).toBe("ig");
+    expect(f).not.toHaveProperty("UTM_MEDIUM");
+    expect(f).not.toHaveProperty("UTM_CAMPAIGN");
+  });
+
+  it("falls back to a composed UTM comment when only discrete keys are sent", () => {
+    const f = buildSiteLeadFields(
+      { ...siteLead, utm: "", utmMedium: "", utmContent: "", utmTerm: "" },
+      "WEB",
+    );
+    const comments = String(f.COMMENTS);
+    expect(comments).toContain("UTM: utm_source=ig&utm_campaign=june");
+  });
+
   it("omits the project field for the footer form and skips empty context lines", () => {
-    const f = buildSiteLeadFields({ ...siteLead, source: "foot-cta", ref: "", utm: "" }, "WEB");
+    const f = buildSiteLeadFields(
+      {
+        ...siteLead,
+        source: "foot-cta",
+        ref: "",
+        utm: "",
+        utmSource: "",
+        utmMedium: "",
+        utmCampaign: "",
+        utmContent: "",
+        utmTerm: "",
+      },
+      "WEB",
+    );
     expect(f[ZHK_FIELD]).toBeUndefined();
     const comments = String(f.COMMENTS);
     expect(comments).not.toContain("Реферер");

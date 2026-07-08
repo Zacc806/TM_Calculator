@@ -26,6 +26,11 @@ export interface SiteLeadRecord {
   page: string;
   ref: string;
   utm: string;
+  utmSource: string;
+  utmMedium: string;
+  utmCampaign: string;
+  utmContent: string;
+  utmTerm: string;
   ts: string;
 }
 
@@ -73,6 +78,11 @@ export async function appendSiteLead(lead: SiteLeadPayload, at: string): Promise
     page: lead.page,
     ref: lead.ref,
     utm: lead.utm,
+    utmSource: lead.utmSource,
+    utmMedium: lead.utmMedium,
+    utmCampaign: lead.utmCampaign,
+    utmContent: lead.utmContent,
+    utmTerm: lead.utmTerm,
     ts: lead.ts,
   };
   await appendRecord(siteLeadsFile(), record);
