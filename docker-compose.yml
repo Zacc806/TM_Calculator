@@ -1,20 +1,11 @@
-# Self-contained deploy: the calculator behind Caddy (auto-HTTPS), data on a named volume.
-#
-#   cp deploy/.env.server.example .env   # then fill ADMIN_PASSWORD / ADMIN_TOKEN_SECRET
-#   SITE_ADDRESS=calculator.atamuragroup.kz docker compose up -d --build
-#
-# Leave SITE_ADDRESS unset for a local HTTP run on http://localhost.
 services:
   app:
     build: .
     image: tm-calculator:latest
     restart: unless-stopped
-    # Secrets + optional mirrors (Bitrix/Telegram) come from .env if present …
     env_file:
       - path: .env
         required: false
-    # … but the on-disk paths and bind host are fixed for the container layout,
-    # so we override whatever the bare-metal .env set for them.
     environment:
       HOST: 0.0.0.0
       PORT: "3000"
@@ -24,29 +15,7 @@ services:
       SITE_LEADS_FILE: /app/data/site-leads.jsonl
     volumes:
       - tmcalc-data:/app/data
-    # Not published to the host: only Caddy (same compose network) reaches it.
-    expose:
-      - "3000"
-
-  caddy:
-    image: caddy:2
-    restart: unless-stopped
-    depends_on:
-      - app
-    environment:
-      # Domain → auto Let's Encrypt on :443; ":80" (default) → plain HTTP locally.
-      SITE_ADDRESS: ${SITE_ADDRESS:-:80}
-    # Defaults own the standard ports (VDS). Override for local runs where 80/443
-    # are taken: HTTP_PORT=8080 HTTPS_PORT=8443 docker compose up -d
     ports:
-      - "${HTTP_PORT:-80}:80"
-      - "${HTTPS_PORT:-443}:443"
-    volumes:
-      - ./deploy/Caddyfile.docker:/etc/caddy/Caddyfile:ro
-      - caddy-data:/data
-      - caddy-config:/config
-
+      - "127.0.0.1:18090:3000"
 volumes:
   tmcalc-data:
-  caddy-data:
-  caddy-config:

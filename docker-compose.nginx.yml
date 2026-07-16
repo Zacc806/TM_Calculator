@@ -24,7 +24,7 @@ services:
       - tmcalc-data:/app/data
     # Loopback only: reachable from the host's nginx, never directly from the internet.
     ports:
-      - "127.0.0.1:8090:3000"
+      - "127.0.0.1:18090:3000"
 
 volumes:
   tmcalc-data:
