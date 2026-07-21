@@ -136,6 +136,11 @@
   .main {
     padding: var(--space-5) var(--space-4) var(--space-6);
   }
+  /* Во встроенном (iframe) режиме ширину задаёт хост-страница — свои поля
+     держим минимальными, иначе поля калькулятора остаются без места. */
+  .mainBare {
+    padding: var(--space-3);
+  }
   .heroTitle {
     font-size: 1.35rem;
   }
